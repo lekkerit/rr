@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Recover Bookings from Bad Google Reviews</title>
+  <meta name="description" content="We help 1–3 star Google Maps restaurants recover bookings by handling reviews professionally." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body { 
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      line-height: 1.6; 
+      color: #333;
+      background: #fff;
+      padding-top: 70px;
+    }
+    
+    /* Navigation Bar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 1000;
+      padding: 0 20px;
+    }
+    
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 70px;
+    }
+    
+    .nav-logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #667eea;
+      text-decoration: none;
+    }
+    
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+      align-items: center;
+    }
+    
+    .nav-menu a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.3s ease;
+    }
+    
+    .nav-menu a:hover {
+      color: #667eea;
+    }
+    
+    .nav-cta {
+      background: #667eea;
+      color: #fff !important;
+      padding: 10px 24px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-cta:hover {
+      background: #5568d3;
+      transform: translateY(-1px);
+    }
+    
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #333;
+      cursor: pointer;
+    }
+    
+    .hero { 
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%),
+                  url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><pattern id="reviews" x="0" y="0" width="300" height="200" patternUnits="userSpaceOnUse"><rect x="10" y="10" width="280" height="80" rx="8" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/><circle cx="30" cy="30" r="12" fill="rgba(255,255,255,0.1)"/><rect x="50" y="25" width="100" height="8" rx="4" fill="rgba(255,255,255,0.08)"/><rect x="50" y="40" width="150" height="6" rx="3" fill="rgba(255,255,255,0.06)"/><text x="20" y="70" font-family="Arial" font-size="20" fill="rgba(255,200,100,0.3)">★★★</text></pattern></defs><rect width="1200" height="800" fill="url(%23reviews)"/></svg>');
+      background-size: cover, 600px 400px;
+      background-position: center;
+      color: #fff;
+      text-align: center;
+      padding: 80px 20px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(255,255,255,0.08) 0%, transparent 50%);
+    }
+    
+    .hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .hero h1 { 
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .hero h2 { 
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 1.5rem;
+      opacity: 0.95;
+    }
+    
+    .hero p { 
+      font-size: 1.125rem;
+      margin-bottom: 2rem;
+      opacity: 0.9;
+    }
+    
+    .btn { 
+      display: inline-block;
+      padding: 16px 40px;
+      font-size: 1.125rem;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .btn-primary {
+      background: #fff;
+      color: #667eea;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+    
+    .btn-secondary {
+      background: #667eea;
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+    
+    .btn-secondary:hover {
+      background: #5568d3;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+    }
+    
+    .scarcity-text {
+      display: block;
+      margin-top: 1rem;
+      font-size: 0.875rem;
+      opacity: 0.85;
+      font-weight: 500;
+    }
+    
+    section { 
+      padding: 50px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    section h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      text-align: center;
+      color: #1a1a1a;
+    }
+    
+    section > p {
+      text-align: center;
+      font-size: 1.125rem;
+      color: #666;
+      margin-bottom: 2rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .grid { 
+      display: grid;
+      gap: 25px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      margin-top: 2rem;
+    }
+    
+    .card { 
+      background: #fff;
+      border: 1px solid #e5e5e5;
+      padding: 25px;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+      border-color: #667eea;
+    }
+    
+    .card-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.75rem;
+    }
+    
+    .card h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #1a1a1a;
+    }
+    
+    .card p {
+      color: #666;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    
+    .persona-card {
+      position: relative;
+      padding-left: 50px;
+    }
+    
+    .persona-card::before {
+      content: '"';
+      position: absolute;
+      left: 10px;
+      top: 20px;
+      font-size: 4rem;
+      color: #667eea;
+      opacity: 0.2;
+      line-height: 1;
+    }
+    
+    .persona-quote {
+      font-style: italic;
+      color: #555;
+      margin-bottom: 0.75rem;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    
+    .persona-author {
+      font-size: 0.9rem;
+      color: #667eea;
+      font-weight: 600;
+      font-style: normal;
+    }
+    
+    .problem-section {
+      background: #f8f9fa;
+      padding: 50px 20px;
+    }
+    
+    .problem-section .card {
+      background: #fff;
+      text-align: left;
+      padding: 30px 25px;
+    }
+    
+    .review-examples {
+      background: linear-gradient(to bottom, #fff 0%, #f8f9fa 100%);
+      padding: 50px 20px;
+    }
+    
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 25px;
+      max-width: 1200px;
+      margin: 2rem auto 0;
+    }
+    
+    .review-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      border: 1px solid #e5e5e5;
+      position: relative;
+    }
+    
+    .review-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      border-radius: 12px 0 0 12px;
+    }
+    
+    .review-card.bad::before {
+      background: #ff4444;
+    }
+    
+    .review-card.good::before {
+      background: #00C851;
+    }
+    
+    .review-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .review-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 600;
+      margin-right: 12px;
+    }
+    
+    .review-info h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    
+    .review-stars {
+      color: #FFA000;
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+    }
+    
+    .review-text {
+      font-size: 0.95rem;
+      color: #555;
+      line-height: 1.5;
+      margin-bottom: 12px;
+      font-style: italic;
+    }
+    
+    .review-response {
+      background: #f8f9fa;
+      padding: 14px;
+      border-radius: 8px;
+      border-left: 3px solid #667eea;
+      margin-top: 10px;
+    }
+    
+    .response-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #667eea;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    
+    .response-text {
+      font-size: 0.9rem;
+      color: #333;
+      line-height: 1.5;
+    }
+    
+    .carousel-section {
+      padding: 50px 20px;
+      background: #fff;
+    }
+    
+    .carousel-container {
+      position: relative;
+      max-width: 800px;
+      margin: 2rem auto 0;
+      overflow: hidden;
+    }
+    
+    .carousel-wrapper {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+    
+    .carousel-slide {
+      min-width: 100%;
+      padding: 30px;
+      text-align: center;
+    }
+    
+    .carousel-slide .card-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+    
+    .carousel-slide h3 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: #1a1a1a;
+    }
+    
+    .carousel-slide p {
+      font-size: 1.125rem;
+      color: #666;
+      line-height: 1.7;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .carousel-nav {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 1.5rem;
+    }
+    
+    .carousel-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ddd;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      padding: 0;
+    }
+    
+    .carousel-dot.active {
+      background: #667eea;
+      width: 30px;
+      border-radius: 6px;
+    }
+    
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(102, 126, 234, 0.9);
+      color: #fff;
+      border: none;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+    
+    .carousel-arrow:hover {
+      background: #667eea;
+      transform: translateY(-50%) scale(1.1);
+    }
+    
+    .carousel-arrow.prev {
+      left: 10px;
+    }
+    
+    .carousel-arrow.next {
+      right: 10px;
+    }
+    
+    .who-section ul {
+      list-style: none;
+      max-width: 600px;
+      margin: 1.5rem auto;
+    }
+    
+    .who-section li {
+      padding: 18px 18px 18px 55px;
+      margin-bottom: 12px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      position: relative;
+      font-size: 1.125rem;
+      transition: all 0.3s ease;
+    }
+    
+    .who-section li:hover {
+      background: #667eea;
+      color: #fff;
+      transform: translateX(5px);
+    }
+    
+    .who-section li::before {
+      content: '✓';
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 24px;
+      height: 24px;
+      background: #667eea;
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    
+    .who-section li:hover::before {
+      background: #fff;
+      color: #667eea;
+    }
+    
+    .scarcity-section {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #fff;
+      text-align: center;
+      padding: 50px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .scarcity-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>');
+      opacity: 0.2;
+    }
+    
+    .scarcity-content {
+      max-width: 700px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .scarcity-section h2 {
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+    
+    .scarcity-section p {
+      font-size: 1.25rem;
+      opacity: 0.95;
+      margin-bottom: 0.75rem;
+    }
+    
+    .cta-section {
+      text-align: center;
+      padding: 60px 20px;
+      background: #f8f9fa;
+    }
+    
+    .cta-section h2 {
+      margin-bottom: 0.75rem;
+    }
+    
+    .cta-section > p {
+      color: #666;
+      margin-bottom: 2rem;
+    }
+    
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+      margin: 2rem 0;
+      text-align: center;
+    }
+    
+    .stat-item h3 {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #667eea;
+      margin-bottom: 0.5rem;
+    }
+    
+    .stat-item p {
+      font-size: 1rem;
+      color: #666;
+    }
+    
+    @media (max-width: 768px) {
+      body {
+        padding-top: 60px;
+      }
+      
+      .nav-container {
+        height: 60px;
+      }
+      
+      .menu-toggle {
+        display: block;
+      }
+      
+      .nav-menu {
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        background: #fff;
+        flex-direction: column;
+        padding: 20px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        display: none;
+        gap: 15px;
+      }
+      
+      .nav-menu.active {
+        display: flex;
+      }
+      
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      .hero h2 {
+        font-size: 1.25rem;
+      }
+      
+      section {
+        padding: 40px 20px;
+      }
+      
+      section h2 {
+        font-size: 2rem;
+      }
+      
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .review-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .who-section li {
+        padding-left: 50px;
+        font-size: 1rem;
+      }
+      
+      .carousel-arrow {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+      }
+      
+      .carousel-arrow.prev {
+        left: 5px;
+      }
+      
+      .carousel-arrow.next {
+        right: 5px;
+      }
+    }
+    
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 80px; /* Offset for fixed navbar */
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="#" class="nav-logo">Review Recovery</a>
+    
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+    
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="#difference">See Results</a></li>
+      <li><a href="#problem">The Problem</a></li>
+      <li><a href="#solution">Solution</a></li>
+      <li><a href="#who">Who It's For</a></li>
+      <li><a href="#apply" class="nav-cta">Apply Now</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-content">
+    <h1>Turn Bad Google Reviews Into Bookings</h1>
+    <h2>Even if your restaurant is stuck at 1–3⭐</h2>
+    <p>
+      AI-powered review responses with human oversight for restaurants losing customers because of bad reviews.
+    </p>
+    <a href="#apply" class="btn btn-primary">Apply for the Waiting List</a>
+    <span class="scarcity-text">
+      Limited restaurants per city · Manual review required
+    </span>
+  </div>
+</div>
+
+<section class="review-examples" id="difference">
+  <h2>See The Difference</h2>
+  <p>Professional responses turn negative reviews into trust-building opportunities</p>
+  
+  <div class="review-grid">
+    <div class="review-card bad">
+      <div class="review-header">
+        <div class="review-avatar">JD</div>
+        <div class="review-info">
+          <h4>John D.</h4>
+          <div class="review-stars">★★☆☆☆</div>
+        </div>
+      </div>
+      <div class="review-text">
+        "Waited 45 minutes for cold food. Server was rude. Never coming back."
+      </div>
+      <div class="review-response">
+        <div class="response-label">❌ Typical Owner Response</div>
+        <div class="response-text">
+          "We were busy that night! Maybe you should have been more patient. We have plenty of happy customers."
+        </div>
+      </div>
+    </div>
+    
+    <div class="review-card good">
+      <div class="review-header">
+        <div class="review-avatar">JD</div>
+        <div class="review-info">
+          <h4>John D.</h4>
+          <div class="review-stars">★★☆☆☆</div>
+        </div>
+      </div>
+      <div class="review-text">
+        "Waited 45 minutes for cold food. Server was rude. Never coming back."
+      </div>
+      <div class="review-response">
+        <div class="response-label">✅ Our Professional Response</div>
+        <div class="response-text">
+          "We sincerely apologize for this experience. This doesn't reflect our standards. We've addressed the service issues and would welcome the chance to make it right. Please contact us directly."
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <p style="margin-top: 2rem; color: #667eea; font-weight: 600;">
+    Future customers see both reviews — which response builds trust?
+  </p>
+</section>
+
+<section class="problem-section" id="problem">
+  <h2>Bad Reviews Don't Just Hurt Your Rating</h2>
+  <p>They actively drive customers away from your restaurant</p>
+  <div class="grid">
+    <div class="card persona-card">
+      <div class="card-icon">👥</div>
+      <h3>Lost Customers</h3>
+      <p class="persona-quote">
+        "We used to be fully booked on weekends. Now we're half empty. The 2.3 star rating keeps people away before they even try our food."
+      </p>
+      <p class="persona-author">— Marco, Italian Restaurant Owner, Amsterdam</p>
+    </div>
+    <div class="card persona-card">
+      <div class="card-icon">🤐</div>
+      <h3>Silence Hurts</h3>
+      <p class="persona-quote">
+        "I read a bad review from 3 weeks ago. No response from the owner. If they don't care enough to reply, why would they care about my experience?"
+      </p>
+      <p class="persona-author">— Lisa, Potential Customer</p>
+    </div>
+    <div class="card persona-card">
+      <div class="card-icon">😤</div>
+      <h3>Bad Responses</h3>
+      <p class="persona-quote">
+        "I got angry at a 1-star review and told them off. Now that defensive reply has more views than my menu. I made it worse."
+      </p>
+      <p class="persona-author">— David, Bistro Owner, Utrecht</p>
+    </div>
+  </div>
+</section>
+
+<section class="carousel-section" id="solution">
+  <h2>What We Do</h2>
+  <p>Professional review management that recovers your reputation</p>
+  
+  <div class="carousel-container">
+    <button class="carousel-arrow prev" onclick="moveCarousel(-1)">‹</button>
+    <button class="carousel-arrow next" onclick="moveCarousel(1)">›</button>
+    
+    <div class="carousel-wrapper" id="carouselWrapper">
+      <div class="carousel-slide">
+        <div class="card-icon">🔍</div>
+        <h3>Monitor Reviews</h3>
+        <p>We track all your Google reviews in real-time so nothing slips through. Every review is captured immediately, ensuring you never miss a customer comment.</p>
+      </div>
+      
+      <div class="carousel-slide">
+        <div class="card-icon">✍️</div>
+        <h3>Professional Responses</h3>
+        <p>AI-generated replies reviewed by humans before posting—always on-brand and professional. We craft responses that de-escalate tension and rebuild trust.</p>
+      </div>
+      
+      <div class="carousel-slide">
+        <div class="card-icon">🤝</div>
+        <h3>De-escalate Conflicts</h3>
+        <p>Turn angry reviews into opportunities to show future customers you care. Our responses demonstrate accountability and commitment to improvement.</p>
+      </div>
+      
+      <div class="carousel-slide">
+        <div class="card-icon">🛡️</div>
+        <h3>Protect Your Reputation</h3>
+        <p>Build trust with potential customers who read reviews before booking. Consistent, professional responses signal that you value customer feedback.</p>
+      </div>
+    </div>
+    
+    <div class="carousel-nav">
+      <button class="carousel-dot active" onclick="goToSlide(0)"></button>
+      <button class="carousel-dot" onclick="goToSlide(1)"></button>
+      <button class="carousel-dot" onclick="goToSlide(2)"></button>
+      <button class="carousel-dot" onclick="goToSlide(3)"></button>
+    </div>
+  </div>
+</section>
+
+<section class="who-section" id="who">
+  <h2>Who This Is For</h2>
+  <p>We specialize in helping restaurants recover from review damage</p>
+  <ul>
+    <li>Restaurants rated between <strong>1–3⭐</strong> on Google Maps</li>
+    <li>Owners who know reviews are affecting bookings</li>
+    <li>No time or energy to respond properly to every review</li>
+  </ul>
+</section>
+
+<div class="scarcity-section">
+  <div class="scarcity-content">
+    <h2>⚠️ Limited Availability</h2>
+    <p>
+      We only work with a small number of restaurants per city to ensure quality and real results.
+    </p>
+    <p><strong>New restaurants onboarded monthly—not everyone is accepted.</strong></p>
+  </div>
+</div>
+
+<section class="cta-section" id="apply">
+  <h2>Ready to Recover Your Bookings?</h2>
+  <p>
+    We manually review every application. If accepted, you'll hear from us within 7 days.
+  </p>
+  
+  <div class="stats">
+    <div class="stat-item">
+      <h3>1-3⭐</h3>
+      <p>Target Rating Range</p>
+    </div>
+    <div class="stat-item">
+      <h3>7 Days</h3>
+      <p>Application Review Time</p>
+    </div>
+    <div class="stat-item">
+      <h3>Limited</h3>
+      <p>Slots Per City</p>
+    </div>
+  </div>
+  
+  <a href="https://form.typeform.com/to/t9sgShU9" class="btn btn-secondary">Apply Now</a>
+  <span class="scarcity-text" style="color: #666;">
+    Limited restaurants per city · Manual review required
+  </span>
+</section>
+
+<footer style="text-align: center; padding: 50px 20px 30px; background: #1a1a1a; color: rgba(255,255,255,0.7); font-size: 0.875rem; line-height: 1.8;">
+  <div style="max-width: 800px; margin: 0 auto;">
+    <p style="margin-bottom: 1.5rem; font-size: 1rem; color: rgba(255,255,255,0.9);">Review Recovery</p>
+    <p style="margin-bottom: 1rem; font-size: 0.9rem;">
+      Professional review management for restaurants
+    </p>
+    <p style="font-size: 0.8rem; color: rgba(255,255,255,0.5); padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1);">
+      Google, Google Maps, and Google Reviews are trademarks of Google LLC.<br>
+      We are an independent service provider not affiliated with or endorsed by Google.
+    </p>
+    <p style="margin-top: 1rem; font-size: 0.8rem; color: rgba(255,255,255,0.4);">
+      © 2026 Review Recovery. All rights reserved.
+    </p>
+  </div>
+</footer>
+
+<script>
+  let currentSlide = 0;
+  const totalSlides = 4;
+  
+  function moveCarousel(direction) {
+    currentSlide += direction;
+    
+    if (currentSlide < 0) {
+      currentSlide = totalSlides - 1;
+    } else if (currentSlide >= totalSlides) {
+      currentSlide = 0;
+    }
+    
+    updateCarousel();
+  }
+  
+  function goToSlide(index) {
+    currentSlide = index;
+    updateCarousel();
+  }
+  
+  function updateCarousel() {
+    const wrapper = document.getElementById('carouselWrapper');
+    const dots = document.querySelectorAll('.carousel-dot');
+    
+    wrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
+    
+    dots.forEach((dot, index) => {
+      if (index === currentSlide) {
+        dot.classList.add('active');
+      } else {
+        dot.classList.remove('active');
+      }
+    });
+  }
+  
+  setInterval(() => {
+    moveCarousel(1);
+  }, 5000);
+  
+  function toggleMenu() {
+    const menu = document.getElementById('navMenu');
+    menu.classList.toggle('active');
+  }
+  
+  document.querySelectorAll('.nav-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+      const menu = document.getElementById('navMenu');
+      menu.classList.remove('active');
+    });
+  });
+</script>
+
+</body>
+</html>

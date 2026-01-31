@@ -1,0 +1,279 @@
+{
+  "name": "7. Google OAuth Callback (Updated)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "GET",
+        "path": "google-oauth-callback",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "1",
+      "name": "Webhook: OAuth Callback",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [250, 400],
+      "webhookId": "google-oauth-callback",
+      "notes": "Receives redirect from Google after authorization"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract code and state from OAuth callback\nconst query = $input.first().json.query;\n\n// Check for errors from Google\nif (query.error) {\n  throw new Error(`OAuth authorization failed: ${query.error}${query.error_description ? ' - ' + query.error_description : ''}`);\n}\n\n// Validate required parameters\nif (!query.code) {\n  throw new Error('Missing authorization code from Google');\n}\n\nif (!query.state) {\n  throw new Error('Missing state parameter - potential CSRF attack');\n}\n\nreturn [{\n  json: {\n    code: query.code,\n    restaurant_id: query.state\n  }\n}];"
+      },
+      "id": "2",
+      "name": "Extract OAuth Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [450, 400]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "YOUR_AIRTABLE_BASE_ID",
+          "mode": "list"
+        },
+        "table": {
+          "__rl": true,
+          "value": "Restaurants",
+          "mode": "list"
+        },
+        "filterByFormula": "={restaurant_id}='{{ $json.restaurant_id }}'",
+        "options": {}
+      },
+      "id": "3",
+      "name": "Find Restaurant",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2,
+      "position": [650, 400],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "YOUR_AIRTABLE_CREDENTIALS",
+          "name": "Airtable Personal Access Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://oauth2.googleapis.com/token",
+        "method": "POST",
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "code",
+              "value": "={{ $('Extract OAuth Code').item.json.code }}"
+            },
+            {
+              "name": "client_id",
+              "value": "YOUR_GOOGLE_CLIENT_ID"
+            },
+            {
+              "name": "client_secret",
+              "value": "YOUR_GOOGLE_CLIENT_SECRET"
+            },
+            {
+              "name": "redirect_uri",
+              "value": "http://YOUR_N8N_INSTANCE/webhook/google-oauth-callback"
+            },
+            {
+              "name": "grant_type",
+              "value": "authorization_code"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4",
+      "name": "Exchange Code for Tokens",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [850, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Validate tokens from Google\nconst tokenResponse = $input.first().json;\nconst restaurant = $('Find Restaurant').item.json;\n\nif (!tokenResponse.access_token) {\n  throw new Error('Failed to receive access token from Google');\n}\n\nif (!tokenResponse.refresh_token) {\n  throw new Error('Failed to receive refresh token.');\n}\n\nconst expiresIn = tokenResponse.expires_in || 3600;\nconst expiryDate = new Date(Date.now() + (expiresIn * 1000));\n\n// ⚠️ WARNING: Replace with proper AES-256 encryption\nconst encryptToken = (token) => {\n  return `encrypted_base64:${Buffer.from(token).toString('base64')}`;\n};\n\nreturn [{\n  json: {\n    restaurant_airtable_id: restaurant.id,\n    restaurant_id: restaurant.fields.restaurant_id,\n    restaurant_name: restaurant.fields.restaurant_name,\n    owner_email: restaurant.fields.owner_email,\n    tier: restaurant.fields.tier,\n    google_access_token_encrypted: encryptToken(tokenResponse.access_token),\n    google_refresh_token_encrypted: encryptToken(tokenResponse.refresh_token),\n    google_token_expires_at: expiryDate.toISOString(),\n    access_token: tokenResponse.access_token,\n    scope: tokenResponse.scope\n  }\n}];"
+      },
+      "id": "5",
+      "name": "Prepare Token Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1050, 400]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://mybusinessaccountmanagement.googleapis.com/v1/accounts",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $json.access_token }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6",
+      "name": "Fetch Google Business Accounts",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1250, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract Google Business Profile ID\nconst accountsResponse = $input.first().json;\nconst restaurantData = $('Prepare Token Data').item.json;\n\nif (!accountsResponse.accounts || accountsResponse.accounts.length === 0) {\n  throw new Error('No Google Business accounts found.');\n}\n\nconst primaryAccount = accountsResponse.accounts[0];\nconst accountName = primaryAccount.name;\nconst accountId = accountName.split('/')[1];\n\nreturn [{\n  json: {\n    ...restaurantData,\n    google_business_profile_id: accountId,\n    google_account_name: primaryAccount.accountName || 'Business Account'\n  }\n}];"
+      },
+      "id": "7",
+      "name": "Extract Business Profile ID",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1450, 400]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "YOUR_AIRTABLE_BASE_ID",
+          "mode": "list"
+        },
+        "table": {
+          "__rl": true,
+          "value": "Restaurants",
+          "mode": "list"
+        },
+        "id": "={{ $json.restaurant_airtable_id }}",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "google_business_profile_id": "={{ $json.google_business_profile_id }}",
+            "google_refresh_token_encrypted": "={{ $json.google_refresh_token_encrypted }}",
+            "google_access_token_encrypted": "={{ $json.google_access_token_encrypted }}",
+            "google_token_expires_at": "={{ $json.google_token_expires_at }}",
+            "status": "OAuth Complete - Pending Manager Access",
+            "subscription_status": "Active",
+            "oauth_completed_at": "={{ $now.toISO() }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "8",
+      "name": "Update Restaurant Record",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2,
+      "position": [1650, 400],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "YOUR_AIRTABLE_CREDENTIALS",
+          "name": "Airtable Personal Access Token"
+        }
+      },
+      "notes": "⚠️ Status = Pending until Manager verified"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Build email with Manager access instructions\nconst data = $('Extract Business Profile ID').item.json;\nconst SERVICE_EMAIL = 'reviewai@YOUR-PROJECT.iam.gserviceaccount.com';\n\nconst emailHtml = `\n<!DOCTYPE html>\n<html>\n<head>\n  <style>\n    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; }\n    .header { background: #0d7377; color: white; padding: 30px; text-align: center; }\n    .content { padding: 30px; }\n    .success-box { background: #e6f7ff; border-left: 4px solid #0d7377; padding: 20px; margin: 20px 0; }\n    .warning-box { background: #fff3cd; border-left: 4px solid #ffa500; padding: 20px; margin: 20px 0; }\n    .step { background: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 5px; }\n    .code { background: #e9ecef; padding: 3px 8px; border-radius: 3px; font-family: monospace; }\n    .button { display: inline-block; padding: 12px 25px; background: #0d7377; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; margin: 10px 0; }\n  </style>\n</head>\n<body>\n  <div class=\"header\">\n    <h1>✅ OAuth Connected!</h1>\n  </div>\n  \n  <div class=\"content\">\n    <p>Hi there,</p>\n    \n    <div class=\"success-box\">\n      <h3>🎉 Step 1 Complete!</h3>\n      <p><strong>${data.restaurant_name}</strong> is connected.</p>\n      <ul>\n        <li>✅ OAuth authorized</li>\n        <li>✅ Tokens secured</li>\n      </ul>\n    </div>\n    \n    <div class=\"warning-box\">\n      <h3>⏳ One More Step</h3>\n      <p><strong>Add Manager Access</strong> (2 minutes)</p>\n    </div>\n    \n    <h2>📋 Quick Steps</h2>\n    \n    <div class=\"step\">\n      <strong>1.</strong> Go to <a href=\"https://business.google.com\">business.google.com</a>\n    </div>\n    \n    <div class=\"step\">\n      <strong>2.</strong> Your business → Settings → Users\n    </div>\n    \n    <div class=\"step\">\n      <strong>3.</strong> Click \"Add Users\"\n    </div>\n    \n    <div class=\"step\">\n      <strong>4.</strong> Add: <span class=\"code\">${SERVICE_EMAIL}</span>\n    </div>\n    \n    <div class=\"step\">\n      <strong>5.</strong> Role: <strong>Manager</strong>\n    </div>\n    \n    <div class=\"step\">\n      <strong>6.</strong> Click \"Invite\"\n    </div>\n    \n    <p>\n      <a href=\"http://YOUR_N8N_INSTANCE/webhook/verify-manager-access?restaurant_id=${data.restaurant_id}\" class=\"button\">\n        Verify Manager Access\n      </a>\n    </p>\n    \n    <p><a href=\"http://YOUR_HELP_URL/manager-video\">Watch video tutorial</a></p>\n    \n    <p>Questions? Reply to this email.</p>\n  </div>\n</body>\n</html>\n`;\n\nreturn [{\n  json: {\n    to: data.owner_email,\n    subject: `✅ ${data.restaurant_name} - One More Step Required`,\n    html: emailHtml\n  }\n}];"
+      },
+      "id": "9",
+      "name": "Build Next Steps Email",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1850, 400]
+    },
+    {
+      "parameters": {
+        "fromEmail": "setup@yourapp.com",
+        "toEmail": "={{ $json.to }}",
+        "subject": "={{ $json.subject }}",
+        "emailType": "html",
+        "html": "={{ $json.html }}",
+        "options": {}
+      },
+      "id": "10",
+      "name": "Send Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [2050, 400],
+      "credentials": {
+        "smtp": {
+          "id": "YOUR_SMTP_CREDENTIALS",
+          "name": "SMTP"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "html",
+        "responseBody": "=<!DOCTYPE html>\n<html>\n<head>\n  <style>\n    body { font-family: Arial; text-align: center; padding: 50px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; margin: 0; }\n    .container { background: white; padding: 50px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); max-width: 700px; margin: 0 auto; }\n    h1 { color: #0d7377; font-size: 42px; }\n    .warning { font-size: 60px; color: #ffa500; }\n    .box { background: #fff3cd; padding: 25px; border-radius: 10px; margin: 25px 0; text-align: left; border-left: 4px solid #ffa500; }\n    .box h3 { margin-top: 0; }\n    .box ol { margin: 15px 0; }\n    .code { background: #e9ecef; padding: 4px 10px; border-radius: 4px; font-family: monospace; }\n    .button { display: inline-block; padding: 18px 40px; background: #0d7377; color: white; text-decoration: none; border-radius: 30px; font-weight: bold; margin: 20px 0; font-size: 18px; border: none; cursor: pointer; }\n    .button:hover { background: #0a5a5c; }\n    .button:disabled { background: #ccc; }\n    #status { margin-top: 20px; padding: 15px; border-radius: 8px; font-weight: bold; }\n  </style>\n</head>\n<body>\n  <div class=\"container\">\n    <div class=\"warning\">⏳</div>\n    <h1>Almost There!</h1>\n    <p><strong>{{ $('Extract Business Profile ID').item.json.restaurant_name }}</strong></p>\n    \n    <div class=\"box\">\n      <h3>Add Manager Access</h3>\n      <ol>\n        <li>Go to <a href=\"https://business.google.com\" target=\"_blank\">business.google.com</a></li>\n        <li>Your business → Settings → Users</li>\n        <li>Add: <span class=\"code\">reviewai@YOUR-PROJECT.iam.gserviceaccount.com</span></li>\n        <li>Role: <strong>Manager</strong></li>\n        <li>Click Invite</li>\n      </ol>\n    </div>\n    \n    <button class=\"button\" onclick=\"verify()\" id=\"btn\">✅ Verify Now</button>\n    <div id=\"status\"></div>\n    \n    <p style=\"font-size: 14px; margin-top: 30px;\"><a href=\"http://YOUR_HELP_URL\">Video tutorial</a></p>\n  </div>\n  \n  <script>\n  async function verify() {\n    const btn = document.getElementById('btn');\n    const status = document.getElementById('status');\n    btn.disabled = true;\n    btn.innerHTML = '🔄 Checking...';\n    \n    try {\n      const res = await fetch('/webhook/verify-manager-access', {\n        method: 'POST',\n        headers: { 'Content-Type': 'application/json' },\n        body: JSON.stringify({ restaurant_id: '{{ $('Extract Business Profile ID').item.json.restaurant_id }}' })\n      });\n      \n      const data = await res.json();\n      \n      if (data.verified) {\n        btn.innerHTML = '✅ Verified!';\n        btn.style.background = '#28a745';\n        status.innerHTML = '🎉 Success! Redirecting...';\n        status.style.background = '#d4edda';\n        setTimeout(() => window.location.href = 'http://YOUR_DASHBOARD_URL', 2000);\n      } else {\n        btn.innerHTML = '⚠️ Not Found - Try Again';\n        btn.style.background = '#ffa500';\n        btn.disabled = false;\n        status.innerHTML = '⏳ Not detected. Make sure you added Manager role and wait 1-2 minutes.';\n        status.style.background = '#fff3cd';\n      }\n    } catch (e) {\n      btn.innerHTML = '❌ Error';\n      btn.disabled = false;\n      status.innerHTML = 'Error. Try again.';\n    }\n  }\n  </script>\n</body>\n</html>",
+        "options": {}
+      },
+      "id": "11",
+      "name": "Show Success Page",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [2250, 400]
+    },
+    {
+      "parameters": {
+        "respondWith": "html",
+        "responseBody": "=<!DOCTYPE html>\n<html>\n<head>\n  <style>\n    body { font-family: Arial; text-align: center; padding: 50px; background: #f5f5f5; }\n    .error { background: white; padding: 50px; border-radius: 10px; max-width: 600px; margin: 0 auto; }\n    h1 { color: #d32f2f; }\n  </style>\n</head>\n<body>\n  <div class=\"error\">\n    <h1>❌ Error</h1>\n    <p>{{ $json.message || 'Authorization failed' }}</p>\n    <p><a href=\"http://YOUR_APP_URL\">Try Again</a></p>\n  </div>\n</body>\n</html>",
+        "options": { "responseCode": 400 }
+      },
+      "id": "12",
+      "name": "Show Error",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [450, 550]
+    }
+  ],
+  "connections": {
+    "Webhook: OAuth Callback": {
+      "main": [[{ "node": "Extract OAuth Code", "type": "main", "index": 0 }]]
+    },
+    "Extract OAuth Code": {
+      "main": [
+        [{ "node": "Find Restaurant", "type": "main", "index": 0 }],
+        [{ "node": "Show Error", "type": "main", "index": 0 }]
+      ]
+    },
+    "Find Restaurant": {
+      "main": [[{ "node": "Exchange Code for Tokens", "type": "main", "index": 0 }]]
+    },
+    "Exchange Code for Tokens": {
+      "main": [[{ "node": "Prepare Token Data", "type": "main", "index": 0 }]]
+    },
+    "Prepare Token Data": {
+      "main": [[{ "node": "Fetch Google Business Accounts", "type": "main", "index": 0 }]]
+    },
+    "Fetch Google Business Accounts": {
+      "main": [[{ "node": "Extract Business Profile ID", "type": "main", "index": 0 }]]
+    },
+    "Extract Business Profile ID": {
+      "main": [[{ "node": "Update Restaurant Record", "type": "main", "index": 0 }]]
+    },
+    "Update Restaurant Record": {
+      "main": [[{ "node": "Build Next Steps Email", "type": "main", "index": 0 }]]
+    },
+    "Build Next Steps Email": {
+      "main": [[{ "node": "Send Email", "type": "main", "index": 0 }]]
+    },
+    "Send Email": {
+      "main": [[{ "node": "Show Success Page", "type": "main", "index": 0 }]]
+    }
+  },
+  "pinData": {},
+  "settings": { "executionOrder": "v1" },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-01-27T00:00:00.000Z",
+  "versionId": "2"
+}

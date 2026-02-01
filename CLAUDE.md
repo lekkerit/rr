@@ -16,6 +16,22 @@ AI-powered service helping small-medium restaurants improve Google Maps ratings 
 
 ---
 
+## 🤖 Claude Code Development Tips
+
+### Token Usage Optimization
+- **Use Haiku for simple tasks**: Task tool accepts `model: "haiku"` parameter for cheap operations
+- **Avoid unnecessary file reads**: Only read when required
+- **Focused searches**: Specific Grep/Glob patterns vs broad exploration
+- **Limit context**: Use offset/limit for large files
+- **Concise mode**: Request brief responses to reduce output tokens
+
+### Token Monitoring
+- Budget: 200,000 tokens per session
+- Check status with explicit request for updates
+- Target milestones: 50k, 100k, 150k usage points
+
+---
+
 ## 💰 Business Model & Pricing
 
 ### Service Tiers

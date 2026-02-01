@@ -300,6 +300,45 @@ Reviews (1) → Generated_Responses (1)
 
 ---
 
+## Table 9: Waitlist
+
+**Purpose:** Track applicants from Typeform before onboarding
+**Source:** Typeform webhook → n8n → Airtable
+
+### Fields
+
+| Field Name | Type | Required | Description | Example |
+|------------|------|----------|-------------|---------|
+| `waitlist_id` | Single line text (Primary) | Yes | Unique identifier | `wait_7Nx4QmP2` |
+| `restaurant_name` | Single line text | Yes | Business name | `Pasta Paradise` |
+| `contact_name` | Single line text | Yes | Owner/manager name | `John Smith` |
+| `contact_email` | Email | Yes | Primary email | `john@pastaparadise.com` |
+| `contact_phone` | Phone number | No | Phone number | `+31 6 1234 5678` |
+| `city` | Single line text | Yes | Location | `Amsterdam` |
+| `current_rating` | Single select | Yes | Google rating | `1-2 stars`, `2-3 stars`, `3-4 stars` |
+| `google_business_url` | URL | No | Google Maps link | `https://maps.google.com/...` |
+| `monthly_review_volume` | Single select | No | Reviews/month | `<10`, `10-50`, `50-100`, `100+` |
+| `submitted_at` | Date & time | Yes | Form submission | `2026-02-01 14:30:00` |
+| `application_status` | Single select | Yes | Review status | `New`, `Under Review`, `Approved`, `Rejected`, `Onboarded` |
+| `reviewed_at` | Date & time | No | Manual review timestamp | `2026-02-03 10:00:00` |
+| `reviewed_by` | Single line text | No | Who reviewed | `admin@reviewrecovery.com` |
+| `rejection_reason` | Long text | No | If rejected | `Rating too high (4.2 stars)` |
+| `notes` | Long text | No | Internal notes | `High potential - 50+ negative reviews` |
+| `converted_to_restaurant_id` | Single line text | No | If onboarded | `rest_2Jk9XmN4` |
+| `source` | Single select | Yes | Traffic source | `Typeform`, `Direct`, `Referral` |
+
+### Application Status Options
+```
+New, Under Review, Approved, Rejected, Onboarded
+```
+
+### Current Rating Options
+```
+1-2 stars, 2-3 stars, 3-4 stars, 4+ stars (too high)
+```
+
+---
+
 ## Airtable Setup Instructions
 
 ### Base Configuration

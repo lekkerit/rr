@@ -1,0 +1,146 @@
+{
+  "name": "8. Typeform Waitlist Handler",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "typeform-submission",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "1",
+      "name": "Webhook (Typeform)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [250, 300],
+      "webhookId": "typeform-waitlist",
+      "notes": "Receives Typeform submissions"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract Typeform fields\nconst formResponse = $input.first().json.form_response;\nconst answers = formResponse.answers;\n\n// Map Typeform fields to Airtable schema\nconst waitlistEntry = {\n  waitlist_id: `wait_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,\n  restaurant_name: answers.find(a => a.field.ref === 'restaurant_name')?.text || '',\n  contact_name: answers.find(a => a.field.ref === 'contact_name')?.text || '',\n  contact_email: answers.find(a => a.field.ref === 'contact_email')?.email || '',\n  contact_phone: answers.find(a => a.field.ref === 'contact_phone')?.phone_number || '',\n  city: answers.find(a => a.field.ref === 'city')?.text || '',\n  current_rating: answers.find(a => a.field.ref === 'current_rating')?.choice?.label || '',\n  google_business_url: answers.find(a => a.field.ref === 'google_url')?.url || '',\n  monthly_review_volume: answers.find(a => a.field.ref === 'review_volume')?.choice?.label || '',\n  submitted_at: formResponse.submitted_at,\n  application_status: 'New',\n  source: 'Typeform'\n};\n\nreturn { json: waitlistEntry };"
+      },
+      "id": "2",
+      "name": "Transform Typeform Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "record",
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "YOUR_AIRTABLE_BASE_ID",
+          "mode": "list",
+          "cachedResultName": "Restaurant Review AI"
+        },
+        "table": {
+          "__rl": true,
+          "value": "Waitlist",
+          "mode": "list",
+          "cachedResultName": "Waitlist"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": {}
+      },
+      "id": "3",
+      "name": "Create Airtable Record",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2,
+      "position": [650, 300],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "YOUR_AIRTABLE_CREDENTIALS",
+          "name": "Airtable API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "notifications@reviewrecovery.com",
+        "toEmail": "admin@reviewrecovery.com",
+        "subject": "New Waitlist Application: {{ $json.restaurant_name }}",
+        "emailType": "text",
+        "message": "New restaurant application received:\n\nRestaurant: {{ $json.restaurant_name }}\nContact: {{ $json.contact_name }} ({{ $json.contact_email }})\nCity: {{ $json.city }}\nRating: {{ $json.current_rating }}\n\nReview at: https://airtable.com/appvashRUw01RzXY7/tbl71ujGS6vVQWYCD/viw5VLQhM1M5EBQkn"
+      },
+      "id": "4",
+      "name": "Send Admin Notification",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [650, 480],
+      "credentials": {
+        "smtp": {
+          "id": "YOUR_SMTP_CREDENTIALS",
+          "name": "SMTP Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"success\": true, \"message\": \"Application received\" } }}"
+      },
+      "id": "5",
+      "name": "Respond to Typeform",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [850, 300]
+    }
+  ],
+  "connections": {
+    "Webhook (Typeform)": {
+      "main": [
+        [
+          {
+            "node": "Transform Typeform Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transform Typeform Data": {
+      "main": [
+        [
+          {
+            "node": "Create Airtable Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Airtable Record": {
+      "main": [
+        [
+          {
+            "node": "Respond to Typeform",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send Admin Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-02-01T12:00:00.000Z",
+  "versionId": "1"
+}

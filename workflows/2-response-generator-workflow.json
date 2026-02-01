@@ -1,0 +1,379 @@
+{
+  "name": "2. Response Generator",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "generate-response",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "1",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [250, 300],
+      "webhookId": "generate-response"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "operation": "get",
+        "base": {
+          "__rl": true,
+          "value": "YOUR_AIRTABLE_BASE_ID",
+          "mode": "list"
+        },
+        "table": {
+          "__rl": true,
+          "value": "Reviews",
+          "mode": "list"
+        },
+        "id": "={{ $json.body.review_id }}"
+      },
+      "id": "2",
+      "name": "Get Review Data",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2,
+      "position": [450, 300],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "YOUR_AIRTABLE_CREDENTIALS",
+          "name": "Airtable Personal Access Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "operation": "get",
+        "base": {
+          "__rl": true,
+          "value": "YOUR_AIRTABLE_BASE_ID",
+          "mode": "list"
+        },
+        "table": {
+          "__rl": true,
+          "value": "Restaurants",
+          "mode": "list"
+        },
+        "id": "={{ $json.body.restaurant_id }}"
+      },
+      "id": "3",
+      "name": "Get Restaurant Profile",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2,
+      "position": [450, 450],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "YOUR_AIRTABLE_CREDENTIALS",
+          "name": "Airtable Personal Access Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combinationMode": "mergeByPosition",
+        "options": {}
+      },
+      "id": "4",
+      "name": "Merge Review + Restaurant",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2.1,
+      "position": [650, 375]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract and prepare data for AI prompt\nconst review = $('Get Review Data').item.json.fields;\nconst restaurant = $('Get Restaurant Profile').item.json.fields;\n\n// Determine sentiment based on star rating\nconst rating = parseInt(review.star_rating?.replace(' Stars', ''));\nlet sentiment = 'neutral';\nif (rating <= 2) sentiment = 'negative';\nif (rating >= 4) sentiment = 'positive';\n\n// Build context for AI\nconst context = {\n  review: {\n    rating: rating,\n    text: review.review_text,\n    reviewer_name: review.reviewer_name,\n    sentiment: sentiment\n  },\n  restaurant: {\n    name: restaurant.restaurant_name,\n    tier: restaurant.tier,\n    brand_voice: restaurant.tier === 'Pro' ? JSON.parse(restaurant.brand_voice || '{}') : null\n  }\n};\n\nreturn [{ json: context }];"
+      },
+      "id": "5",
+      "name": "Prepare AI Context",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [850, 375]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Build appropriate prompt based on tier and sentiment\nconst context = $input.first().json;\nconst review = context.review;\nconst restaurant = context.restaurant;\n\nlet systemPrompt = '';\nlet userPrompt = '';\n\nif (restaurant.tier === 'Pro' && restaurant.brand_voice) {\n  // Pro Pack - Custom brand voice\n  const voice = restaurant.brand_voice;\n  \n  systemPrompt = `You are writing a response to a Google Maps review for ${restaurant.name}.\n\nBrand Voice Profile:\n- Personality: ${voice.personality}\n- Tone: ${voice.tone}\n- Emoji Usage: ${voice.emoji_usage}\n- Self-Reference: ${voice.self_reference}\n- Signature Phrases: ${voice.signature_phrases?.join(', ')}\n- Prohibited Words: ${voice.prohibited_words?.join(', ')}\n- Response Length: ${voice.response_length} (${voice.response_length === 'Brief' ? '50-75' : voice.response_length === 'Moderate' ? '75-125' : '125-150'} words)`;\n\n  userPrompt = `Review Details:\n- Star Rating: ${review.rating} stars\n- Review Text: \"${review.text}\"\n- Reviewer Name: ${review.reviewer_name}\n\nGenerate a response that matches ${restaurant.name}'s unique voice while:\n1. ${review.sentiment === 'negative' ? 'Apologizing sincerely and addressing concerns' : review.sentiment === 'positive' ? 'Thanking warmly and reinforcing positives' : 'Thanking and encouraging future visits'}\n2. Addressing these specific points: ${review.text}\n3. Being authentic to ${restaurant.name}'s brand\n\nResponse:`;\n\n} else {\n  // Starter Pack - Standard professional\n  systemPrompt = `You are writing a professional response to a Google Maps review for a restaurant.\n\nGenerate a professional, empathetic response that:\n1. Thanks the customer (if positive) or apologizes (if negative)\n2. Addresses specific points mentioned in the review\n3. Is 75-125 words long\n4. Uses a professional but warm tone\n5. Encourages the customer to return\n6. Does NOT sound generic or templated`;\n\n  userPrompt = `Review Details:\n- Star Rating: ${review.rating} stars\n- Review Text: \"${review.text}\"\n- Reviewer Name: ${review.reviewer_name}\n\nResponse:`;\n}\n\nreturn [{\n  json: {\n    systemPrompt,\n    userPrompt,\n    review_id: $('Get Review Data').item.json.id,\n    restaurant_id: $('Get Restaurant Profile').item.json.id,\n    rating: review.rating,\n    sentiment: review.sentiment\n  }\n}];"
+      },
+      "id": "6",
+      "name": "Build AI Prompt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1050, 375]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "anthropicApi",
+        "url": "https://api.anthropic.com/v1/messages",
+        "method": "POST",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "claude-sonnet-4-20250514"
+            },
+            {
+              "name": "max_tokens",
+              "value": "1000"
+            },
+            {
+              "name": "system",
+              "value": "={{ $json.systemPrompt }}"
+            },
+            {
+              "name": "messages",
+              "value": "={{ [{\"role\": \"user\", \"content\": $json.userPrompt}] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7",
+      "name": "Generate Response with Claude",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1250, 375],
+      "credentials": {
+        "anthropicApi": {
+          "id": "YOUR_ANTHROPIC_CREDENTIALS",
+          "name": "Anthropic API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract AI response and validate quality\nconst aiResponse = $input.first().json;\nconst responseText = aiResponse.content[0].text;\n\n// Quality checks\nconst wordCount = responseText.split(' ').length;\nconst hasThankYou = /thank|appreciate/i.test(responseText);\nconst isNotGeneric = !/(generic|template)/i.test(responseText);\n\n// Sentiment analysis\nconst sentiment = $('Build AI Prompt').item.json.sentiment;\n\nreturn [{\n  json: {\n    generated_text: responseText,\n    word_count: wordCount,\n    quality_passed: wordCount >= 50 && wordCount <= 150 && hasThankYou,\n    review_id: $('Build AI Prompt').item.json.review_id,\n    restaurant_id: $('Build AI Prompt').item.json.restaurant_id,\n    sentiment: sentiment,\n    ai_model: 'claude-sonnet-4-20250514'\n  }\n}];"
+      },
+      "id": "8",
+      "name": "Validate Response Quality",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1450, 375]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "YOUR_AIRTABLE_BASE_ID",
+          "mode": "list"
+        },
+        "table": {
+          "__rl": true,
+          "value": "Generated_Responses",
+          "mode": "list"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "review": "={{ $json.review_id }}",
+            "restaurant": "={{ $json.restaurant_id }}",
+            "generated_text": "={{ $json.generated_text }}",
+            "generation_timestamp": "={{ $now.toISO() }}",
+            "ai_model_used": "={{ $json.ai_model }}",
+            "approval_status": "Pending",
+            "word_count": "={{ $json.word_count }}"
+          },
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": {}
+      },
+      "id": "9",
+      "name": "Store Generated Response",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2,
+      "position": [1650, 375],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "YOUR_AIRTABLE_CREDENTIALS",
+          "name": "Airtable Personal Access Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "YOUR_AIRTABLE_BASE_ID",
+          "mode": "list"
+        },
+        "table": {
+          "__rl": true,
+          "value": "Reviews",
+          "mode": "list"
+        },
+        "id": "={{ $json.review_id }}",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "response_generated": true,
+            "sentiment": "={{ $json.sentiment }}"
+          },
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": {}
+      },
+      "id": "10",
+      "name": "Update Review Status",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2,
+      "position": [1650, 525],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "YOUR_AIRTABLE_CREDENTIALS",
+          "name": "Airtable Personal Access Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"success\": true, \"response_id\": $('Store Generated Response').item.json.id, \"message\": \"Response generated successfully\" } }}",
+        "options": {}
+      },
+      "id": "11",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1850, 375]
+    }
+  ],
+  "connections": {
+    "Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Review Data",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Restaurant Profile",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Review Data": {
+      "main": [
+        [
+          {
+            "node": "Merge Review + Restaurant",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Restaurant Profile": {
+      "main": [
+        [
+          {
+            "node": "Merge Review + Restaurant",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge Review + Restaurant": {
+      "main": [
+        [
+          {
+            "node": "Prepare AI Context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare AI Context": {
+      "main": [
+        [
+          {
+            "node": "Build AI Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build AI Prompt": {
+      "main": [
+        [
+          {
+            "node": "Generate Response with Claude",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Response with Claude": {
+      "main": [
+        [
+          {
+            "node": "Validate Response Quality",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Response Quality": {
+      "main": [
+        [
+          {
+            "node": "Store Generated Response",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Update Review Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store Generated Response": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-01-27T00:00:00.000Z",
+  "versionId": "1"
+}

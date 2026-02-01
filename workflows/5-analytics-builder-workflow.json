@@ -1,0 +1,298 @@
+{
+  "name": "5. Analytics Builder (Daily)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 2 * * *"
+            }
+          ]
+        }
+      },
+      "id": "1",
+      "name": "Daily at 2am",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [250, 400],
+      "notes": "Run analytics every night at 2am"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "database",
+        "operation": "getAll",
+        "base": {
+          "__rl": true,
+          "value": "YOUR_AIRTABLE_BASE_ID",
+          "mode": "list"
+        },
+        "table": {
+          "__rl": true,
+          "value": "Restaurants",
+          "mode": "list"
+        },
+        "options": {
+          "filterByFormula": "{status}='Active'"
+        }
+      },
+      "id": "2",
+      "name": "Get Active Restaurants",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2,
+      "position": [450, 400],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "YOUR_AIRTABLE_CREDENTIALS",
+          "name": "Airtable Personal Access Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combinationMode": "multiplex"
+      },
+      "id": "3",
+      "name": "Loop Restaurants",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2.1,
+      "position": [650, 400]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "database",
+        "operation": "getAll",
+        "base": {
+          "__rl": true,
+          "value": "YOUR_AIRTABLE_BASE_ID",
+          "mode": "list"
+        },
+        "table": {
+          "__rl": true,
+          "value": "Reviews",
+          "mode": "list"
+        },
+        "options": {
+          "filterByFormula": "={restaurant_id}='{{ $json.id }}'"
+        }
+      },
+      "id": "4",
+      "name": "Get All Reviews",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2,
+      "position": [850, 400],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "YOUR_AIRTABLE_CREDENTIALS",
+          "name": "Airtable Personal Access Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Calculate comprehensive analytics\nconst restaurant = $('Loop Restaurants').item.json;\nconst reviews = $input.all().map(r => r.json.fields);\n\nconst now = new Date();\nconst thirtyDaysAgo = new Date(now - 30 * 24 * 60 * 60 * 1000);\nconst sixtyDaysAgo = new Date(now - 60 * 24 * 60 * 60 * 1000);\nconst ninetyDaysAgo = new Date(now - 90 * 24 * 60 * 60 * 1000);\n\n// Helper function to calculate average rating\nfunction calculateAverage(reviewList) {\n  if (reviewList.length === 0) return 0;\n  const sum = reviewList.reduce((acc, r) => {\n    const rating = parseInt(r.star_rating?.replace(' Stars', '') || '0');\n    return acc + rating;\n  }, 0);\n  return (sum / reviewList.length).toFixed(2);\n}\n\n// Filter reviews by date\nconst reviews30d = reviews.filter(r => new Date(r.review_date) > thirtyDaysAgo);\nconst reviews60d = reviews.filter(r => new Date(r.review_date) > sixtyDaysAgo);\nconst reviews90d = reviews.filter(r => new Date(r.review_date) > ninetyDaysAgo);\n\n// Calculate current average rating\nconst currentRating = parseFloat(calculateAverage(reviews));\n\n// Calculate historical ratings\nconst rating30dAgo = parseFloat(calculateAverage(\n  reviews.filter(r => new Date(r.review_date) < thirtyDaysAgo)\n));\nconst rating60dAgo = parseFloat(calculateAverage(\n  reviews.filter(r => new Date(r.review_date) < sixtyDaysAgo)\n));\nconst rating90dAgo = parseFloat(calculateAverage(\n  reviews.filter(r => new Date(r.review_date) < ninetyDaysAgo)\n));\n\n// Calculate rating changes\nconst rating30dChange = parseFloat((currentRating - rating30dAgo).toFixed(2));\nconst rating60dChange = parseFloat((currentRating - rating60dAgo).toFixed(2));\nconst rating90dChange = parseFloat((currentRating - rating90dAgo).toFixed(2));\n\n// Count reviews by star rating\nconst starCounts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };\nreviews.forEach(r => {\n  const rating = parseInt(r.star_rating?.replace(' Stars', '') || '0');\n  if (rating >= 1 && rating <= 5) {\n    starCounts[rating]++;\n  }\n});\n\n// This month's activity\nconst thisMonth = reviews.filter(r => {\n  const reviewDate = new Date(r.review_date);\n  return reviewDate.getMonth() === now.getMonth() && \n         reviewDate.getFullYear() === now.getFullYear();\n});\n\nconst responsesThisMonth = thisMonth.filter(r => r.response_posted).length;\n\n// Calculate response rate\nconst totalReviews = reviews.length;\nconst answeredReviews = reviews.filter(r => r.response_posted).length;\nconst responseRate = totalReviews > 0 ? (answeredReviews / totalReviews) : 0;\n\n// Calculate average response time (in hours)\nconst responseTimes = reviews\n  .filter(r => r.response_posted && r.posted_at)\n  .map(r => {\n    const reviewDate = new Date(r.review_date);\n    const responseDate = new Date(r.posted_at);\n    return (responseDate - reviewDate) / (1000 * 60 * 60); // hours\n  });\n\nconst avgResponseTime = responseTimes.length > 0\n  ? Math.round(responseTimes.reduce((a, b) => a + b, 0) / responseTimes.length)\n  : 0;\n\n// Calculate sentiment distribution\nconst sentimentCounts = { positive: 0, neutral: 0, negative: 0 };\nreviews.forEach(r => {\n  const sentiment = r.sentiment || 'neutral';\n  sentimentCounts[sentiment]++;\n});\n\nconst sentimentPositive = totalReviews > 0 ? (sentimentCounts.positive / totalReviews) : 0;\nconst sentimentNeutral = totalReviews > 0 ? (sentimentCounts.neutral / totalReviews) : 0;\nconst sentimentNegative = totalReviews > 0 ? (sentimentCounts.negative / totalReviews) : 0;\n\n// Extract common themes (simplified - you could use AI here)\nconst themes = {};\nreviews.forEach(r => {\n  const text = (r.review_text || '').toLowerCase();\n  \n  // Common restaurant themes\n  const themeKeywords = {\n    'food_quality': ['delicious', 'tasty', 'fresh', 'quality', 'amazing food'],\n    'service': ['service', 'server', 'waiter', 'staff', 'friendly'],\n    'slow_service': ['slow', 'wait', 'long wait', 'waiting'],\n    'value': ['price', 'expensive', 'cheap', 'value', 'worth'],\n    'atmosphere': ['atmosphere', 'ambiance', 'decor', 'music'],\n    'cleanliness': ['clean', 'dirty', 'hygiene'],\n    'portions': ['portion', 'size', 'small', 'large', 'big']\n  };\n  \n  Object.entries(themeKeywords).forEach(([theme, keywords]) => {\n    if (keywords.some(kw => text.includes(kw))) {\n      themes[theme] = (themes[theme] || 0) + 1;\n    }\n  });\n});\n\n// Get approval metrics\nconst generatedResponses = reviews.filter(r => r.response_generated);\nconst approvedResponses = generatedResponses.filter(r => r.approval_status === 'Approved');\nconst editedResponses = generatedResponses.filter(r => r.approval_status === 'Edited');\nconst rejectedResponses = generatedResponses.filter(r => r.approval_status === 'Rejected');\n\nconst approvalRate = generatedResponses.length > 0 \n  ? (approvedResponses.length / generatedResponses.length) \n  : 0;\nconst editRate = generatedResponses.length > 0 \n  ? (editedResponses.length / generatedResponses.length) \n  : 0;\nconst rejectionRate = generatedResponses.length > 0 \n  ? (rejectedResponses.length / generatedResponses.length) \n  : 0;\n\n// Build analytics snapshot\nreturn [{\n  json: {\n    restaurant_id: restaurant.id,\n    snapshot_date: now.toISOString().split('T')[0],\n    \n    // Rating metrics\n    average_rating: currentRating,\n    rating_30d_change: rating30dChange,\n    rating_60d_change: rating60dChange,\n    rating_90d_change: rating90dChange,\n    \n    // Review counts\n    total_reviews: totalReviews,\n    reviews_1_star: starCounts[1],\n    reviews_2_star: starCounts[2],\n    reviews_3_star: starCounts[3],\n    reviews_4_star: starCounts[4],\n    reviews_5_star: starCounts[5],\n    reviews_this_month: thisMonth.length,\n    \n    // Response metrics\n    responses_this_month: responsesThisMonth,\n    response_rate: parseFloat(responseRate.toFixed(3)),\n    avg_response_time_hours: avgResponseTime,\n    \n    // Sentiment metrics\n    sentiment_positive: parseFloat(sentimentPositive.toFixed(3)),\n    sentiment_neutral: parseFloat(sentimentNeutral.toFixed(3)),\n    sentiment_negative: parseFloat(sentimentNegative.toFixed(3)),\n    \n    // Approval metrics\n    approval_rate: parseFloat(approvalRate.toFixed(3)),\n    edit_rate: parseFloat(editRate.toFixed(3)),\n    rejection_rate: parseFloat(rejectionRate.toFixed(3)),\n    \n    // Common themes\n    common_themes: JSON.stringify(themes)\n  }\n}];"
+      },
+      "id": "5",
+      "name": "Calculate Analytics",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1050, 400]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "YOUR_AIRTABLE_BASE_ID",
+          "mode": "list"
+        },
+        "table": {
+          "__rl": true,
+          "value": "Analytics_Snapshots",
+          "mode": "list"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "restaurant": "={{ $json.restaurant_id }}",
+            "snapshot_date": "={{ $json.snapshot_date }}",
+            "average_rating": "={{ $json.average_rating }}",
+            "rating_30d_change": "={{ $json.rating_30d_change }}",
+            "rating_60d_change": "={{ $json.rating_60d_change }}",
+            "rating_90d_change": "={{ $json.rating_90d_change }}",
+            "total_reviews": "={{ $json.total_reviews }}",
+            "reviews_1_star": "={{ $json.reviews_1_star }}",
+            "reviews_2_star": "={{ $json.reviews_2_star }}",
+            "reviews_3_star": "={{ $json.reviews_3_star }}",
+            "reviews_4_star": "={{ $json.reviews_4_star }}",
+            "reviews_5_star": "={{ $json.reviews_5_star }}",
+            "reviews_this_month": "={{ $json.reviews_this_month }}",
+            "responses_this_month": "={{ $json.responses_this_month }}",
+            "response_rate": "={{ $json.response_rate }}",
+            "avg_response_time_hours": "={{ $json.avg_response_time_hours }}",
+            "sentiment_positive": "={{ $json.sentiment_positive }}",
+            "sentiment_neutral": "={{ $json.sentiment_neutral }}",
+            "sentiment_negative": "={{ $json.sentiment_negative }}",
+            "approval_rate": "={{ $json.approval_rate }}",
+            "edit_rate": "={{ $json.edit_rate }}",
+            "rejection_rate": "={{ $json.rejection_rate }}"
+          },
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": {}
+      },
+      "id": "6",
+      "name": "Store Analytics Snapshot",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2,
+      "position": [1250, 400],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "YOUR_AIRTABLE_CREDENTIALS",
+          "name": "Airtable Personal Access Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract themes for separate storage\nconst analytics = $input.first().json;\nconst themes = JSON.parse(analytics.common_themes || '{}');\nconst restaurantId = analytics.restaurant_id;\n\nconst themeRecords = [];\n\nfor (const [themeName, count] of Object.entries(themes)) {\n  if (count > 0) {\n    themeRecords.push({\n      json: {\n        restaurant_id: restaurantId,\n        theme_name: themeName,\n        mention_count_30d: count, // Simplified - you'd track this over time\n        theme_category: categorizeTheme(themeName),\n        sentiment: determineSentiment(themeName),\n        last_mentioned: new Date().toISOString().split('T')[0]\n      }\n    });\n  }\n}\n\nfunction categorizeTheme(themeName) {\n  const categories = {\n    'food_quality': 'Food',\n    'service': 'Service',\n    'slow_service': 'Service',\n    'value': 'Value',\n    'atmosphere': 'Atmosphere',\n    'cleanliness': 'Atmosphere',\n    'portions': 'Food'\n  };\n  return categories[themeName] || 'Other';\n}\n\nfunction determineSentiment(themeName) {\n  const negative = ['slow_service', 'dirty'];\n  return negative.includes(themeName) ? 'Negative' : 'Positive';\n}\n\nreturn themeRecords;"
+      },
+      "id": "7",
+      "name": "Extract Common Themes",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1250, 550]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "YOUR_AIRTABLE_BASE_ID",
+          "mode": "list"
+        },
+        "table": {
+          "__rl": true,
+          "value": "Common_Themes",
+          "mode": "list"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "restaurant": "={{ $json.restaurant_id }}",
+            "theme_name": "={{ $json.theme_name }}",
+            "theme_category": "={{ $json.theme_category }}",
+            "mention_count_30d": "={{ $json.mention_count_30d }}",
+            "sentiment": "={{ $json.sentiment }}",
+            "last_mentioned": "={{ $json.last_mentioned }}"
+          },
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": {
+          "bulkSize": 10
+        }
+      },
+      "id": "8",
+      "name": "Store Themes",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2,
+      "position": [1450, 550],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "YOUR_AIRTABLE_CREDENTIALS",
+          "name": "Airtable Personal Access Token"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Daily at 2am": {
+      "main": [
+        [
+          {
+            "node": "Get Active Restaurants",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Active Restaurants": {
+      "main": [
+        [
+          {
+            "node": "Loop Restaurants",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Restaurants": {
+      "main": [
+        [
+          {
+            "node": "Get All Reviews",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get All Reviews": {
+      "main": [
+        [
+          {
+            "node": "Calculate Analytics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculate Analytics": {
+      "main": [
+        [
+          {
+            "node": "Store Analytics Snapshot",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Extract Common Themes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Common Themes": {
+      "main": [
+        [
+          {
+            "node": "Store Themes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-01-27T00:00:00.000Z",
+  "versionId": "1"
+}

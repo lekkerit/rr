@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Recover Bookings from Bad Google Reviews or not</title>
-  <meta name="description" content="We help 1–3 star Google Maps restaurants recover bookings by handling reviews professionally." />
+  <title>Zet Slechte Google Reviews Om in Reserveringen | Hilversum</title>
+  <meta name="description" content="Wij helpen restaurants met 1-3 sterren op Google Maps om reserveringen terug te winnen door professioneel te reageren op reviews." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -14,16 +14,15 @@
       padding: 0;
       box-sizing: border-box;
     }
-    
-    body { 
+
+    body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      line-height: 1.6; 
+      line-height: 1.6;
       color: #333;
       background: #fff;
       padding-top: 70px;
     }
-    
-    /* Navigation Bar */
+
     .navbar {
       position: fixed;
       top: 0;
@@ -35,7 +34,7 @@
       z-index: 1000;
       padding: 0 20px;
     }
-    
+
     .nav-container {
       max-width: 1200px;
       margin: 0 auto;
@@ -44,21 +43,21 @@
       align-items: center;
       height: 70px;
     }
-    
+
     .nav-logo {
       font-size: 1.25rem;
       font-weight: 700;
       color: #667eea;
       text-decoration: none;
     }
-    
+
     .nav-menu {
       display: flex;
       list-style: none;
       gap: 30px;
       align-items: center;
     }
-    
+
     .nav-menu a {
       text-decoration: none;
       color: #333;
@@ -66,11 +65,11 @@
       font-size: 0.95rem;
       transition: color 0.3s ease;
     }
-    
+
     .nav-menu a:hover {
       color: #667eea;
     }
-    
+
     .nav-cta {
       background: #667eea;
       color: #fff !important;
@@ -78,12 +77,26 @@
       border-radius: 6px;
       transition: all 0.3s ease;
     }
-    
+
     .nav-cta:hover {
       background: #5568d3;
       transform: translateY(-1px);
     }
-    
+
+    .lang-switch {
+      font-size: 0.85rem;
+      color: #667eea;
+      text-decoration: none;
+      border: 1px solid #667eea;
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
+
+    .lang-switch:hover {
+      background: #667eea;
+      color: #fff;
+    }
+
     .menu-toggle {
       display: none;
       background: none;
@@ -92,60 +105,44 @@
       color: #333;
       cursor: pointer;
     }
-    
-    .hero { 
-      background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%),
-                  url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><pattern id="reviews" x="0" y="0" width="300" height="200" patternUnits="userSpaceOnUse"><rect x="10" y="10" width="280" height="80" rx="8" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/><circle cx="30" cy="30" r="12" fill="rgba(255,255,255,0.1)"/><rect x="50" y="25" width="100" height="8" rx="4" fill="rgba(255,255,255,0.08)"/><rect x="50" y="40" width="150" height="6" rx="3" fill="rgba(255,255,255,0.06)"/><text x="20" y="70" font-family="Arial" font-size="20" fill="rgba(255,200,100,0.3)">★★★</text></pattern></defs><rect width="1200" height="800" fill="url(%23reviews)"/></svg>');
-      background-size: cover, 600px 400px;
-      background-position: center;
+
+    .hero {
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%);
       color: #fff;
       text-align: center;
       padding: 80px 20px 60px;
       position: relative;
       overflow: hidden;
     }
-    
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: 
-        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(255,255,255,0.08) 0%, transparent 50%);
-    }
-    
+
     .hero-content {
       max-width: 800px;
       margin: 0 auto;
       position: relative;
       z-index: 1;
     }
-    
-    .hero h1 { 
+
+    .hero h1 {
       font-size: 3rem;
       font-weight: 700;
       margin-bottom: 1rem;
       line-height: 1.2;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
-    
-    .hero h2 { 
+
+    .hero h2 {
       font-size: 1.5rem;
       font-weight: 400;
       margin-bottom: 1.5rem;
       opacity: 0.95;
     }
-    
-    .hero p { 
+
+    .hero p {
       font-size: 1.125rem;
       margin-bottom: 2rem;
       opacity: 0.9;
     }
-    
-    .btn { 
+
+    .btn {
       display: inline-block;
       padding: 16px 40px;
       font-size: 1.125rem;
@@ -155,30 +152,29 @@
       transition: all 0.3s ease;
       cursor: pointer;
     }
-    
+
     .btn-primary {
       background: #fff;
       color: #667eea;
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
-    
+
     .btn-primary:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(0,0,0,0.3);
     }
-    
+
     .btn-secondary {
       background: #667eea;
       color: #fff;
       box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
     }
-    
+
     .btn-secondary:hover {
       background: #5568d3;
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
     }
-    
+
     .scarcity-text {
       display: block;
       margin-top: 1rem;
@@ -186,13 +182,13 @@
       opacity: 0.85;
       font-weight: 500;
     }
-    
-    section { 
+
+    section {
       padding: 50px 20px;
       max-width: 1200px;
       margin: 0 auto;
     }
-    
+
     section h2 {
       font-size: 2.5rem;
       font-weight: 700;
@@ -200,7 +196,7 @@
       text-align: center;
       color: #1a1a1a;
     }
-    
+
     section > p {
       text-align: center;
       font-size: 1.125rem;
@@ -210,15 +206,15 @@
       margin-left: auto;
       margin-right: auto;
     }
-    
-    .grid { 
+
+    .grid {
       display: grid;
       gap: 25px;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       margin-top: 2rem;
     }
-    
-    .card { 
+
+    .card {
       background: #fff;
       border: 1px solid #e5e5e5;
       padding: 25px;
@@ -226,36 +222,36 @@
       transition: all 0.3s ease;
       box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
-    
+
     .card:hover {
       transform: translateY(-5px);
       box-shadow: 0 12px 24px rgba(0,0,0,0.1);
       border-color: #667eea;
     }
-    
+
     .card-icon {
       font-size: 2.5rem;
       margin-bottom: 0.75rem;
     }
-    
+
     .card h3 {
       font-size: 1.25rem;
       font-weight: 600;
       margin-bottom: 0.5rem;
       color: #1a1a1a;
     }
-    
+
     .card p {
       color: #666;
       font-size: 1rem;
       line-height: 1.6;
     }
-    
+
     .persona-card {
       position: relative;
       padding-left: 50px;
     }
-    
+
     .persona-card::before {
       content: '"';
       position: absolute;
@@ -266,7 +262,7 @@
       opacity: 0.2;
       line-height: 1;
     }
-    
+
     .persona-quote {
       font-style: italic;
       color: #555;
@@ -274,30 +270,30 @@
       font-size: 1rem;
       line-height: 1.6;
     }
-    
+
     .persona-author {
       font-size: 0.9rem;
       color: #667eea;
       font-weight: 600;
       font-style: normal;
     }
-    
+
     .problem-section {
       background: #f8f9fa;
       padding: 50px 20px;
     }
-    
+
     .problem-section .card {
       background: #fff;
       text-align: left;
       padding: 30px 25px;
     }
-    
+
     .review-examples {
       background: linear-gradient(to bottom, #fff 0%, #f8f9fa 100%);
       padding: 50px 20px;
     }
-    
+
     .review-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -305,7 +301,7 @@
       max-width: 1200px;
       margin: 2rem auto 0;
     }
-    
+
     .review-card {
       background: #fff;
       border-radius: 12px;
@@ -314,7 +310,7 @@
       border: 1px solid #e5e5e5;
       position: relative;
     }
-    
+
     .review-card::before {
       content: '';
       position: absolute;
@@ -324,21 +320,21 @@
       height: 100%;
       border-radius: 12px 0 0 12px;
     }
-    
+
     .review-card.bad::before {
       background: #ff4444;
     }
-    
+
     .review-card.good::before {
       background: #00C851;
     }
-    
+
     .review-header {
       display: flex;
       align-items: center;
       margin-bottom: 10px;
     }
-    
+
     .review-avatar {
       width: 40px;
       height: 40px;
@@ -351,19 +347,19 @@
       font-weight: 600;
       margin-right: 12px;
     }
-    
+
     .review-info h4 {
       font-size: 0.95rem;
       font-weight: 600;
       margin-bottom: 2px;
     }
-    
+
     .review-stars {
       color: #FFA000;
       font-size: 0.9rem;
       letter-spacing: 2px;
     }
-    
+
     .review-text {
       font-size: 0.95rem;
       color: #555;
@@ -371,7 +367,7 @@
       margin-bottom: 12px;
       font-style: italic;
     }
-    
+
     .review-response {
       background: #f8f9fa;
       padding: 14px;
@@ -379,7 +375,7 @@
       border-left: 3px solid #667eea;
       margin-top: 10px;
     }
-    
+
     .response-label {
       font-size: 0.8rem;
       font-weight: 600;
@@ -387,48 +383,48 @@
       text-transform: uppercase;
       margin-bottom: 6px;
     }
-    
+
     .response-text {
       font-size: 0.9rem;
       color: #333;
       line-height: 1.5;
     }
-    
+
     .carousel-section {
       padding: 50px 20px;
       background: #fff;
     }
-    
+
     .carousel-container {
       position: relative;
       max-width: 800px;
       margin: 2rem auto 0;
       overflow: hidden;
     }
-    
+
     .carousel-wrapper {
       display: flex;
       transition: transform 0.5s ease-in-out;
     }
-    
+
     .carousel-slide {
       min-width: 100%;
       padding: 30px;
       text-align: center;
     }
-    
+
     .carousel-slide .card-icon {
       font-size: 4rem;
       margin-bottom: 1rem;
     }
-    
+
     .carousel-slide h3 {
       font-size: 1.75rem;
       font-weight: 700;
       margin-bottom: 0.75rem;
       color: #1a1a1a;
     }
-    
+
     .carousel-slide p {
       font-size: 1.125rem;
       color: #666;
@@ -436,14 +432,14 @@
       max-width: 600px;
       margin: 0 auto;
     }
-    
+
     .carousel-nav {
       display: flex;
       justify-content: center;
       gap: 10px;
       margin-top: 1.5rem;
     }
-    
+
     .carousel-dot {
       width: 12px;
       height: 12px;
@@ -454,13 +450,13 @@
       transition: all 0.3s ease;
       padding: 0;
     }
-    
+
     .carousel-dot.active {
       background: #667eea;
       width: 30px;
       border-radius: 6px;
     }
-    
+
     .carousel-arrow {
       position: absolute;
       top: 50%;
@@ -479,26 +475,26 @@
       transition: all 0.3s ease;
       z-index: 10;
     }
-    
+
     .carousel-arrow:hover {
       background: #667eea;
       transform: translateY(-50%) scale(1.1);
     }
-    
+
     .carousel-arrow.prev {
       left: 10px;
     }
-    
+
     .carousel-arrow.next {
       right: 10px;
     }
-    
+
     .who-section ul {
       list-style: none;
       max-width: 600px;
       margin: 1.5rem auto;
     }
-    
+
     .who-section li {
       padding: 18px 18px 18px 55px;
       margin-bottom: 12px;
@@ -508,13 +504,13 @@
       font-size: 1.125rem;
       transition: all 0.3s ease;
     }
-    
+
     .who-section li:hover {
       background: #667eea;
       color: #fff;
       transform: translateX(5px);
     }
-    
+
     .who-section li::before {
       content: '✓';
       position: absolute;
@@ -532,12 +528,12 @@
       font-weight: bold;
       font-size: 14px;
     }
-    
+
     .who-section li:hover::before {
       background: #fff;
       color: #667eea;
     }
-    
+
     .scarcity-section {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: #fff;
@@ -546,51 +542,40 @@
       position: relative;
       overflow: hidden;
     }
-    
-    .scarcity-section::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>');
-      opacity: 0.2;
-    }
-    
+
     .scarcity-content {
       max-width: 700px;
       margin: 0 auto;
       position: relative;
       z-index: 1;
     }
-    
+
     .scarcity-section h2 {
       color: #fff;
       margin-bottom: 1rem;
     }
-    
+
     .scarcity-section p {
       font-size: 1.25rem;
       opacity: 0.95;
       margin-bottom: 0.75rem;
     }
-    
+
     .cta-section {
       text-align: center;
       padding: 60px 20px;
       background: #f8f9fa;
     }
-    
+
     .cta-section h2 {
       margin-bottom: 0.75rem;
     }
-    
+
     .cta-section > p {
       color: #666;
       margin-bottom: 2rem;
     }
-    
+
     .stats {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -598,32 +583,32 @@
       margin: 2rem 0;
       text-align: center;
     }
-    
+
     .stat-item h3 {
       font-size: 3rem;
       font-weight: 700;
       color: #667eea;
       margin-bottom: 0.5rem;
     }
-    
+
     .stat-item p {
       font-size: 1rem;
       color: #666;
     }
-    
+
     @media (max-width: 768px) {
       body {
         padding-top: 60px;
       }
-      
+
       .nav-container {
         height: 60px;
       }
-      
+
       .menu-toggle {
         display: block;
       }
-      
+
       .nav-menu {
         position: absolute;
         top: 60px;
@@ -636,58 +621,39 @@
         display: none;
         gap: 15px;
       }
-      
+
       .nav-menu.active {
         display: flex;
       }
-      
+
       .hero h1 {
         font-size: 2rem;
       }
-      
+
       .hero h2 {
         font-size: 1.25rem;
       }
-      
+
       section {
         padding: 40px 20px;
       }
-      
+
       section h2 {
         font-size: 2rem;
       }
-      
+
       .grid {
         grid-template-columns: 1fr;
       }
-      
+
       .review-grid {
         grid-template-columns: 1fr;
       }
-      
-      .who-section li {
-        padding-left: 50px;
-        font-size: 1rem;
-      }
-      
-      .carousel-arrow {
-        width: 35px;
-        height: 35px;
-        font-size: 1rem;
-      }
-      
-      .carousel-arrow.prev {
-        left: 5px;
-      }
-      
-      .carousel-arrow.next {
-        right: 5px;
-      }
     }
-    
+
     html {
       scroll-behavior: smooth;
-      scroll-padding-top: 80px; /* Offset for fixed navbar */
+      scroll-padding-top: 80px;
     }
   </style>
 </head>
@@ -696,148 +662,148 @@
 <nav class="navbar">
   <div class="nav-container">
     <a href="#" class="nav-logo">Review Recovery</a>
-    
+
     <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-    
+
     <ul class="nav-menu" id="navMenu">
-      <li><a href="#difference">See Results</a></li>
-      <li><a href="#problem">The Problem</a></li>
-      <li><a href="#solution">Solution</a></li>
-      <li><a href="#who">Who It's For</a></li>
-      <li><a href="nl.html" style="font-size: 0.85rem; color: #667eea; border: 1px solid #667eea; padding: 5px 10px; border-radius: 4px;">NL</a></li>
-      <li><a href="#apply" class="nav-cta">Apply Now</a></li>
+      <li><a href="#difference">Resultaten</a></li>
+      <li><a href="#problem">Het Probleem</a></li>
+      <li><a href="#solution">Oplossing</a></li>
+      <li><a href="#who">Voor Wie</a></li>
+      <li><a href="index.html" class="lang-switch">EN</a></li>
+      <li><a href="#apply" class="nav-cta">Aanmelden</a></li>
     </ul>
   </div>
 </nav>
 
 <div class="hero">
   <div class="hero-content">
-    <h1>Turn Bad Google Reviews Into Bookings</h1>
-    <h2>Even if your restaurant is stuck at 1–3⭐</h2>
+    <h1>Zet Slechte Google Reviews Om in Reserveringen</h1>
+    <h2>Ook als je restaurant vastzit op 1–3⭐</h2>
     <p>
-      AI-powered review responses with human oversight for restaurants losing customers because of bad reviews.
+      Professionele reacties op reviews voor restaurants die klanten verliezen door slechte beoordelingen.
     </p>
-    <a href="#apply" class="btn btn-primary">Apply for the Waiting List</a>
+    <a href="#apply" class="btn btn-primary">Meld Je Aan voor de Wachtlijst</a>
     <span class="scarcity-text">
-      Limited restaurants per city · Manual review required
+      Beperkt aantal restaurants per stad · Handmatige beoordeling
     </span>
   </div>
 </div>
 
 <section class="review-examples" id="difference">
-  <h2>See The Difference</h2>
-  <p>Professional responses turn negative reviews into trust-building opportunities</p>
-  
+  <h2>Zie Het Verschil</h2>
+  <p>Professionele reacties veranderen negatieve reviews in kansen om vertrouwen te winnen</p>
+
   <div class="review-grid">
     <div class="review-card bad">
       <div class="review-header">
-        <div class="review-avatar">JD</div>
+        <div class="review-avatar">JV</div>
         <div class="review-info">
-          <h4>John D.</h4>
+          <h4>Jan V.</h4>
           <div class="review-stars">★★☆☆☆</div>
         </div>
       </div>
       <div class="review-text">
-        "Waited 45 minutes for cold food. Server was rude. Never coming back."
+        "45 minuten gewacht op koud eten. Bediening was onvriendelijk. Kom hier nooit meer terug."
       </div>
       <div class="review-response">
-        <div class="response-label">❌ Typical Owner Response</div>
+        <div class="response-label">❌ Typische Reactie</div>
         <div class="response-text">
-          "We were busy that night! Maybe you should have been more patient. We have plenty of happy customers."
+          "Het was druk die avond! Misschien had u wat meer geduld moeten hebben. We hebben genoeg tevreden klanten."
         </div>
       </div>
     </div>
-    
+
     <div class="review-card good">
       <div class="review-header">
-        <div class="review-avatar">JD</div>
+        <div class="review-avatar">JV</div>
         <div class="review-info">
-          <h4>John D.</h4>
+          <h4>Jan V.</h4>
           <div class="review-stars">★★☆☆☆</div>
         </div>
       </div>
       <div class="review-text">
-        "Waited 45 minutes for cold food. Server was rude. Never coming back."
+        "45 minuten gewacht op koud eten. Bediening was onvriendelijk. Kom hier nooit meer terug."
       </div>
       <div class="review-response">
-        <div class="response-label">✅ Our Professional Response</div>
+        <div class="response-label">✅ Onze Professionele Reactie</div>
         <div class="response-text">
-          "We sincerely apologize for this experience. This doesn't reflect our standards. We've addressed the service issues and would welcome the chance to make it right. Please contact us directly."
+          "Onze oprechte excuses voor deze ervaring. Dit voldoet niet aan onze standaard. We hebben de service direct aangepakt en geven u graag de kans om het goed te maken. Neem gerust contact met ons op."
         </div>
       </div>
     </div>
   </div>
-  
+
   <p style="margin-top: 2rem; color: #667eea; font-weight: 600;">
-    Future customers see both reviews — which response builds trust?
+    Toekomstige klanten lezen beide reviews — welke reactie wekt vertrouwen?
   </p>
 </section>
 
 <section class="problem-section" id="problem">
-  <h2>Bad Reviews Don't Just Hurt Your Rating</h2>
-  <p>They actively drive customers away from your restaurant</p>
+  <h2>Slechte Reviews Kosten Meer Dan Alleen Sterren</h2>
+  <p>Ze jagen actief klanten weg bij jouw restaurant</p>
   <div class="grid">
     <div class="card persona-card">
       <div class="card-icon">👥</div>
-      <h3>Lost Customers</h3>
+      <h3>Verloren Klanten</h3>
       <p class="persona-quote">
-        "We used to be fully booked on weekends. Now we're half empty. The 2.3 star rating keeps people away before they even try our food."
+        "We zaten altijd vol in het weekend. Nu zijn we half leeg. Die 2,3 sterren schrikken mensen af voordat ze ons eten hebben geprobeerd."
       </p>
-      <p class="persona-author">— Marco, Italian Restaurant Owner, Amsterdam</p>
+      <p class="persona-author">— Marco, Italiaans Restaurant, Hilversum</p>
     </div>
     <div class="card persona-card">
       <div class="card-icon">🤐</div>
-      <h3>Silence Hurts</h3>
+      <h3>Stilte Schaadt</h3>
       <p class="persona-quote">
-        "I read a bad review from 3 weeks ago. No response from the owner. If they don't care enough to reply, why would they care about my experience?"
+        "Ik las een slechte review van 3 weken geleden. Geen reactie van de eigenaar. Als zij niet genoeg geven om te reageren, waarom zouden ze dan om mijn ervaring geven?"
       </p>
-      <p class="persona-author">— Lisa, Potential Customer</p>
+      <p class="persona-author">— Lisa, Potentiële Klant</p>
     </div>
     <div class="card persona-card">
       <div class="card-icon">😤</div>
-      <h3>Bad Responses</h3>
+      <h3>Slechte Reacties</h3>
       <p class="persona-quote">
-        "I got angry at a 1-star review and told them off. Now that defensive reply has more views than my menu. I made it worse."
+        "Ik werd boos op een 1-ster review en heb terug geschreven. Nu heeft die defensieve reactie meer views dan mijn menukaart. Ik heb het erger gemaakt."
       </p>
-      <p class="persona-author">— David, Bistro Owner, Utrecht</p>
+      <p class="persona-author">— David, Bistro Eigenaar, Bussum</p>
     </div>
   </div>
 </section>
 
 <section class="carousel-section" id="solution">
-  <h2>What We Do</h2>
-  <p>Professional review management that recovers your reputation</p>
-  
+  <h2>Wat Wij Doen</h2>
+  <p>Professioneel review management dat je reputatie herstelt</p>
+
   <div class="carousel-container">
     <button class="carousel-arrow prev" onclick="moveCarousel(-1)">‹</button>
     <button class="carousel-arrow next" onclick="moveCarousel(1)">›</button>
-    
+
     <div class="carousel-wrapper" id="carouselWrapper">
       <div class="carousel-slide">
         <div class="card-icon">🔍</div>
-        <h3>Monitor Reviews</h3>
-        <p>We track all your Google reviews in real-time so nothing slips through. Every review is captured immediately, ensuring you never miss a customer comment.</p>
+        <h3>Reviews Monitoren</h3>
+        <p>We volgen al je Google reviews zodat er niets tussen de mazen glipt. Elke review wordt direct opgepakt.</p>
       </div>
-      
+
       <div class="carousel-slide">
         <div class="card-icon">✍️</div>
-        <h3>Professional Responses</h3>
-        <p>AI-generated replies reviewed by humans before posting—always on-brand and professional. We craft responses that de-escalate tension and rebuild trust.</p>
+        <h3>Professionele Reacties</h3>
+        <p>Reacties worden door mensen gecontroleerd voordat ze geplaatst worden — altijd professioneel en passend bij jouw zaak.</p>
       </div>
-      
+
       <div class="carousel-slide">
         <div class="card-icon">🤝</div>
-        <h3>De-escalate Conflicts</h3>
-        <p>Turn angry reviews into opportunities to show future customers you care. Our responses demonstrate accountability and commitment to improvement.</p>
+        <h3>Conflicten De-escaleren</h3>
+        <p>Verander boze reviews in kansen om toekomstige klanten te laten zien dat je om service geeft.</p>
       </div>
-      
+
       <div class="carousel-slide">
         <div class="card-icon">🛡️</div>
-        <h3>Protect Your Reputation</h3>
-        <p>Build trust with potential customers who read reviews before booking. Consistent, professional responses signal that you value customer feedback.</p>
+        <h3>Reputatie Beschermen</h3>
+        <p>Bouw vertrouwen op bij potentiële klanten die reviews lezen voordat ze reserveren.</p>
       </div>
     </div>
-    
+
     <div class="carousel-nav">
       <button class="carousel-dot active" onclick="goToSlide(0)"></button>
       <button class="carousel-dot" onclick="goToSlide(1)"></button>
@@ -848,49 +814,49 @@
 </section>
 
 <section class="who-section" id="who">
-  <h2>Who This Is For</h2>
-  <p>We specialize in helping restaurants recover from review damage</p>
+  <h2>Voor Wie Is Dit?</h2>
+  <p>Wij helpen restaurants in de regio Hilversum met review herstel</p>
   <ul>
-    <li>Restaurants rated between <strong>1–3⭐</strong> on Google Maps</li>
-    <li>Owners who know reviews are affecting bookings</li>
-    <li>No time or energy to respond properly to every review</li>
+    <li>Restaurants met <strong>1–3⭐</strong> op Google Maps</li>
+    <li>Eigenaren die weten dat reviews reserveringen beïnvloeden</li>
+    <li>Geen tijd of energie om op elke review goed te reageren</li>
   </ul>
 </section>
 
 <div class="scarcity-section">
   <div class="scarcity-content">
-    <h2>⚠️ Limited Availability</h2>
+    <h2>⚠️ Beperkte Beschikbaarheid</h2>
     <p>
-      We only work with a small number of restaurants per city to ensure quality and real results.
+      We werken met een beperkt aantal restaurants per stad om kwaliteit en echte resultaten te garanderen.
     </p>
-    <p><strong>New restaurants onboarded monthly—not everyone is accepted.</strong></p>
+    <p><strong>Nieuwe restaurants worden maandelijks toegelaten — niet iedereen wordt geaccepteerd.</strong></p>
   </div>
 </div>
 
 <section class="cta-section" id="apply">
-  <h2>Ready to Recover Your Bookings?</h2>
+  <h2>Klaar om Reserveringen Terug te Winnen?</h2>
   <p>
-    We manually review every application. If accepted, you'll hear from us within 7 days.
+    We beoordelen elke aanmelding handmatig. Als je geaccepteerd wordt, hoor je binnen 7 dagen van ons.
   </p>
-  
+
   <div class="stats">
     <div class="stat-item">
       <h3>1-3⭐</h3>
-      <p>Target Rating Range</p>
+      <p>Doelgroep Rating</p>
     </div>
     <div class="stat-item">
-      <h3>7 Days</h3>
-      <p>Application Review Time</p>
+      <h3>7 Dagen</h3>
+      <p>Beoordelingstijd</p>
     </div>
     <div class="stat-item">
-      <h3>Limited</h3>
-      <p>Slots Per City</p>
+      <h3>Beperkt</h3>
+      <p>Plekken in Hilversum</p>
     </div>
   </div>
-  
-  <a href="https://form.typeform.com/to/t9sgShU9" class="btn btn-secondary">Apply Now</a>
+
+  <a href="https://form.typeform.com/to/t9sgShU9" class="btn btn-secondary">Nu Aanmelden</a>
   <span class="scarcity-text" style="color: #666;">
-    Limited restaurants per city · Manual review required
+    Beperkt aantal restaurants · Handmatige beoordeling vereist
   </span>
 </section>
 
@@ -898,14 +864,14 @@
   <div style="max-width: 800px; margin: 0 auto;">
     <p style="margin-bottom: 1.5rem; font-size: 1rem; color: rgba(255,255,255,0.9);">Review Recovery</p>
     <p style="margin-bottom: 1rem; font-size: 0.9rem;">
-      Professional review management for restaurants
+      Professioneel review management voor restaurants in het Gooi
     </p>
     <p style="font-size: 0.8rem; color: rgba(255,255,255,0.5); padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1);">
-      Google, Google Maps, and Google Reviews are trademarks of Google LLC.<br>
-      We are an independent service provider not affiliated with or endorsed by Google.
+      Google, Google Maps en Google Reviews zijn handelsmerken van Google LLC.<br>
+      Wij zijn een onafhankelijke dienstverlener, niet gelieerd aan of goedgekeurd door Google.
     </p>
     <p style="margin-top: 1rem; font-size: 0.8rem; color: rgba(255,255,255,0.4);">
-      © 2026 Review Recovery. All rights reserved.
+      © 2026 Review Recovery. Alle rechten voorbehouden.
     </p>
   </div>
 </footer>
@@ -913,52 +879,37 @@
 <script>
   let currentSlide = 0;
   const totalSlides = 4;
-  
+
   function moveCarousel(direction) {
     currentSlide += direction;
-    
-    if (currentSlide < 0) {
-      currentSlide = totalSlides - 1;
-    } else if (currentSlide >= totalSlides) {
-      currentSlide = 0;
-    }
-    
+    if (currentSlide < 0) currentSlide = totalSlides - 1;
+    else if (currentSlide >= totalSlides) currentSlide = 0;
     updateCarousel();
   }
-  
+
   function goToSlide(index) {
     currentSlide = index;
     updateCarousel();
   }
-  
+
   function updateCarousel() {
     const wrapper = document.getElementById('carouselWrapper');
     const dots = document.querySelectorAll('.carousel-dot');
-    
     wrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
-    
     dots.forEach((dot, index) => {
-      if (index === currentSlide) {
-        dot.classList.add('active');
-      } else {
-        dot.classList.remove('active');
-      }
+      dot.classList.toggle('active', index === currentSlide);
     });
   }
-  
-  setInterval(() => {
-    moveCarousel(1);
-  }, 5000);
-  
+
+  setInterval(() => moveCarousel(1), 5000);
+
   function toggleMenu() {
-    const menu = document.getElementById('navMenu');
-    menu.classList.toggle('active');
+    document.getElementById('navMenu').classList.toggle('active');
   }
-  
+
   document.querySelectorAll('.nav-menu a').forEach(link => {
     link.addEventListener('click', () => {
-      const menu = document.getElementById('navMenu');
-      menu.classList.remove('active');
+      document.getElementById('navMenu').classList.remove('active');
     });
   });
 </script>

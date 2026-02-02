@@ -67,17 +67,26 @@ Webhook → Extract Data → Claude AI → Post to Google → Update Airtable �
 
 ---
 
+## Target Market
+
+**Country:** Netherlands
+**Initial City:** Hilversum (+ surrounding Gooi region)
+**Target:** Restaurants with 1-3 stars on Google Maps
+
+---
+
 ## Lead Capture (Already Built)
 
 | Component | File | Status |
 |-----------|------|--------|
-| Landing page | `index.html` | Live |
-| Typeform waitlist | External (linked from landing page) | Live |
+| Landing page (EN) | `index.html` | Live |
+| Landing page (NL) | `nl.html` | Live |
+| Typeform waitlist | External (linked from landing pages) | Live |
 | Waitlist workflow | `workflows/8-typeform-waitlist-workflow.json` | Ready |
 | Waitlist schema | `database/airtable-schema.md` (Waitlist table) | Defined |
 | Ads copy | `marketing/ads-copy.md` | Ready |
 
-**Flow:** Ads → Landing page → Typeform → n8n webhook → Airtable Waitlist
+**Flow:** Ads → Landing page (nl.html) → Typeform → n8n webhook → Airtable Waitlist
 
 **Goal:** 50-60 applicants for market validation
 

@@ -283,6 +283,69 @@
 
 ---
 
+## Imperfect Language Ads (Dutch/English Side-by-Side)
+
+The insight: rushed, emotional, poorly-worded responses damage reputation. These ads mirror that problem.
+
+### Ad A: De nachtelijke reactie / The midnight response
+
+| Dutch | English |
+|-------|---------|
+| "Het was druk die avond!! Misschien had u meer geduld moeten hebben..." | "It was busy that night!! Maybe you should have been more patient..." |
+| Herkenbaar? Dat schreef je om 23:47 na een 1-ster review. | Recognizable? You wrote that at 11:47pm after a 1-star review. |
+| Toekomstige klanten lezen dat. En reserveren ergens anders. | Future customers read that. And book elsewhere. |
+| Professionele reacties. Geen nachtelijke frustratie. | Professional responses. No late-night frustration. |
+| [Meld Je Aan] | [Apply Now] |
+
+---
+
+### Ad B: Wat je bedoelde vs wat je schreef / What you meant vs what you wrote
+
+| Dutch | English |
+|-------|---------|
+| Je bedoelde: "We nemen uw feedback serieus." | You meant: "We take your feedback seriously." |
+| Je schreef: "We waren druk en u had gewoon pech." | You wrote: "We were busy and you just had bad luck." |
+| Toon is alles. Wij schrijven wat je WILDE zeggen. | Tone is everything. We write what you MEANT to say. |
+| [Meld Je Aan] | [Apply Now] |
+
+---
+
+### Ad C: Zij-aan-zij contrast / Side-by-side contrast
+
+| Dutch | English |
+|-------|---------|
+| **Jouw reactie (23:47, moe, gefrustreerd):** | **Your response (11:47pm, tired, frustrated):** |
+| "sorry maar het was heel druk we doen altijd ons best!!!" | "sorry but it was really busy we always do our best!!!" |
+| **Onze reactie:** | **Our response:** |
+| "Onze excuses voor de wachttijd. Dit voldoet niet aan onze standaard en we pakken dit direct aan." | "We apologize for the wait. This doesn't meet our standards and we're addressing it immediately." |
+| Welke wint de volgende klant? | Which one wins the next customer? |
+| [Bekijk of Je in Aanmerking Komt] | [See If You Qualify] |
+
+---
+
+### Ad D: De 30-seconden waarheid / The 30-second truth
+
+| Dutch | English |
+|-------|---------|
+| Een reactie geschreven in 30 seconden klinkt als een reactie geschreven in 30 seconden. | A response written in 30 seconds sounds like a response written in 30 seconds. |
+| Haastig. Defensief. Soms een tikfout. | Rushed. Defensive. Sometimes a typo. |
+| Toekomstige klanten zien het verschil. | Future customers see the difference. |
+| [Meld Je Aan] | [Apply Now] |
+
+---
+
+### Ad E: Grammatica = Vertrouwen / Grammar = Trust
+
+| Dutch | English |
+|-------|---------|
+| Tikfouten in je menukaart? Onprofessioneel. | Typos on your menu? Unprofessional. |
+| Tikfouten in je review reactie? Onbetrouwbaar. | Typos in your review response? Untrustworthy. |
+| Boze toon? Klanten weg. | Angry tone? Customers gone. |
+| Professionele reacties bouwen vertrouwen. Zelfs op slechte reviews. | Professional responses build trust. Even on bad reviews. |
+| [Meld Je Aan] | [Apply Now] |
+
+---
+
 ## Google Ads (Dutch)
 
 ### Headlines (30 char max)

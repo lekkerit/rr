@@ -67,6 +67,22 @@ Webhook → Extract Data → Claude AI → Post to Google → Update Airtable �
 
 ---
 
+## Lead Capture (Already Built)
+
+| Component | File | Status |
+|-----------|------|--------|
+| Landing page | `index.html` | Live |
+| Typeform waitlist | External (linked from landing page) | Live |
+| Waitlist workflow | `workflows/8-typeform-waitlist-workflow.json` | Ready |
+| Waitlist schema | `database/airtable-schema.md` (Waitlist table) | Defined |
+| Ads copy | `marketing/ads-copy.md` | Ready |
+
+**Flow:** Ads → Landing page → Typeform → n8n webhook → Airtable Waitlist
+
+**Goal:** 50-60 applicants for market validation
+
+---
+
 ## Setup Checklist
 
 - [ ] Google Cloud Console project with My Business API enabled

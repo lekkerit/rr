@@ -3,6 +3,8 @@
 **Campaign Goal:** 50-60 applicants for market validation
 **Offer:** 50% off founding member pricing (locked in forever)
 **Destination:** Typeform signup
+**Target Market:** Netherlands (Hilversum / Het Gooi)
+**Landing Page:** `nl.html`
 
 ---
 
@@ -146,19 +148,25 @@
 
 ---
 
-## Targeting (Facebook/Instagram)
+## Targeting (Facebook/Instagram) - Netherlands
 
-### Job Titles
-- Restaurant Owner
+### Location
+- **Primary:** Hilversum, Netherlands (15km radius)
+- **Secondary:** Het Gooi region (Bussum, Naarden, Laren, Blaricum, Huizen)
+- **Expand to:** Amsterdam, Utrecht (if needed)
+
+### Job Titles (Dutch)
+- Restauranteigenaar
 - Restaurant Manager
-- General Manager
-- F&B Manager
+- Horeca Ondernemer
+- Eigenaar
 
 ### Interests
+- Horeca
 - Restaurant management
-- Small business ownership
-- Food service industry
-- Google My Business
+- MKB / Klein bedrijf
+- Google Mijn Bedrijf
+- Thuisbezorgd, Iens (Dutch restaurant platforms)
 
 ### Behaviors
 - Small business owners
@@ -166,7 +174,136 @@
 
 ### Demographics
 - Age: 28-55
-- Location: United States (start with major metros)
+- Language: Dutch
+
+---
+
+## Dutch Ads (Facebook/Instagram)
+
+### Ad 1 - Pijn (Verloren Klanten)
+> Je restaurant heeft een 2,7 ster beoordeling.
+>
+> Elke week checken klanten Google Maps, zien dat cijfer, en reserveren ergens anders.
+>
+> Dat is geen review probleem. Dat is een omzet probleem.
+>
+> Wij reageren op elke review — goed én slecht — zodat toekomstige klanten een zaak zien die betrokken is.
+>
+> Beperkt aantal plekken in Hilversum. 50 founding members krijgen 50% korting voor altijd.
+>
+> [Meld Je Aan]
+
+---
+
+### Ad 2 - Stilte = Dood
+> Er staat een slechte review op je Google pagina.
+>
+> Je negeert het. Of je schrijft 's nachts iets defensiefs terug.
+>
+> Hoe dan ook: de volgende 50 mensen die zoeken op "restaurants bij mij in de buurt" zien het en scrollen door.
+>
+> Wij schrijven professionele, rustige reacties die toekomstige lezers overtuigen — ook als de review oneerlijk is.
+>
+> 50 founding restaurants. Beperkt per stad.
+>
+> [Nu Aanmelden]
+
+---
+
+### Ad 3 - Schaarste + Social Proof
+> 73% van de klanten reserveert niet bij een restaurant dat reviews negeert.
+>
+> Ketens hebben teams hiervoor. Jij niet.
+>
+> Wij geven kleine restaurants dezelfde professionele review-aanpak — zonder de bureau-prijzen.
+>
+> Founding members: 50% korting, voor altijd vastgelegd.
+>
+> We nemen maar een paar restaurants per stad aan.
+>
+> [Kijk of Je in Aanmerking Komt]
+
+---
+
+### Ad 4 - Hero (past bij landingspagina)
+**Headline:** Zet Slechte Google Reviews Om in Reserveringen
+
+> Er komt net een 2-ster review binnen.
+>
+> De meeste eigenaren negeren het. Of schieten terug met iets waar ze spijt van krijgen.
+>
+> Slimme eigenaren krijgen professionele reacties die boze klanten omzetten in tweede kansen — en toekomstige klanten laten zien dat de zaak betrokken is.
+>
+> We zoeken 50 founding restaurants met 50% korting.
+>
+> Beperkt aantal plekken per stad. Aanmeldingen worden handmatig beoordeeld.
+>
+> [Meld Je Aan voor Early Access]
+
+---
+
+## Dutch Video Script (Ad 4 - 30-45 sec)
+
+**HOOK (0-3 sec)**
+*[Tekst op scherm: "Zet Slechte Reviews Om in Reserveringen"]*
+
+"Er komt net een 2-ster review binnen op je Google pagina."
+
+**PROBLEEM (3-10 sec)**
+*[Telefoon notificatie van slechte review]*
+
+"De meeste restaurant eigenaren doen één van twee dingen: negeren... of 's nachts boos terugschrijven."
+
+"Beide kosten je klanten."
+
+**OPLOSSING (10-20 sec)**
+*[Professionele reactie wordt geschreven]*
+
+"Wat als elke review — goed of slecht — een professionele, doordachte reactie krijgt?"
+
+"Reacties die boze klanten omzetten in tweede kansen. En toekomstige klanten laten zien dat je echt betrokken bent."
+
+**BEWIJS (20-28 sec)**
+*[Rating gaat van 2,8 → 3,6]*
+
+"Restaurants die met ons werken zien hun rating stijgen binnen 90 dagen."
+
+"Omdat Google zaken beloont die reageren."
+
+**CTA (28-35 sec)**
+*[Tekst op scherm: "50 Founding Members - 50% Korting Voor Altijd"]*
+
+"We zoeken 50 founding restaurants voor vaste korting."
+
+"Beperkt aantal plekken in Hilversum. Tik hieronder om je aan te melden."
+
+**END CARD (35-45 sec)**
+*[Logo + Typeform link]*
+"Zet slechte reviews om in reserveringen."
+
+---
+
+## Google Ads (Dutch)
+
+### Headlines (30 char max)
+- Slechte Reviews = Minder Omzet
+- Zet Reviews Om in Gasten
+- Vastzit op 1-3 Sterren?
+- Reviews Kosten Je Klanten?
+- 50 Founding Member Plekken
+- Beperkt Aantal Per Stad
+
+### Descriptions (90 char max)
+- Slechte reviews kosten je 2+ tafels per week. Wij reageren professioneel. Meld je nu aan.
+- 1-3 sterren restaurant? Wij pakken je reviews aan zodat je rating stopt met pijn doen.
+- Professionele review reacties die reserveringen terugwinnen. Beperkte plekken. Meld je aan.
+
+### Keywords (Dutch)
+- slechte google reviews restaurant
+- reageren op google reviews
+- restaurant rating verbeteren
+- reputatie management horeca
+- google mijn bedrijf reviews
 
 ---
 

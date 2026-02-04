@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing - Review Recovery</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+        }
+        .header p {
+            font-size: 1.25rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .pricing-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin-bottom: 40px;
+        }
+        .pricing-card.featured {
+            border-color: #667eea;
+            transform: scale(1.02);
+        }
+        .plan-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+        }
+        .plan-price {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        .plan-period {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+        .plan-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+        .plan-features li {
+            padding: 8px 0;
+            color: #333;
+        }
+        .plan-features li:before {
+            content: '✓';
+            color: #48bb78;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .cta-button {
+            background: #667eea;
+            color: white;
+            padding: 16px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        .cta-button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+        .guarantee {
+            text-align: center;
+            margin-top: 40px;
+            color: #666;
+        }
+        .nav-back {
+            margin-bottom: 20px;
+        }
+        .nav-back a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .nav-back a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-back">
+            <a href="/">&larr; Back to Homepage</a>
+        </div>
+
+        <div class="header">
+            <h1>Simple, Growth-Focused Pricing</h1>
+            <p>Professional review management for successful restaurants who want to convert more reviews into reservations</p>
+        </div>
+
+        <div class="pricing-card featured">
+            <div class="plan-name">Professional Review Management</div>
+            <div class="plan-price">€349</div>
+            <div class="plan-period">per month</div>
+
+            <ul class="plan-features">
+                <li>Monitor all Google reviews automatically</li>
+                <li>Professional responses written by experts</li>
+                <li>Human oversight before posting</li>
+                <li>35% average increase in booking conversions</li>
+                <li>Monthly performance reports</li>
+                <li>Direct communication channel</li>
+                <li>Setup and onboarding included</li>
+            </ul>
+
+            <a href="tools/roi-calculator.html" class="cta-button">Calculate Your ROI</a>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <div style="background: #f8f9fa; padding: 30px; border-radius: 12px;">
+                <h3 style="margin-bottom: 1rem; color: #1a1a1a;">Perfect for 4.0-4.5⭐ restaurants who want to:</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px;">
+                    <div>📈 Increase reservations</div>
+                    <div>⏰ Save time on responses</div>
+                    <div>🎯 Convert browsers to bookers</div>
+                    <div>💰 Get measurable ROI</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="guarantee">
+            <p><strong>ROI Guarantee:</strong> See measurable results within 60 days or we'll work with you until you do.</p>
+        </div>
+    </div>
+</body>
+</html>

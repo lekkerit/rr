@@ -21,7 +21,7 @@
     },
     {
       "parameters": {
-        "url": "https://mybusinessbusinessinformation.googleapis.com/v1/accounts/{{ $env.GOOGLE_BUSINESS_ACCOUNT_ID }}/locations/{{ $env.GOOGLE_BUSINESS_LOCATION_ID }}/reviews",
+        "url": "=https://mybusiness.googleapis.com/v4/accounts/{{ $env.GOOGLE_BUSINESS_ACCOUNT_ID }}/locations/{{ $env.GOOGLE_BUSINESS_LOCATION_ID }}/reviews",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "googleOAuth2Api",
         "sendQuery": true,
@@ -30,10 +30,20 @@
             {
               "name": "pageSize",
               "value": "50"
+            },
+            {
+              "name": "orderBy",
+              "value": "updateTime desc"
             }
           ]
         },
-        "options": {}
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
       },
       "id": "2",
       "name": "Fetch Reviews from Google",
@@ -46,6 +56,18 @@
           "name": "Google My Business OAuth2"
         }
       }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "reviews",
+        "options": {}
+      },
+      "id": "3",
+      "name": "Split Reviews",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [650, 300],
+      "notes": "Google returns reviews nested in a { reviews: [...] } object — split into individual items"
     },
     {
       "parameters": {
@@ -68,11 +90,109 @@
         },
         "options": {}
       },
-      "id": "3",
+      "id": "4",
       "name": "Filter Unanswered",
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2,
-      "position": [650, 300]
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appvashRUw01RzXY7",
+          "mode": "list"
+        },
+        "table": {
+          "__rl": true,
+          "value": "Reviews",
+          "mode": "list"
+        },
+        "filterByFormula": "={google_review_id}='{{ $json.name }}'",
+        "options": {}
+      },
+      "id": "5",
+      "name": "Check Duplicate",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2,
+      "position": [1050, 300],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "airtable-pat",
+          "name": "Airtable Personal Access Token"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false
+          },
+          "conditions": [
+            {
+              "id": "is_new",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notExists"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "6",
+      "name": "Only New Reviews",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2,
+      "position": [1250, 300],
+      "notes": "Skip reviews already in Airtable"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "name": "google_review_id",
+              "value": "={{ $('Filter Unanswered').item.json.name }}",
+              "type": "string"
+            },
+            {
+              "name": "reviewer_name",
+              "value": "={{ $('Filter Unanswered').item.json.reviewer.displayName }}",
+              "type": "string"
+            },
+            {
+              "name": "rating",
+              "value": "={{ $('Filter Unanswered').item.json.starRating }}",
+              "type": "string"
+            },
+            {
+              "name": "review_text",
+              "value": "={{ $('Filter Unanswered').item.json.comment }}",
+              "type": "string"
+            },
+            {
+              "name": "review_date",
+              "value": "={{ $('Filter Unanswered').item.json.createTime }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7",
+      "name": "Prepare Review Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [1450, 300],
+      "notes": "Map Google review fields to Airtable column names"
     },
     {
       "parameters": {
@@ -91,21 +211,21 @@
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
-            "google_review_id": "={{ $json.name }}",
-            "reviewer_name": "={{ $json.reviewer.displayName }}",
-            "rating": "={{ $json.starRating }}",
-            "review_text": "={{ $json.comment }}",
-            "review_date": "={{ $json.createTime }}",
+            "google_review_id": "={{ $json.google_review_id }}",
+            "reviewer_name": "={{ $json.reviewer_name }}",
+            "rating": "={{ $json.rating }}",
+            "review_text": "={{ $json.review_text }}",
+            "review_date": "={{ $json.review_date }}",
             "response_posted": false
           }
         },
         "options": {}
       },
-      "id": "4",
+      "id": "8",
       "name": "Store in Airtable",
       "type": "n8n-nodes-base.airtable",
       "typeVersion": 2,
-      "position": [850, 300],
+      "position": [1650, 300],
       "credentials": {
         "airtableTokenApi": {
           "id": "airtable-pat",
@@ -115,40 +235,49 @@
     },
     {
       "parameters": {
-        "url": "{{ $env.N8N_WEBHOOK_URL || 'http://localhost:5678/webhook/generate-and-post' }}",
+        "url": "={{ $env.N8N_WEBHOOK_URL || 'https://lekkerit.app.n8n.cloud/webhook/generate-and-post' }}",
         "method": "POST",
         "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"review_id\": \"{{ $json.id }}\",\n  \"google_review_id\": \"{{ $json.fields.google_review_id }}\",\n  \"rating\": \"{{ $json.fields.rating }}\",\n  \"review_text\": \"{{ $json.fields.review_text }}\",\n  \"reviewer_name\": \"{{ $json.fields.reviewer_name }}\"\n}",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "9",
+      "name": "Trigger Response Generator",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1850, 300]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
             {
-              "name": "review_id",
-              "value": "={{ $json.id }}"
+              "name": "error",
+              "value": "={{ $json.error || 'Unknown error fetching reviews' }}",
+              "type": "string"
             },
             {
-              "name": "google_review_id",
-              "value": "={{ $json.fields.google_review_id }}"
-            },
-            {
-              "name": "rating",
-              "value": "={{ $json.fields.rating }}"
-            },
-            {
-              "name": "review_text",
-              "value": "={{ $json.fields.review_text }}"
-            },
-            {
-              "name": "reviewer_name",
-              "value": "={{ $json.fields.reviewer_name }}"
+              "name": "timestamp",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
             }
           ]
         },
         "options": {}
       },
-      "id": "5",
-      "name": "Trigger Response Generator",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [1050, 300]
+      "id": "10",
+      "name": "Log Error",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [650, 500],
+      "notes": "Error path: logs failures from Google API"
     }
   ],
   "connections": {
@@ -167,6 +296,17 @@
       "main": [
         [
           {
+            "node": "Split Reviews",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Reviews": {
+      "main": [
+        [
+          {
             "node": "Filter Unanswered",
             "type": "main",
             "index": 0
@@ -175,6 +315,39 @@
       ]
     },
     "Filter Unanswered": {
+      "main": [
+        [
+          {
+            "node": "Check Duplicate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Duplicate": {
+      "main": [
+        [
+          {
+            "node": "Only New Reviews",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Only New Reviews": {
+      "main": [
+        [
+          {
+            "node": "Prepare Review Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Review Data": {
       "main": [
         [
           {
@@ -201,5 +374,5 @@
     "executionOrder": "v1"
   },
   "tags": ["mvp"],
-  "versionId": "1"
+  "versionId": "2"
 }

@@ -57,8 +57,8 @@
     {
       "parameters": {
         "url": "https://api.anthropic.com/v1/messages",
-        "authentication": "predefinedCredentialType",
-        "nodeCredentialType": "anthropicApi",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
         "method": "POST",
         "sendHeaders": true,
         "headerParameters": {
@@ -71,8 +71,14 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"model\": \"claude-sonnet-4-20250514\",\n  \"max_tokens\": 200,\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"You are responding to a Google Maps review for a restaurant.\\n\\nReview:\\n- Rating: {{ $json.rating }}\\n- Text: \\\"{{ $json.review_text }}\\\"\\n- Reviewer: {{ $json.reviewer_name }}\\n\\nWrite a professional, friendly response that:\\n- Thanks the customer\\n- Addresses specific points they mentioned\\n- Is 50-100 words\\n- Sounds human, not robotic\\n\\nResponse:\"\n    }\n  ]\n}",
-        "options": {}
+        "jsonBody": "={\n  \"model\": \"claude-sonnet-4-20250514\",\n  \"max_tokens\": 200,\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"You are a professional review response specialist for a restaurant in the Netherlands.\\n\\nA customer left this Google Maps review:\\n- Rating: {{ $json.rating }} star(s)\\n- Review: \\\"{{ $json.review_text.replace(/\\\"/g, '\\\\\\\"') }}\\\"\\n- Reviewer: {{ $json.reviewer_name }}\\n\\nWrite a warm, professional response that:\\n- Thanks {{ $json.reviewer_name }} by name\\n- Addresses specific points they mentioned\\n- Encourages them to visit again or make a reservation\\n- Is 50-100 words maximum\\n- Sounds genuinely human, not templated\\n- If the rating is low (1-2 stars), acknowledge the concern and offer to make it right\\n\\nRespond ONLY with the review response text, no quotes or labels.\"\n    }\n  ]\n}",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
       },
       "id": "3",
       "name": "Generate with Claude",
@@ -80,11 +86,38 @@
       "typeVersion": 4.2,
       "position": [650, 300],
       "credentials": {
-        "anthropicApi": {
-          "id": "anthropic-claude",
-          "name": "Anthropic Claude API"
+        "httpHeaderAuth": {
+          "id": "anthropic-header-auth",
+          "name": "Anthropic API Key"
         }
       }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false
+          },
+          "conditions": [
+            {
+              "id": "has_content",
+              "leftValue": "={{ $json.content }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "exists"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "4",
+      "name": "AI Response OK?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [850, 300]
     },
     {
       "parameters": {
@@ -99,28 +132,54 @@
         },
         "options": {}
       },
-      "id": "4",
+      "id": "5",
       "name": "Extract Response",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.3,
-      "position": [850, 300]
+      "position": [1050, 200]
     },
     {
       "parameters": {
-        "url": "=https://mybusinessbusinessinformation.googleapis.com/v1/{{ $('Extract Data').item.json.google_review_id }}/reply",
+        "assignments": {
+          "assignments": [
+            {
+              "name": "response_text",
+              "value": "Thank you for your feedback! We truly appreciate you taking the time to share your experience with us. We hope to welcome you back again soon.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6",
+      "name": "Fallback Response",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [1050, 400],
+      "notes": "Generic fallback if Claude API fails"
+    },
+    {
+      "parameters": {
+        "url": "=https://mybusiness.googleapis.com/v4/{{ $('Extract Data').item.json.google_review_id }}/reply",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "googleOAuth2Api",
         "method": "PUT",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"comment\": \"{{ $json.response_text }}\"\n}",
-        "options": {}
+        "jsonBody": "={\n  \"comment\": {{ JSON.stringify($json.response_text) }}\n}",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
       },
-      "id": "5",
+      "id": "7",
       "name": "Post to Google",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1050, 300],
+      "position": [1250, 300],
       "credentials": {
         "googleOAuth2Api": {
           "id": "google-oauth2",
@@ -146,17 +205,17 @@
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
-            "response_text": "={{ $('Extract Response').item.json.response_text }}",
+            "response_text": "={{ $json.response_text || $('Extract Response').item.json.response_text || $('Fallback Response').item.json.response_text }}",
             "response_posted": true
           }
         },
         "options": {}
       },
-      "id": "6",
+      "id": "8",
       "name": "Update Airtable",
       "type": "n8n-nodes-base.airtable",
       "typeVersion": 2,
-      "position": [1250, 300],
+      "position": [1450, 300],
       "credentials": {
         "airtableTokenApi": {
           "id": "airtable-pat",
@@ -167,14 +226,14 @@
     {
       "parameters": {
         "respondWith": "json",
-        "responseBody": "={{ { \"success\": true, \"message\": \"Response posted\" } }}",
+        "responseBody": "={\n  \"success\": true,\n  \"message\": \"Response posted\",\n  \"review_id\": \"{{ $('Extract Data').item.json.review_id }}\"\n}",
         "options": {}
       },
-      "id": "7",
+      "id": "9",
       "name": "Respond OK",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
-      "position": [1450, 300]
+      "position": [1650, 300]
     }
   ],
   "connections": {
@@ -204,7 +263,25 @@
       "main": [
         [
           {
+            "node": "AI Response OK?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Response OK?": {
+      "main": [
+        [
+          {
             "node": "Extract Response",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Fallback Response",
             "type": "main",
             "index": 0
           }
@@ -212,6 +289,17 @@
       ]
     },
     "Extract Response": {
+      "main": [
+        [
+          {
+            "node": "Post to Google",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fallback Response": {
       "main": [
         [
           {
@@ -249,5 +337,5 @@
     "executionOrder": "v1"
   },
   "tags": ["mvp"],
-  "versionId": "1"
+  "versionId": "2"
 }

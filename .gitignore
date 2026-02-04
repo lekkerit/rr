@@ -15,6 +15,10 @@ credentials/
 *.pem
 config/secrets.json
 scripts/oauth-test/.env
+n8n-credentials.json
+n8n-credentials-actual.json
+.n8n/
+n8n-data/
 
 # Claude Code
 .claude/

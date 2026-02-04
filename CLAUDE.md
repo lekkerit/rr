@@ -2,17 +2,18 @@
 
 ## Project Overview
 
-Simple bot that monitors Google Business Profile reviews and auto-generates AI responses.
+**PIVOTED:** Professional review management system that helps successful restaurants (4.0-4.5★) convert more reviews into reservations through AI-generated responses.
+
+**Key Pivot:** From "fixing struggling restaurants" to "helping successful restaurants grow"
 
 ---
 
-## 🎯 Active Scope: MVP
+## 🎯 Active Scope: PIVOTED MVP
 
-**PRD:** `docs/prd-mvp.md`
-**Workflows:** `workflows/mvp-1-*.json`, `workflows/mvp-2-*.json`
-**Database:** `database/airtable-schema-mvp.md`
-
-> Full-featured PRD available at `docs/prd.md` (deferred scope)
+**Market Analysis:** `docs/review-recovery-pivot-analysis.md`
+**Target:** 4.0-4.5 star restaurants in Het Gooi region
+**Value Prop:** "Turn reviews into reservations" - €349/month
+**ROI:** +35% booking conversion rate through professional responses
 
 ---
 
@@ -67,11 +68,13 @@ Webhook → Extract Data → Claude AI → Post to Google → Update Airtable �
 
 ---
 
-## Target Market
+## Target Market (PIVOTED)
 
 **Country:** Netherlands
-**Initial City:** Hilversum (+ surrounding Gooi region)
-**Target:** Restaurants with 1-3 stars on Google Maps
+**Region:** Het Gooi (Hilversum, Bussum, Naarden, Laren, Huizen)
+**Target:** Successful restaurants with 4.0-4.5 stars on Google Maps
+**Market Size:** ~171 restaurants across the region
+**Pricing:** €349-549/month (growth-focused, not damage control)
 
 ---
 

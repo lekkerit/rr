@@ -21,7 +21,7 @@
     },
     {
       "parameters": {
-        "url": "https://mybusinessbusinessinformation.googleapis.com/v1/accounts/YOUR_ACCOUNT_ID/locations/YOUR_LOCATION_ID/reviews",
+        "url": "https://mybusinessbusinessinformation.googleapis.com/v1/accounts/{{ $env.GOOGLE_BUSINESS_ACCOUNT_ID }}/locations/{{ $env.GOOGLE_BUSINESS_LOCATION_ID }}/reviews",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "googleOAuth2Api",
         "sendQuery": true,
@@ -42,8 +42,8 @@
       "position": [450, 300],
       "credentials": {
         "googleOAuth2Api": {
-          "id": "YOUR_GOOGLE_OAUTH_CREDENTIALS",
-          "name": "Google OAuth2"
+          "id": "google-oauth2",
+          "name": "Google My Business OAuth2"
         }
       }
     },
@@ -80,7 +80,7 @@
         "operation": "create",
         "base": {
           "__rl": true,
-          "value": "YOUR_AIRTABLE_BASE_ID",
+          "value": "appvashRUw01RzXY7",
           "mode": "list"
         },
         "table": {
@@ -108,14 +108,14 @@
       "position": [850, 300],
       "credentials": {
         "airtableTokenApi": {
-          "id": "YOUR_AIRTABLE_CREDENTIALS",
-          "name": "Airtable"
+          "id": "airtable-pat",
+          "name": "Airtable Personal Access Token"
         }
       }
     },
     {
       "parameters": {
-        "url": "YOUR_N8N_INSTANCE/webhook/generate-and-post",
+        "url": "{{ $env.N8N_WEBHOOK_URL || 'http://localhost:5678/webhook/generate-and-post' }}",
         "method": "POST",
         "sendBody": true,
         "bodyParameters": {

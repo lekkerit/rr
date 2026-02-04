@@ -81,8 +81,8 @@
       "position": [650, 300],
       "credentials": {
         "anthropicApi": {
-          "id": "YOUR_ANTHROPIC_CREDENTIALS",
-          "name": "Anthropic API"
+          "id": "anthropic-claude",
+          "name": "Anthropic Claude API"
         }
       }
     },
@@ -123,8 +123,8 @@
       "position": [1050, 300],
       "credentials": {
         "googleOAuth2Api": {
-          "id": "YOUR_GOOGLE_OAUTH_CREDENTIALS",
-          "name": "Google OAuth2"
+          "id": "google-oauth2",
+          "name": "Google My Business OAuth2"
         }
       }
     },
@@ -134,7 +134,7 @@
         "operation": "update",
         "base": {
           "__rl": true,
-          "value": "YOUR_AIRTABLE_BASE_ID",
+          "value": "appvashRUw01RzXY7",
           "mode": "list"
         },
         "table": {
@@ -159,8 +159,8 @@
       "position": [1250, 300],
       "credentials": {
         "airtableTokenApi": {
-          "id": "YOUR_AIRTABLE_CREDENTIALS",
-          "name": "Airtable"
+          "id": "airtable-pat",
+          "name": "Airtable Personal Access Token"
         }
       }
     },

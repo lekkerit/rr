@@ -38,19 +38,27 @@
 
 ---
 
-## Workflows (2 total)
+## Workflows (3 active)
+
+All active workflows live in `workflows/`. Old full-scope workflows are in `workflows/archived/`.
 
 ### 1. Review Monitor (`mvp-1-review-monitor.json`)
 ```
-Weekly Cron → Fetch Google Reviews → Filter Unanswered → Store in Airtable → Trigger #2
+Weekly Cron → Fetch Google Reviews → Split Reviews → Filter Unanswered → Check Duplicate → Only New → Prepare Data → Store in Airtable → Trigger #2
 ```
-**Nodes:** 5
+**Nodes:** 10 | **API:** `mybusiness.googleapis.com/v4`
 
 ### 2. Response Generator & Poster (`mvp-2-response-generator-poster.json`)
 ```
-Webhook → Extract Data → Claude AI → Post to Google → Update Airtable → Done
+Webhook → Extract Data → Claude AI → AI OK? → [Extract Response | Fallback] → Post to Google → Update Airtable → Respond OK
 ```
-**Nodes:** 7
+**Nodes:** 9 | **Fallback:** Generic response if Claude fails
+
+### 3. Typeform Waitlist (`8-typeform-waitlist-workflow.json`)
+```
+Webhook (Typeform) → Transform Data → Create Airtable Record → Send Email → Respond
+```
+**Nodes:** 5
 
 ---
 
@@ -119,12 +127,17 @@ Webhook → Extract Data → Claude AI → Post to Google → Update Airtable �
 | `workflows/mvp-2-response-generator-poster.json` | n8n workflow #2 |
 | `database/airtable-schema-mvp.md` | Database setup |
 
-### Archived (Full Scope)
+### Archived (Full Scope — `workflows/archived/`)
 | File | Purpose |
 |------|---------|
 | `docs/prd.md` | Full PRD (deferred) |
-| `workflows/1-review-monitor-workflow.json` | Original workflow |
-| `workflows/2-response-generator-workflow.json` | Original workflow |
+| `workflows/archived/0-onboarding-workflow.json` | Original onboarding |
+| `workflows/archived/1-review-monitor-workflow.json` | Original review monitor |
+| `workflows/archived/2-response-generator-workflow.json` | Original response generator |
+| `workflows/archived/3-approval-handler-workflow.json` | Human approval (V2) |
+| `workflows/archived/4-post-scheduler-workflow.json` | Scheduled posting (V2) |
+| `workflows/archived/5-analytics-builder-workflow.json` | Analytics (V2) |
+| `workflows/archived/6-google-oauth-callback-UPDATED.json` | OAuth callback (V2) |
 | `database/airtable-schema.md` | Full schema |
 
 ---
@@ -144,13 +157,14 @@ curl -X POST https://api.anthropic.com/v1/messages \
 
 ## Next Steps
 
-1. Add Anthropic credentials to n8n
-2. Import `mvp-1-review-monitor.json` to n8n
-3. Import `mvp-2-response-generator-poster.json` to n8n
-4. Replace `YOUR_*` placeholders with real values
-5. Test end-to-end with one review
+1. Create Reviews table in Airtable (see Database section for fields)
+2. Add Anthropic credits at console.anthropic.com/settings/billing
+3. Import 3 active workflows to n8n (manually until first customer)
+4. Configure credentials in n8n (Google OAuth2, Anthropic, Airtable)
+5. Set n8n environment variables: `GOOGLE_BUSINESS_ACCOUNT_ID`, `GOOGLE_BUSINESS_LOCATION_ID`
+6. Test end-to-end with one review
 
 ---
 
-**Last Updated:** February 2, 2026
-**Active Scope:** MVP (2 workflows)
+**Last Updated:** February 4, 2026
+**Active Scope:** MVP (3 workflows)

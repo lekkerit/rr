@@ -7,7 +7,7 @@
   <meta name="description" content="Verhoog je reserveringen met 35% door professionele reacties op Google reviews. Voor succesvolle restaurants (4.0-4.5★) in Het Gooi." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -440,107 +440,173 @@
     }
 
     .stats-section {
-      padding: 40px 20px 60px;
+      padding: 60px 0 50px;
       background: #f8f9fa;
       text-align: center;
-    }
-
-    .stats-section-inner {
-      max-width: 1200px;
-      margin: 0 auto;
+      overflow: hidden;
     }
 
     .stats-section h2 {
       font-size: 2.25rem;
       font-weight: 700;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
       color: #1a1a1a;
       letter-spacing: -0.02em;
+      padding: 0 20px;
     }
 
-    .stats-section > .stats-section-inner > p {
-      font-size: 1.125rem;
-      color: #666;
-      margin-bottom: 3rem;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
+    .stats-section > p {
+      padding: 0 20px;
     }
 
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
-      margin: 2rem 0;
+    /* Reel */
+    .reel {
+      margin-top: 2.5rem;
+      overflow: hidden;
+      position: relative;
+      padding: 20px 0;
     }
 
-    .stat-card {
-      background: #fff;
-      padding: 32px;
-      border-radius: 12px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    .reel::before,
+    .reel::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 80px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .reel::before {
+      left: 0;
+      background: linear-gradient(to right, #f8f9fa 0%, transparent 100%);
+    }
+
+    .reel::after {
+      right: 0;
+      background: linear-gradient(to left, #f8f9fa 0%, transparent 100%);
+    }
+
+    .reel-track {
+      display: flex;
+      gap: 28px;
+      animation: reel-scroll 28s linear infinite;
+      width: max-content;
+    }
+
+    .reel-track:hover {
+      animation-play-state: paused;
+    }
+
+    @keyframes reel-scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .reel-card {
+      flex-shrink: 0;
+      width: 300px;
+      background: #fffef8;
+      border-radius: 4px;
+      box-shadow: 2px 4px 16px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transform: rotate(-0.8deg);
+      transition: transform 0.3s ease;
+    }
+
+    .reel-card:nth-child(even) {
+      transform: rotate(0.5deg);
+    }
+
+    .reel-card:hover {
+      transform: rotate(0deg) scale(1.03);
+    }
+
+    .reel-card-top {
+      background: #d4393a;
+      height: 6px;
+    }
+
+    .reel-card-body {
+      padding: 24px 22px 24px 50px;
+      position: relative;
+      background-image: linear-gradient(#c8dae8 1px, transparent 1px);
+      background-size: 100% 2em;
+      background-position: 0 0.85em;
+      font-family: 'Caveat', cursive;
       text-align: left;
+      min-height: 180px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
-    .stat-card-primary {
-      border-left: 4px solid #2d3748;
+    .reel-card-body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 36px;
+      bottom: 0;
+      width: 1.5px;
+      background: #d4393a;
+      opacity: 0.4;
     }
 
-    .stat-card-secondary {
-      border-left: 4px solid #38a169;
-    }
-
-    .stat-card-tertiary {
-      border-left: 4px solid #c05621;
-    }
-
-    .stat-number {
-      font-size: 3rem;
+    .reel-card-body .page-stat {
+      font-size: 3.2rem;
       font-weight: 700;
-      margin-bottom: 0.5rem;
+      color: #2d3748;
+      line-height: 1.2;
+      margin-bottom: 2px;
     }
 
-    .stat-number-primary {
+    .reel-card-body .page-label {
+      font-size: 1.5rem;
+      color: #444;
+      line-height: 2em;
+    }
+
+    .reel-card-body .page-source {
+      font-size: 1rem;
+      color: #aaa;
+    }
+
+    .reel-card-body .page-source::before {
+      content: '~ ';
+    }
+
+    /* Calculation card */
+    .pencil-calc {
+      font-size: 1.45rem;
+      color: #333;
+      line-height: 2em;
+    }
+
+    .pencil-calc .calc-line {
+      display: block;
+      white-space: nowrap;
+    }
+
+    .pencil-calc .calc-divider {
+      display: block;
+      border-bottom: 2px solid #333;
+      margin: 2px 0 6px;
+      opacity: 0.5;
+      width: 85%;
+    }
+
+    .pencil-calc .calc-result {
+      font-size: 1.6rem;
+      font-weight: 700;
       color: #2d3748;
     }
 
-    .stat-number-secondary {
-      color: #38a169;
-    }
-
-    .stat-number-tertiary {
-      color: #c05621;
-    }
-
-    .stat-label {
-      font-size: 1.125rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      color: #1a1a1a;
-    }
-
-    .stat-source {
-      font-size: 0.95rem;
-      color: #666;
-    }
-
-    .conclusion-box {
-      background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
-      color: white;
-      padding: 25px;
-      border-radius: 12px;
-      margin-top: 2rem;
-    }
-
-    .conclusion-box p:first-child {
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
-
-    .conclusion-box p:last-child {
-      font-size: 1.125rem;
-      margin: 0;
+    .pencil-calc .calc-underline {
+      display: block;
+      border-bottom: 3px double #2d3748;
+      margin-top: 2px;
+      width: 75%;
     }
 
     .carousel-section {
@@ -1077,35 +1143,87 @@
 <div class="image-break image-break-food image-break-sm"><div class="image-break-inner"></div></div>
 
 <div class="stats-section">
-  <div class="stats-section-inner">
-    <h2>Waarom Review Management Werkt</h2>
-    <p style="font-size: 1.125rem; color: #666; margin-bottom: 3rem; max-width: 700px; margin-left: auto; margin-right: auto;">
-      Wetenschappelijk bewezen impact op reserveringen
-    </p>
+  <h2>Waarom Review Management Werkt</h2>
+  <p style="font-size: 1.125rem; color: #666; margin-bottom: 0; max-width: 700px; margin-left: auto; margin-right: auto;">
+    Wetenschappelijk bewezen impact op reserveringen
+  </p>
 
-    <div class="stats-grid">
-      <div class="stat-card stat-card-primary">
-        <h3 class="stat-number stat-number-primary">87%</h3>
-        <p class="stat-label">van gasten vertrouwt online reviews</p>
-        <p class="stat-source">BrightLocal 2024</p>
+  <div class="reel">
+    <div class="reel-track">
+      <!-- Set 1 -->
+      <div class="reel-card">
+        <div class="reel-card-top"></div>
+        <div class="reel-card-body">
+          <div class="page-stat">87%</div>
+          <div class="page-label">van gasten vertrouwt online reviews</div>
+          <div class="page-source">BrightLocal 2024</div>
+        </div>
       </div>
-
-      <div class="stat-card stat-card-secondary">
-        <h3 class="stat-number stat-number-secondary">+35%</h3>
-        <p class="stat-label">meer conversies door reacties</p>
-        <p class="stat-source">Harvard Business School &bull; Direct ROI</p>
+      <div class="reel-card">
+        <div class="reel-card-top"></div>
+        <div class="reel-card-body">
+          <div class="page-stat">+35%</div>
+          <div class="page-label">meer conversies door reacties</div>
+          <div class="page-source">Harvard Business School</div>
+        </div>
       </div>
-
-      <div class="stat-card stat-card-tertiary">
-        <h3 class="stat-number stat-number-tertiary">7x</h3>
-        <p class="stat-label">meer views dan je website</p>
-        <p class="stat-source">Google My Business &bull; Waar klanten zijn</p>
+      <div class="reel-card">
+        <div class="reel-card-top"></div>
+        <div class="reel-card-body">
+          <div class="page-stat">7x</div>
+          <div class="page-label">meer views dan je website</div>
+          <div class="page-source">Google My Business</div>
+        </div>
       </div>
-    </div>
-
-    <div class="conclusion-box">
-      <p>De conclusie:</p>
-      <p>Professionele review responses = meer vertrouwen = meer reserveringen</p>
+      <div class="reel-card">
+        <div class="reel-card-top"></div>
+        <div class="reel-card-body">
+          <div class="pencil-calc">
+            <span class="calc-line">Goede reviews &nbsp; &#10003;</span>
+            <span class="calc-line">+ Slimme reacties &nbsp; &#10003;</span>
+            <span class="calc-divider"></span>
+            <span class="calc-line calc-result">= Volle tafels, elke avond</span>
+            <span class="calc-underline"></span>
+          </div>
+        </div>
+      </div>
+      <!-- Set 2 (duplicate for seamless loop) -->
+      <div class="reel-card">
+        <div class="reel-card-top"></div>
+        <div class="reel-card-body">
+          <div class="page-stat">87%</div>
+          <div class="page-label">van gasten vertrouwt online reviews</div>
+          <div class="page-source">BrightLocal 2024</div>
+        </div>
+      </div>
+      <div class="reel-card">
+        <div class="reel-card-top"></div>
+        <div class="reel-card-body">
+          <div class="page-stat">+35%</div>
+          <div class="page-label">meer conversies door reacties</div>
+          <div class="page-source">Harvard Business School</div>
+        </div>
+      </div>
+      <div class="reel-card">
+        <div class="reel-card-top"></div>
+        <div class="reel-card-body">
+          <div class="page-stat">7x</div>
+          <div class="page-label">meer views dan je website</div>
+          <div class="page-source">Google My Business</div>
+        </div>
+      </div>
+      <div class="reel-card">
+        <div class="reel-card-top"></div>
+        <div class="reel-card-body">
+          <div class="pencil-calc">
+            <span class="calc-line">Goede reviews &nbsp; &#10003;</span>
+            <span class="calc-line">+ Slimme reacties &nbsp; &#10003;</span>
+            <span class="calc-divider"></span>
+            <span class="calc-line calc-result">= Volle tafels, elke avond</span>
+            <span class="calc-underline"></span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

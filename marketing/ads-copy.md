@@ -45,7 +45,14 @@
 
 ---
 
-## Facebook/Instagram Ads
+## Facebook/Instagram Ads — ✅ Ready
+
+| Ad | Angle | CTA |
+|----|-------|-----|
+| Ad 1 | ROI focus — "€349 = €900 extra omzet" | Bereken Je ROI |
+| Ad 2 | Time-saving — "Geen tijd voor reviews?" | Gratis ROI Calculator |
+| Ad 3 | Competitive edge — "Waarom reserveert iedereen bij je concurrent?" | Zie Het Verschil |
+| Ad 4 | Social proof — "40% meer reserveringen" | Bereken Je ROI |
 
 ### Ad 1 - ROI Focus
 > Twee restaurants in Hilversum.
@@ -330,5 +337,5 @@ Harvard onderzoek toont aan: restaurants met professionele review responses krij
 
 ---
 
-**Updated:** February 4, 2026
+**Updated:** February 5, 2026
 **Strategy:** Pivoted to growth-focused 4.0-4.5⭐ restaurant market

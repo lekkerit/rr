@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Get More Bookings Through Professional Review Responses | Netherlands</title>
-  <meta name="description" content="Increase bookings by 35% with professional Google review responses. For successful restaurants (4.0-4.5⭐) in the Netherlands." />
+  <meta name="description" content="Increase bookings by 35% with professional Google review responses. For successful restaurants (4.0-4.5★) in the Netherlands." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -14,16 +14,15 @@
       padding: 0;
       box-sizing: border-box;
     }
-    
-    body { 
+
+    body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      line-height: 1.6; 
+      line-height: 1.6;
       color: #333;
       background: #fff;
       padding-top: 70px;
     }
-    
-    /* Navigation Bar */
+
     .navbar {
       position: fixed;
       top: 0;
@@ -31,11 +30,11 @@
       right: 0;
       background: rgba(255, 255, 255, 0.98);
       backdrop-filter: blur(10px);
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
       z-index: 1000;
       padding: 0 20px;
     }
-    
+
     .nav-container {
       max-width: 1200px;
       margin: 0 auto;
@@ -44,21 +43,21 @@
       align-items: center;
       height: 70px;
     }
-    
+
     .nav-logo {
       font-size: 1.25rem;
       font-weight: 700;
-      color: #667eea;
+      color: #2d3748;
       text-decoration: none;
     }
-    
+
     .nav-menu {
       display: flex;
       list-style: none;
       gap: 30px;
       align-items: center;
     }
-    
+
     .nav-menu a {
       text-decoration: none;
       color: #333;
@@ -66,24 +65,38 @@
       font-size: 0.95rem;
       transition: color 0.3s ease;
     }
-    
+
     .nav-menu a:hover {
-      color: #667eea;
+      color: #2d3748;
     }
-    
+
     .nav-cta {
-      background: #667eea;
+      background: #2d3748;
       color: #fff !important;
       padding: 10px 24px;
-      border-radius: 6px;
+      border-radius: 9999px;
       transition: all 0.3s ease;
     }
-    
+
     .nav-cta:hover {
-      background: #5568d3;
+      background: #1a202c;
       transform: translateY(-1px);
     }
-    
+
+    .lang-switch {
+      font-size: 0.85rem;
+      color: #2d3748;
+      text-decoration: none;
+      border: 1px solid #2d3748;
+      padding: 5px 10px;
+      border-radius: 9999px;
+    }
+
+    .lang-switch:hover {
+      background: #2d3748;
+      color: #fff;
+    }
+
     .menu-toggle {
       display: none;
       background: none;
@@ -91,94 +104,90 @@
       font-size: 1.5rem;
       color: #333;
       cursor: pointer;
+      line-height: 1;
     }
-    
-    .hero { 
-      background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%),
-                  url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><pattern id="reviews" x="0" y="0" width="300" height="200" patternUnits="userSpaceOnUse"><rect x="10" y="10" width="280" height="80" rx="8" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/><circle cx="30" cy="30" r="12" fill="rgba(255,255,255,0.1)"/><rect x="50" y="25" width="100" height="8" rx="4" fill="rgba(255,255,255,0.08)"/><rect x="50" y="40" width="150" height="6" rx="3" fill="rgba(255,255,255,0.06)"/><text x="20" y="70" font-family="Arial" font-size="20" fill="rgba(255,200,100,0.3)">★★★</text></pattern></defs><rect width="1200" height="800" fill="url(%23reviews)"/></svg>');
-      background-size: cover, 600px 400px;
-      background-position: center;
+
+    .hero {
+      background: url('assets/images/hero-restaurant.jpg') center/cover no-repeat;
       color: #fff;
       text-align: center;
-      padding: 80px 20px 60px;
+      padding: 100px 20px 80px;
       position: relative;
       overflow: hidden;
     }
-    
+
     .hero::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: 
-        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(255,255,255,0.08) 0%, transparent 50%);
+      inset: 0;
+      background: rgba(26, 32, 44, 0.82);
     }
-    
+
     .hero-content {
-      max-width: 800px;
+      max-width: 720px;
       margin: 0 auto;
       position: relative;
       z-index: 1;
     }
-    
-    .hero h1 { 
-      font-size: 3rem;
+
+    .hero h1 {
+      font-size: 2.75rem;
       font-weight: 700;
       margin-bottom: 1rem;
-      line-height: 1.2;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      line-height: 1.15;
+      letter-spacing: -0.025em;
     }
-    
-    .hero h2 { 
-      font-size: 1.5rem;
+
+    .hero h2 {
+      font-size: 1.35rem;
       font-weight: 400;
       margin-bottom: 1.5rem;
-      opacity: 0.95;
+      opacity: 0.92;
     }
-    
-    .hero p { 
-      font-size: 1.125rem;
-      margin-bottom: 2rem;
-      opacity: 0.9;
+
+    .hero p {
+      font-size: 1.05rem;
+      margin-bottom: 2.5rem;
+      opacity: 0.85;
+      max-width: 560px;
+      margin-left: auto;
+      margin-right: auto;
     }
-    
-    .btn { 
+
+    .btn {
       display: inline-block;
       padding: 16px 40px;
       font-size: 1.125rem;
       font-weight: 600;
       text-decoration: none;
-      border-radius: 8px;
+      border-radius: 9999px;
       transition: all 0.3s ease;
       cursor: pointer;
     }
-    
+
     .btn-primary {
       background: #fff;
-      color: #667eea;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      color: #2d3748;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
     }
-    
+
     .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.18);
     }
-    
+
     .btn-secondary {
-      background: #667eea;
+      background: #2d3748;
       color: #fff;
-      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
     }
-    
+
     .btn-secondary:hover {
-      background: #5568d3;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+      background: #1a202c;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.18);
     }
-    
+
     .scarcity-text {
       display: block;
       margin-top: 1rem;
@@ -186,87 +195,103 @@
       opacity: 0.85;
       font-weight: 500;
     }
-    
-    section { 
-      padding: 50px 20px;
-      max-width: 1200px;
+
+    section {
+      padding: 70px 20px;
+      max-width: 1100px;
       margin: 0 auto;
     }
-    
+
     section h2 {
-      font-size: 2.5rem;
+      font-size: 2.25rem;
       font-weight: 700;
-      margin-bottom: 0.75rem;
+      margin-bottom: 1rem;
       text-align: center;
       color: #1a1a1a;
+      letter-spacing: -0.025em;
     }
-    
+
     section > p {
       text-align: center;
-      font-size: 1.125rem;
-      color: #666;
-      margin-bottom: 2rem;
-      max-width: 700px;
+      font-size: 1.05rem;
+      color: #718096;
+      margin-bottom: 2.5rem;
+      max-width: 620px;
       margin-left: auto;
       margin-right: auto;
+      line-height: 1.7;
     }
-    
-    .grid { 
+
+    .grid {
       display: grid;
       gap: 25px;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       margin-top: 2rem;
     }
-    
-    .card { 
+
+    .card {
       background: #fff;
-      border: 1px solid #e5e5e5;
-      padding: 25px;
+      border: 1px solid #edf0f3;
+      padding: 30px;
       border-radius: 12px;
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      transition: box-shadow 0.3s ease;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
     }
-    
+
     .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 24px rgba(0,0,0,0.1);
-      border-color: #667eea;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.07);
     }
-    
+
     .card-icon {
-      font-size: 2.5rem;
+      width: 64px;
+      height: 64px;
+      background: #f0f0f0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       margin-bottom: 0.75rem;
     }
-    
+
+    .card-icon svg {
+      width: 28px;
+      height: 28px;
+      stroke: #2d3748;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
     .card h3 {
       font-size: 1.25rem;
       font-weight: 600;
       margin-bottom: 0.5rem;
       color: #1a1a1a;
     }
-    
+
     .card p {
       color: #666;
       font-size: 1rem;
       line-height: 1.6;
     }
-    
+
     .persona-card {
       position: relative;
       padding-left: 50px;
     }
-    
+
     .persona-card::before {
-      content: '"';
+      content: '\201C';
       position: absolute;
       left: 10px;
       top: 20px;
       font-size: 4rem;
-      color: #667eea;
+      color: #2d3748;
       opacity: 0.2;
       line-height: 1;
     }
-    
+
     .persona-quote {
       font-style: italic;
       color: #555;
@@ -274,30 +299,30 @@
       font-size: 1rem;
       line-height: 1.6;
     }
-    
+
     .persona-author {
       font-size: 0.9rem;
-      color: #667eea;
+      color: #2d3748;
       font-weight: 600;
       font-style: normal;
     }
-    
+
     .problem-section {
       background: #f8f9fa;
-      padding: 50px 20px;
+      padding: 70px 20px;
     }
-    
+
     .problem-section .card {
       background: #fff;
       text-align: left;
       padding: 30px 25px;
     }
-    
+
     .review-examples {
       background: linear-gradient(to bottom, #fff 0%, #f8f9fa 100%);
       padding: 50px 20px;
     }
-    
+
     .review-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -305,16 +330,16 @@
       max-width: 1200px;
       margin: 2rem auto 0;
     }
-    
+
     .review-card {
       background: #fff;
       border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      border: 1px solid #e5e5e5;
+      padding: 24px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      border: 1px solid #edf0f3;
       position: relative;
     }
-    
+
     .review-card::before {
       content: '';
       position: absolute;
@@ -324,26 +349,26 @@
       height: 100%;
       border-radius: 12px 0 0 12px;
     }
-    
+
     .review-card.bad::before {
-      background: #ff4444;
+      background: #e53e3e;
     }
-    
+
     .review-card.good::before {
-      background: #00C851;
+      background: #38a169;
     }
-    
+
     .review-header {
       display: flex;
       align-items: center;
       margin-bottom: 10px;
     }
-    
+
     .review-avatar {
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #667eea, #764ba2);
+      background: linear-gradient(135deg, #2d3748, #4a5568);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -351,19 +376,19 @@
       font-weight: 600;
       margin-right: 12px;
     }
-    
+
     .review-info h4 {
       font-size: 0.95rem;
       font-weight: 600;
       margin-bottom: 2px;
     }
-    
+
     .review-stars {
       color: #FFA000;
       font-size: 0.9rem;
       letter-spacing: 2px;
     }
-    
+
     .review-text {
       font-size: 0.95rem;
       color: #555;
@@ -371,64 +396,187 @@
       margin-bottom: 12px;
       font-style: italic;
     }
-    
+
     .review-response {
       background: #f8f9fa;
       padding: 14px;
       border-radius: 8px;
-      border-left: 3px solid #667eea;
+      border-left: 3px solid #2d3748;
       margin-top: 10px;
     }
-    
+
     .response-label {
       font-size: 0.8rem;
       font-weight: 600;
-      color: #667eea;
+      color: #2d3748;
       text-transform: uppercase;
       margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
-    
+
+    .response-label svg {
+      width: 16px;
+      height: 16px;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+
     .response-text {
       font-size: 0.9rem;
       color: #333;
       line-height: 1.5;
     }
-    
+
+    .stats-section {
+      padding: 70px 20px;
+      background: #f8f9fa;
+      text-align: center;
+    }
+
+    .stats-section-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .stats-section h2 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #1a1a1a;
+      letter-spacing: -0.02em;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      margin: 2rem 0;
+    }
+
+    .stat-card {
+      background: #fff;
+      padding: 32px;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      text-align: left;
+    }
+
+    .stat-card-primary {
+      border-left: 4px solid #2d3748;
+    }
+
+    .stat-card-secondary {
+      border-left: 4px solid #38a169;
+    }
+
+    .stat-card-tertiary {
+      border-left: 4px solid #c05621;
+    }
+
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-number-primary {
+      color: #2d3748;
+    }
+
+    .stat-number-secondary {
+      color: #38a169;
+    }
+
+    .stat-number-tertiary {
+      color: #c05621;
+    }
+
+    .stat-label {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #1a1a1a;
+    }
+
+    .stat-source {
+      font-size: 0.95rem;
+      color: #666;
+    }
+
+    .conclusion-box {
+      background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+      color: white;
+      padding: 25px;
+      border-radius: 12px;
+      margin-top: 2rem;
+    }
+
+    .conclusion-box p:first-child {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .conclusion-box p:last-child {
+      font-size: 1.125rem;
+      margin: 0;
+    }
+
     .carousel-section {
-      padding: 50px 20px;
+      padding: 70px 20px;
       background: #fff;
     }
-    
+
     .carousel-container {
       position: relative;
       max-width: 800px;
       margin: 2rem auto 0;
       overflow: hidden;
     }
-    
+
     .carousel-wrapper {
       display: flex;
       transition: transform 0.5s ease-in-out;
     }
-    
+
     .carousel-slide {
       min-width: 100%;
       padding: 30px;
       text-align: center;
     }
-    
+
     .carousel-slide .card-icon {
-      font-size: 4rem;
-      margin-bottom: 1rem;
+      width: 72px;
+      height: 72px;
+      background: #f0f0f0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
     }
-    
+
+    .carousel-slide .card-icon svg {
+      width: 32px;
+      height: 32px;
+      stroke: #2d3748;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
     .carousel-slide h3 {
       font-size: 1.75rem;
       font-weight: 700;
       margin-bottom: 0.75rem;
       color: #1a1a1a;
     }
-    
+
     .carousel-slide p {
       font-size: 1.125rem;
       color: #666;
@@ -436,14 +584,14 @@
       max-width: 600px;
       margin: 0 auto;
     }
-    
+
     .carousel-nav {
       display: flex;
       justify-content: center;
       gap: 10px;
       margin-top: 1.5rem;
     }
-    
+
     .carousel-dot {
       width: 12px;
       height: 12px;
@@ -454,18 +602,18 @@
       transition: all 0.3s ease;
       padding: 0;
     }
-    
+
     .carousel-dot.active {
-      background: #667eea;
+      background: #2d3748;
       width: 30px;
       border-radius: 6px;
     }
-    
+
     .carousel-arrow {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      background: rgba(102, 126, 234, 0.9);
+      background: rgba(45, 55, 72, 0.9);
       color: #fff;
       border: none;
       width: 45px;
@@ -479,26 +627,26 @@
       transition: all 0.3s ease;
       z-index: 10;
     }
-    
+
     .carousel-arrow:hover {
-      background: #667eea;
+      background: #2d3748;
       transform: translateY(-50%) scale(1.1);
     }
-    
+
     .carousel-arrow.prev {
       left: 10px;
     }
-    
+
     .carousel-arrow.next {
       right: 10px;
     }
-    
+
     .who-section ul {
       list-style: none;
       max-width: 600px;
       margin: 1.5rem auto;
     }
-    
+
     .who-section li {
       padding: 18px 18px 18px 55px;
       margin-bottom: 12px;
@@ -508,22 +656,22 @@
       font-size: 1.125rem;
       transition: all 0.3s ease;
     }
-    
+
     .who-section li:hover {
-      background: #667eea;
+      background: #2d3748;
       color: #fff;
       transform: translateX(5px);
     }
-    
+
     .who-section li::before {
-      content: '✓';
+      content: '\2713';
       position: absolute;
       left: 18px;
       top: 50%;
       transform: translateY(-50%);
       width: 24px;
       height: 24px;
-      background: #667eea;
+      background: #2d3748;
       color: #fff;
       border-radius: 50%;
       display: flex;
@@ -532,65 +680,54 @@
       font-weight: bold;
       font-size: 14px;
     }
-    
+
     .who-section li:hover::before {
       background: #fff;
-      color: #667eea;
+      color: #2d3748;
     }
-    
+
     .scarcity-section {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
       color: #fff;
       text-align: center;
-      padding: 50px 20px;
+      padding: 60px 20px;
       position: relative;
       overflow: hidden;
     }
-    
-    .scarcity-section::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>');
-      opacity: 0.2;
-    }
-    
+
     .scarcity-content {
       max-width: 700px;
       margin: 0 auto;
       position: relative;
       z-index: 1;
     }
-    
+
     .scarcity-section h2 {
       color: #fff;
       margin-bottom: 1rem;
     }
-    
+
     .scarcity-section p {
       font-size: 1.25rem;
       opacity: 0.95;
       margin-bottom: 0.75rem;
     }
-    
+
     .cta-section {
       text-align: center;
-      padding: 60px 20px;
+      padding: 70px 20px;
       background: #f8f9fa;
     }
-    
+
     .cta-section h2 {
       margin-bottom: 0.75rem;
     }
-    
+
     .cta-section > p {
       color: #666;
       margin-bottom: 2rem;
     }
-    
+
     .stats {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -598,32 +735,70 @@
       margin: 2rem 0;
       text-align: center;
     }
-    
+
     .stat-item h3 {
       font-size: 3rem;
       font-weight: 700;
-      color: #667eea;
+      color: #2d3748;
       margin-bottom: 0.5rem;
     }
-    
+
     .stat-item p {
       font-size: 1rem;
       color: #666;
     }
-    
+
+    .footer {
+      text-align: center;
+      padding: 50px 20px 30px;
+      background: #1a1a1a;
+      color: rgba(255,255,255,0.7);
+      font-size: 0.875rem;
+      line-height: 1.8;
+    }
+
+    .footer-inner {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .footer-brand {
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .footer-tagline {
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .footer-legal {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.5);
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .footer-copyright {
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.4);
+    }
+
     @media (max-width: 768px) {
       body {
         padding-top: 60px;
       }
-      
+
       .nav-container {
         height: 60px;
       }
-      
+
       .menu-toggle {
         display: block;
       }
-      
+
       .nav-menu {
         position: absolute;
         top: 60px;
@@ -636,58 +811,62 @@
         display: none;
         gap: 15px;
       }
-      
+
       .nav-menu.active {
         display: flex;
       }
-      
+
+      .hero {
+        padding: 70px 20px 50px;
+      }
+
       .hero h1 {
         font-size: 2rem;
       }
-      
+
       .hero h2 {
-        font-size: 1.25rem;
+        font-size: 1.2rem;
       }
-      
+
       section {
-        padding: 40px 20px;
+        padding: 50px 20px;
       }
-      
+
       section h2 {
-        font-size: 2rem;
+        font-size: 1.75rem;
       }
-      
+
       .grid {
         grid-template-columns: 1fr;
       }
-      
+
       .review-grid {
         grid-template-columns: 1fr;
       }
-      
+
       .who-section li {
         padding-left: 50px;
         font-size: 1rem;
       }
-      
+
       .carousel-arrow {
         width: 35px;
         height: 35px;
         font-size: 1rem;
       }
-      
+
       .carousel-arrow.prev {
         left: 5px;
       }
-      
+
       .carousel-arrow.next {
         right: 5px;
       }
     }
-    
+
     html {
       scroll-behavior: smooth;
-      scroll-padding-top: 80px; /* Offset for fixed navbar */
+      scroll-padding-top: 80px;
     }
   </style>
 </head>
@@ -696,15 +875,17 @@
 <nav class="navbar">
   <div class="nav-container">
     <a href="#" class="nav-logo">Review Recovery</a>
-    
-    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-    
+
+    <button class="menu-toggle" onclick="toggleMenu()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+
     <ul class="nav-menu" id="navMenu">
       <li><a href="#difference">See Results</a></li>
       <li><a href="#problem">The Problem</a></li>
       <li><a href="#solution">Solution</a></li>
       <li><a href="#who">Who It's For</a></li>
-      <li><a href="nl.html" style="font-size: 0.85rem; color: #667eea; border: 1px solid #667eea; padding: 5px 10px; border-radius: 4px;">NL</a></li>
+      <li><a href="nl.html" class="lang-switch">NL</a></li>
       <li><a href="#apply" class="nav-cta">Apply Now</a></li>
     </ul>
   </div>
@@ -715,125 +896,137 @@
     <h1>More Bookings From Every Google Review</h1>
     <h2>Increase conversions by 35% with professional responses</h2>
     <p>
-      For successful restaurants (4.0-4.5⭐) who want to convert every review into a booking opportunity.
+      For successful restaurants (4.0-4.5&#9733;) who want to convert every review into a booking opportunity.
     </p>
     <a href="tools/roi-calculator.html" class="btn btn-primary">Calculate Your ROI</a>
     <span class="scarcity-text">
-      For growing restaurants · €349/month
+      For growing restaurants &middot; &euro;349/month
     </span>
   </div>
 </div>
 
 <section class="review-examples" id="difference">
   <h2>From Review to Booking</h2>
-  <p>Professional responses convert browsers into bookers — even on neutral reviews</p>
-  
+  <p>Professional responses convert browsers into bookers &mdash; even on neutral reviews</p>
+
   <div class="review-grid">
     <div class="review-card bad">
       <div class="review-header">
         <div class="review-avatar">JD</div>
         <div class="review-info">
           <h4>John D.</h4>
-          <div class="review-stars">★★☆☆☆</div>
+          <div class="review-stars">&#9733;&#9733;&#9734;&#9734;&#9734;</div>
         </div>
       </div>
       <div class="review-text">
         "Waited 45 minutes for cold food. Server was rude. Never coming back."
       </div>
       <div class="review-response">
-        <div class="response-label">❌ Typical Owner Response</div>
+        <div class="response-label">
+          <svg viewBox="0 0 24 24" stroke="#e53e3e"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+          Typical Owner Response
+        </div>
         <div class="response-text">
           "We were busy that night! Maybe you should have been more patient. We have plenty of happy customers."
         </div>
       </div>
     </div>
-    
+
     <div class="review-card good">
       <div class="review-header">
         <div class="review-avatar">JD</div>
         <div class="review-info">
           <h4>John D.</h4>
-          <div class="review-stars">★★☆☆☆</div>
+          <div class="review-stars">&#9733;&#9733;&#9734;&#9734;&#9734;</div>
         </div>
       </div>
       <div class="review-text">
         "Waited 45 minutes for cold food. Server was rude. Never coming back."
       </div>
       <div class="review-response">
-        <div class="response-label">✅ Our Professional Response</div>
+        <div class="response-label">
+          <svg viewBox="0 0 24 24" stroke="#38a169"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          Our Professional Response
+        </div>
         <div class="response-text">
           "We sincerely apologize for this experience. This doesn't reflect our standards. We've addressed the service issues and would welcome the chance to make it right. Please contact us directly."
         </div>
       </div>
     </div>
   </div>
-  
-  <p style="margin-top: 2rem; color: #667eea; font-weight: 600;">
-    Future customers see both reviews — which response builds trust?
+
+  <p style="margin-top: 2rem; color: #2d3748; font-weight: 600;">
+    Future customers see both reviews &mdash; which response builds trust?
   </p>
 </section>
 
-<section style="padding: 60px 20px; background: #f8f9fa; text-align: center;">
-  <div style="max-width: 1200px; margin: 0 auto;">
-    <h2 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; color: #1a1a1a;">Why Review Management Works</h2>
+<div class="stats-section">
+  <div class="stats-section-inner">
+    <h2>Why Review Management Works</h2>
     <p style="font-size: 1.125rem; color: #666; margin-bottom: 3rem; max-width: 700px; margin-left: auto; margin-right: auto;">
       Scientifically proven impact on restaurant bookings
     </p>
 
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin: 2rem 0;">
-      <div style="background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-left: 4px solid #667eea;">
-        <h3 style="font-size: 3rem; font-weight: 700; color: #667eea; margin-bottom: 0.5rem;">87%</h3>
-        <p style="font-size: 1.125rem; font-weight: 600; margin-bottom: 0.5rem; color: #1a1a1a;">of diners trust online reviews</p>
-        <p style="font-size: 0.95rem; color: #666;">BrightLocal 2024 • Social proof impact</p>
+    <div class="stats-grid">
+      <div class="stat-card stat-card-primary">
+        <h3 class="stat-number stat-number-primary">87%</h3>
+        <p class="stat-label">of diners trust online reviews</p>
+        <p class="stat-source">BrightLocal 2024 &bull; Social proof impact</p>
       </div>
 
-      <div style="background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-left: 4px solid #48bb78;">
-        <h3 style="font-size: 3rem; font-weight: 700; color: #48bb78; margin-bottom: 0.5rem;">+35%</h3>
-        <p style="font-size: 1.125rem; font-weight: 600; margin-bottom: 0.5rem; color: #1a1a1a;">more conversions from responses</p>
-        <p style="font-size: 0.95rem; color: #666;">Harvard Business School • Direct ROI</p>
+      <div class="stat-card stat-card-secondary">
+        <h3 class="stat-number stat-number-secondary">+35%</h3>
+        <p class="stat-label">more conversions from responses</p>
+        <p class="stat-source">Harvard Business School &bull; Direct ROI</p>
       </div>
 
-      <div style="background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-left: 4px solid #ed8936;">
-        <h3 style="font-size: 3rem; font-weight: 700; color: #ed8936; margin-bottom: 0.5rem;">7x</h3>
-        <p style="font-size: 1.125rem; font-weight: 600; margin-bottom: 0.5rem; color: #1a1a1a;">more views than your website</p>
-        <p style="font-size: 0.95rem; color: #666;">Google My Business • Where customers are</p>
+      <div class="stat-card stat-card-tertiary">
+        <h3 class="stat-number stat-number-tertiary">7x</h3>
+        <p class="stat-label">more views than your website</p>
+        <p class="stat-source">Google My Business &bull; Where customers are</p>
       </div>
     </div>
 
-    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 25px; border-radius: 12px; margin-top: 2rem;">
-      <p style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem;">The bottom line:</p>
-      <p style="font-size: 1.125rem; margin: 0;">Professional review responses = more trust = more bookings</p>
+    <div class="conclusion-box">
+      <p>The bottom line:</p>
+      <p>Professional review responses = more trust = more bookings</p>
     </div>
   </div>
-</section>
+</div>
 
 <section class="problem-section" id="problem">
   <h2>Every Review Is a Booking Opportunity</h2>
   <p>But only if you give the right response at the right moment</p>
   <div class="grid">
     <div class="card persona-card">
-      <div class="card-icon">👥</div>
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
       <h3>Missed Opportunities</h3>
       <p class="persona-quote">
-        "We have 4.2 stars but never respond to reviews. Other restaurants nearby get more bookings — they professionally reply to every review."
+        "We have 4.2 stars but never respond to reviews. Other restaurants nearby get more bookings &mdash; they professionally reply to every review."
       </p>
-      <p class="persona-author">— Marco, Italian Restaurant Owner, Amsterdam</p>
+      <p class="persona-author">&mdash; Marco, Italian Restaurant Owner, Amsterdam</p>
     </div>
     <div class="card persona-card">
-      <div class="card-icon">🤐</div>
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="17" y1="8" x2="23" y2="8"/></svg>
+      </div>
       <h3>Silence Hurts</h3>
       <p class="persona-quote">
         "I read a bad review from 3 weeks ago. No response from the owner. If they don't care enough to reply, why would they care about my experience?"
       </p>
-      <p class="persona-author">— Lisa, Potential Customer</p>
+      <p class="persona-author">&mdash; Lisa, Potential Customer</p>
     </div>
     <div class="card persona-card">
-      <div class="card-icon">😤</div>
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
       <h3>Bad Responses</h3>
       <p class="persona-quote">
         "I got angry at a 1-star review and told them off. Now that defensive reply has more views than my menu. I made it worse."
       </p>
-      <p class="persona-author">— David, Bistro Owner, Utrecht</p>
+      <p class="persona-author">&mdash; David, Bistro Owner, Utrecht</p>
     </div>
   </div>
 </section>
@@ -841,37 +1034,45 @@
 <section class="carousel-section" id="solution">
   <h2>What We Do</h2>
   <p>Professional review management that recovers your reputation</p>
-  
+
   <div class="carousel-container">
-    <button class="carousel-arrow prev" onclick="moveCarousel(-1)">‹</button>
-    <button class="carousel-arrow next" onclick="moveCarousel(1)">›</button>
-    
+    <button class="carousel-arrow prev" onclick="moveCarousel(-1)">&#8249;</button>
+    <button class="carousel-arrow next" onclick="moveCarousel(1)">&#8250;</button>
+
     <div class="carousel-wrapper" id="carouselWrapper">
       <div class="carousel-slide">
-        <div class="card-icon">🔍</div>
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
         <h3>Monitor Reviews</h3>
         <p>We track all your Google reviews in real-time so nothing slips through. Every review is captured immediately, ensuring you never miss a customer comment.</p>
       </div>
-      
+
       <div class="carousel-slide">
-        <div class="card-icon">✍️</div>
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </div>
         <h3>Professional Responses</h3>
-        <p>AI-generated replies reviewed by humans before posting—always on-brand and professional. We craft responses that de-escalate tension and rebuild trust.</p>
+        <p>AI-generated replies reviewed by humans before posting &mdash; always on-brand and professional. We craft responses that de-escalate tension and rebuild trust.</p>
       </div>
-      
+
       <div class="carousel-slide">
-        <div class="card-icon">🤝</div>
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+        </div>
         <h3>De-escalate Conflicts</h3>
         <p>Turn angry reviews into opportunities to show future customers you care. Our responses demonstrate accountability and commitment to improvement.</p>
       </div>
-      
+
       <div class="carousel-slide">
-        <div class="card-icon">🛡️</div>
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
         <h3>Protect Your Reputation</h3>
         <p>Build trust with potential customers who read reviews before booking. Consistent, professional responses signal that you value customer feedback.</p>
       </div>
     </div>
-    
+
     <div class="carousel-nav">
       <button class="carousel-dot active" onclick="goToSlide(0)"></button>
       <button class="carousel-dot" onclick="goToSlide(1)"></button>
@@ -885,7 +1086,7 @@
   <h2>Who This Is For</h2>
   <p>We help successful restaurants grow through every review</p>
   <ul>
-    <li>Restaurants rated between <strong>4.0–4.5⭐</strong> who want to grow</li>
+    <li>Restaurants rated between <strong>4.0&ndash;4.5&#9733;</strong> who want to grow</li>
     <li>Owners who want to convert every review into a booking opportunity</li>
     <li>No time or energy to respond properly to every review</li>
   </ul>
@@ -893,11 +1094,11 @@
 
 <div class="scarcity-section">
   <div class="scarcity-content">
-    <h2>⚠️ Limited Availability</h2>
+    <h2>Limited Availability</h2>
     <p>
       We only work with a small number of restaurants per city to ensure quality and real results.
     </p>
-    <p><strong>New restaurants onboarded monthly—not everyone is accepted.</strong></p>
+    <p><strong>New restaurants onboarded monthly &mdash; not everyone is accepted.</strong></p>
   </div>
 </div>
 
@@ -906,10 +1107,10 @@
   <p>
     We manually review every application. If accepted, you'll hear from us within 7 days.
   </p>
-  
+
   <div class="stats">
     <div class="stat-item">
-      <h3>4.0-4.5⭐</h3>
+      <h3>4.0-4.5&#9733;</h3>
       <p>Target Rating Range</p>
     </div>
     <div class="stat-item">
@@ -921,25 +1122,25 @@
       <p>Slots Per City</p>
     </div>
   </div>
-  
+
   <a href="https://form.typeform.com/to/t9sgShU9" class="btn btn-secondary">Apply Now</a>
   <span class="scarcity-text" style="color: #666;">
-    Limited restaurants per city · Manual review required
+    Limited restaurants per city &middot; Manual review required
   </span>
 </section>
 
-<footer style="text-align: center; padding: 50px 20px 30px; background: #1a1a1a; color: rgba(255,255,255,0.7); font-size: 0.875rem; line-height: 1.8;">
-  <div style="max-width: 800px; margin: 0 auto;">
-    <p style="margin-bottom: 1.5rem; font-size: 1rem; color: rgba(255,255,255,0.9);">Review Recovery</p>
-    <p style="margin-bottom: 1rem; font-size: 0.9rem;">
+<footer class="footer">
+  <div class="footer-inner">
+    <p class="footer-brand">Review Recovery</p>
+    <p class="footer-tagline">
       Professional review management for restaurants
     </p>
-    <p style="font-size: 0.8rem; color: rgba(255,255,255,0.5); padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1);">
+    <p class="footer-legal">
       Google, Google Maps, and Google Reviews are trademarks of Google LLC.<br>
       We are an independent service provider not affiliated with or endorsed by Google.
     </p>
-    <p style="margin-top: 1rem; font-size: 0.8rem; color: rgba(255,255,255,0.4);">
-      © 2026 Review Recovery. All rights reserved.
+    <p class="footer-copyright">
+      &copy; 2026 Review Recovery. All rights reserved.
     </p>
   </div>
 </footer>
@@ -947,30 +1148,30 @@
 <script>
   let currentSlide = 0;
   const totalSlides = 4;
-  
+
   function moveCarousel(direction) {
     currentSlide += direction;
-    
+
     if (currentSlide < 0) {
       currentSlide = totalSlides - 1;
     } else if (currentSlide >= totalSlides) {
       currentSlide = 0;
     }
-    
+
     updateCarousel();
   }
-  
+
   function goToSlide(index) {
     currentSlide = index;
     updateCarousel();
   }
-  
+
   function updateCarousel() {
     const wrapper = document.getElementById('carouselWrapper');
     const dots = document.querySelectorAll('.carousel-dot');
-    
+
     wrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
-    
+
     dots.forEach((dot, index) => {
       if (index === currentSlide) {
         dot.classList.add('active');
@@ -979,16 +1180,16 @@
       }
     });
   }
-  
+
   setInterval(() => {
     moveCarousel(1);
   }, 5000);
-  
+
   function toggleMenu() {
     const menu = document.getElementById('navMenu');
     menu.classList.toggle('active');
   }
-  
+
   document.querySelectorAll('.nav-menu a').forEach(link => {
     link.addEventListener('click', () => {
       const menu = document.getElementById('navMenu');

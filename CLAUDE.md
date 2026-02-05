@@ -166,5 +166,5 @@ curl -X POST https://api.anthropic.com/v1/messages \
 
 ---
 
-**Last Updated:** February 4, 2026
+**Last Updated:** February 5, 2026
 **Active Scope:** MVP (3 workflows)

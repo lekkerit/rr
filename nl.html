@@ -196,8 +196,16 @@
       font-weight: 500;
     }
 
+    .star {
+      color: #FFA000;
+    }
+
+    .accent {
+      color: #FFA000;
+    }
+
     section {
-      padding: 70px 20px;
+      padding: 60px 20px;
       max-width: 1100px;
       margin: 0 auto;
     }
@@ -309,7 +317,7 @@
 
     .problem-section {
       background: #f8f9fa;
-      padding: 70px 20px;
+      padding: 60px 20px;
     }
 
     .problem-section .card {
@@ -432,7 +440,7 @@
     }
 
     .stats-section {
-      padding: 70px 20px;
+      padding: 60px 20px;
       background: #f8f9fa;
       text-align: center;
     }
@@ -536,7 +544,7 @@
     }
 
     .carousel-section {
-      padding: 70px 20px;
+      padding: 60px 20px;
       background: #fff;
     }
 
@@ -795,7 +803,55 @@
       color: rgba(255,255,255,0.4);
     }
 
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.4);
+      box-shadow: none;
+    }
+
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.7);
+      transform: translateY(-1px);
+    }
+
+    .image-break {
+      height: 280px;
+      background-attachment: fixed;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      position: relative;
+    }
+
+    .image-break::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(26, 32, 44, 0.35);
+    }
+
+    .image-break-food {
+      background-image: url('assets/images/section-food.jpg');
+    }
+
+    .image-break-dining {
+      background-image: url('assets/images/section-dining.jpg');
+    }
+
     @media (max-width: 768px) {
+      .image-break {
+        height: 200px;
+        background-attachment: scroll;
+      }
       body {
         padding-top: 60px;
       }
@@ -884,11 +940,14 @@
 <div class="hero">
   <div class="hero-content">
     <h1>Meer Reserveringen uit Elke Google Review</h1>
-    <h2>Verhoog je conversie met 35% door professionele responses</h2>
+    <h2>Verhoog je conversie met <span class="accent">35%</span> door professionele responses</h2>
     <p>
-      Voor succesvolle restaurants (4.0-4.5&#9733;) die elke review wil omzetten in een kans op nieuwe klanten.
+      Voor succesvolle restaurants (4.0-4.5<span class="star">&#9733;</span>) die elke review wil omzetten in een kans op nieuwe klanten.
     </p>
-    <a href="#apply" class="btn btn-primary">Meld Je Aan voor de Wachtlijst</a>
+    <div class="hero-buttons">
+      <a href="https://form.typeform.com/to/t9sgShU9" class="btn btn-primary">Meld Je Aan</a>
+      <a href="tools/roi-calculator.html" class="btn btn-outline">Bereken Je ROI</a>
+    </div>
     <span class="scarcity-text">
       Exclusief voor groeiende restaurants &middot; &euro;349/maand
     </span>
@@ -946,7 +1005,7 @@
   </div>
 
   <p style="margin-top: 2rem; color: #2d3748; font-weight: 600;">
-    Harvard onderzoek: Restaurants die reageren krijgen 35% meer conversies
+    Harvard onderzoek: Restaurants die reageren krijgen <span class="accent">35%</span> meer conversies
   </p>
 </section>
 
@@ -983,6 +1042,8 @@
     </div>
   </div>
 </div>
+
+<div class="image-break image-break-food"></div>
 
 <section class="problem-section" id="problem">
   <h2>Elke Review Is Een Reserveringskans</h2>
@@ -1072,11 +1133,13 @@
   </div>
 </section>
 
+<div class="image-break image-break-dining"></div>
+
 <section class="who-section" id="who">
   <h2>Voor Wie Is Dit?</h2>
   <p>Wij helpen succesvolle restaurants in Het Gooi groeien door elke review</p>
   <ul>
-    <li>Restaurants met <strong>4.0&ndash;4.5&#9733;</strong> die willen groeien</li>
+    <li>Restaurants met <strong>4.0&ndash;4.5<span class="star">&#9733;</span></strong> die willen groeien</li>
     <li>Eigenaren die elke review willen omzetten in een kans</li>
     <li>Geen tijd om professioneel en consistent te reageren</li>
     <li>Bereid &euro;349/maand te investeren in groei</li>
@@ -1087,7 +1150,7 @@
   <div class="scarcity-content">
     <h2>Exclusief voor Groeiende Restaurants</h2>
     <p>
-      We werken alleen met 4.0-4.5&#9733; restaurants die klaar zijn om te investeren in groei.
+      We werken alleen met 4.0-4.5<span class="star">&#9733;</span> restaurants die klaar zijn om te investeren in groei.
     </p>
     <p><strong>&euro;349/maand &bull; ROI: +35% meer reserveringen &bull; Terugverdientijd: Direct</strong></p>
   </div>
@@ -1101,7 +1164,7 @@
 
   <div class="stats">
     <div class="stat-item">
-      <h3>4.0-4.5&#9733;</h3>
+      <h3>4.0-4.5<span class="star">&#9733;</span></h3>
       <p>Doelgroep Rating</p>
     </div>
     <div class="stat-item">

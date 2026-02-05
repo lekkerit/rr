@@ -196,8 +196,16 @@
       font-weight: 500;
     }
 
+    .star {
+      color: #FFA000;
+    }
+
+    .accent {
+      color: #FFA000;
+    }
+
     section {
-      padding: 70px 20px;
+      padding: 60px 20px;
       max-width: 1100px;
       margin: 0 auto;
     }
@@ -309,7 +317,7 @@
 
     .problem-section {
       background: #f8f9fa;
-      padding: 70px 20px;
+      padding: 60px 20px;
     }
 
     .problem-section .card {
@@ -432,7 +440,7 @@
     }
 
     .stats-section {
-      padding: 70px 20px;
+      padding: 60px 20px;
       background: #f8f9fa;
       text-align: center;
     }
@@ -527,7 +535,7 @@
     }
 
     .carousel-section {
-      padding: 70px 20px;
+      padding: 60px 20px;
       background: #fff;
     }
 
@@ -786,7 +794,55 @@
       color: rgba(255,255,255,0.4);
     }
 
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.4);
+      box-shadow: none;
+    }
+
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.7);
+      transform: translateY(-1px);
+    }
+
+    .image-break {
+      height: 280px;
+      background-attachment: fixed;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      position: relative;
+    }
+
+    .image-break::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(26, 32, 44, 0.35);
+    }
+
+    .image-break-food {
+      background-image: url('assets/images/section-food.jpg');
+    }
+
+    .image-break-dining {
+      background-image: url('assets/images/section-dining.jpg');
+    }
+
     @media (max-width: 768px) {
+      .image-break {
+        height: 200px;
+        background-attachment: scroll;
+      }
       body {
         padding-top: 60px;
       }
@@ -894,11 +950,14 @@
 <div class="hero">
   <div class="hero-content">
     <h1>More Bookings From Every Google Review</h1>
-    <h2>Increase conversions by 35% with professional responses</h2>
+    <h2>Increase conversions by <span class="accent">35%</span> with professional responses</h2>
     <p>
-      For successful restaurants (4.0-4.5&#9733;) who want to convert every review into a booking opportunity.
+      For successful restaurants (4.0-4.5<span class="star">&#9733;</span>) who want to convert every review into a booking opportunity.
     </p>
-    <a href="tools/roi-calculator.html" class="btn btn-primary">Calculate Your ROI</a>
+    <div class="hero-buttons">
+      <a href="https://form.typeform.com/to/t9sgShU9" class="btn btn-primary">Apply Now</a>
+      <a href="tools/roi-calculator.html" class="btn btn-outline">Calculate Your ROI</a>
+    </div>
     <span class="scarcity-text">
       For growing restaurants &middot; &euro;349/month
     </span>
@@ -956,7 +1015,7 @@
   </div>
 
   <p style="margin-top: 2rem; color: #2d3748; font-weight: 600;">
-    Future customers see both reviews &mdash; which response builds trust?
+    Future customers see both reviews &mdash; which response builds <span class="accent">trust</span>?
   </p>
 </section>
 
@@ -993,6 +1052,8 @@
     </div>
   </div>
 </div>
+
+<div class="image-break image-break-food"></div>
 
 <section class="problem-section" id="problem">
   <h2>Every Review Is a Booking Opportunity</h2>
@@ -1082,11 +1143,13 @@
   </div>
 </section>
 
+<div class="image-break image-break-dining"></div>
+
 <section class="who-section" id="who">
   <h2>Who This Is For</h2>
   <p>We help successful restaurants grow through every review</p>
   <ul>
-    <li>Restaurants rated between <strong>4.0&ndash;4.5&#9733;</strong> who want to grow</li>
+    <li>Restaurants rated between <strong>4.0&ndash;4.5<span class="star">&#9733;</span></strong> who want to grow</li>
     <li>Owners who want to convert every review into a booking opportunity</li>
     <li>No time or energy to respond properly to every review</li>
   </ul>
@@ -1110,7 +1173,7 @@
 
   <div class="stats">
     <div class="stat-item">
-      <h3>4.0-4.5&#9733;</h3>
+      <h3>4.0-4.5<span class="star">&#9733;</span></h3>
       <p>Target Rating Range</p>
     </div>
     <div class="stat-item">

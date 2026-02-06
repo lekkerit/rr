@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logo Generator - Review Recovery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f0f2f5;
+      min-height: 100vh;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .instructions {
+      background: #fff;
+      padding: 20px 24px;
+      border-radius: 12px;
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    .instructions h1 {
+      font-size: 1.1rem;
+      color: #1a1a1a;
+      margin-bottom: 8px;
+    }
+
+    .instructions p {
+      font-size: 0.875rem;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    .logos {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .logo-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-label {
+      font-size: 0.75rem;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .logo {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+
+    /* Option 1: Single gold star on dark */
+    .logo-1 {
+      background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    }
+
+    .logo-1 .star {
+      font-size: 100px;
+      line-height: 1;
+    }
+
+    /* Option 2: Five stars row */
+    .logo-2 {
+      background: #2d3748;
+    }
+
+    .logo-2 .stars {
+      font-size: 32px;
+      letter-spacing: 4px;
+    }
+
+    /* Option 3: Star with arrow up */
+    .logo-3 {
+      background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+      position: relative;
+    }
+
+    .logo-3 .star {
+      font-size: 80px;
+      line-height: 1;
+    }
+
+    .logo-3 .arrow {
+      position: absolute;
+      bottom: 35px;
+      right: 45px;
+      font-size: 36px;
+      color: #38a169;
+    }
+
+    /* Option 4: Gold background with white star */
+    .logo-4 {
+      background: linear-gradient(135deg, #FFA000 0%, #FF8F00 100%);
+    }
+
+    .logo-4 svg {
+      width: 100px;
+      height: 100px;
+      fill: #fff;
+    }
+
+    /* Option 5: Star with checkmark */
+    .logo-5 {
+      background: #2d3748;
+      position: relative;
+    }
+
+    .logo-5 .star {
+      font-size: 90px;
+      line-height: 1;
+    }
+
+    .logo-5 .check {
+      position: absolute;
+      bottom: 45px;
+      right: 40px;
+      width: 50px;
+      height: 50px;
+      background: #38a169;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid #2d3748;
+    }
+
+    .logo-5 .check svg {
+      width: 26px;
+      height: 26px;
+    }
+
+    /* Option 6: Stacked stars rising */
+    .logo-6 {
+      background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+    }
+
+    .logo-6 .stack {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .logo-6 .row1 { font-size: 24px; opacity: 0.4; }
+    .logo-6 .row2 { font-size: 32px; opacity: 0.6; }
+    .logo-6 .row3 { font-size: 40px; opacity: 0.8; }
+    .logo-6 .row4 { font-size: 52px; }
+
+  </style>
+</head>
+<body>
+
+<div class="instructions">
+  <h1>Instagram Profile Picture - Star Logos</h1>
+  <p>Screenshot the one you like. <code>Cmd+Shift+4</code> (Mac)</p>
+</div>
+
+<div class="logos">
+
+  <div class="logo-option">
+    <div class="logo-label">Single Star</div>
+    <div class="logo logo-1">
+      <span class="star">⭐</span>
+    </div>
+  </div>
+
+  <div class="logo-option">
+    <div class="logo-label">Five Stars</div>
+    <div class="logo logo-2">
+      <span class="stars">★★★★★</span>
+    </div>
+  </div>
+
+  <div class="logo-option">
+    <div class="logo-label">Star Rising</div>
+    <div class="logo logo-3">
+      <span class="star">⭐</span>
+      <span class="arrow">↗</span>
+    </div>
+  </div>
+
+  <div class="logo-option">
+    <div class="logo-label">Gold Star</div>
+    <div class="logo logo-4">
+      <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    </div>
+  </div>
+
+  <div class="logo-option">
+    <div class="logo-label">Star + Check</div>
+    <div class="logo logo-5">
+      <span class="star">⭐</span>
+      <div class="check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="logo-option">
+    <div class="logo-label">Rising Stars</div>
+    <div class="logo logo-6">
+      <div class="stack">
+        <span class="row1">⭐</span>
+        <span class="row2">⭐</span>
+        <span class="row3">⭐</span>
+        <span class="row4">⭐</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

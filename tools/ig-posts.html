@@ -112,19 +112,43 @@
     }
 
     /* === Color themes === */
-    .theme-dark {
-      background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
-      color: #fff;
-    }
-
-    .theme-gold {
-      background: linear-gradient(135deg, #FFA000 0%, #FF8F00 100%);
-      color: #fff;
-    }
-
+    .theme-dark,
+    .theme-gold,
     .theme-green {
-      background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+      background: url('../assets/images/hero-restaurant.jpg') center/cover no-repeat;
       color: #fff;
+      position: relative;
+    }
+
+    .theme-dark::before,
+    .theme-gold::before,
+    .theme-green::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .theme-dark::before {
+      background: rgba(26, 32, 44, 0.82);
+    }
+
+    .theme-gold::before {
+      background: rgba(255, 160, 0, 0.85);
+    }
+
+    .theme-green::before {
+      background: rgba(56, 161, 105, 0.85);
+    }
+
+    .theme-dark .slide-content,
+    .theme-dark .slide-footer,
+    .theme-gold .slide-content,
+    .theme-gold .slide-footer,
+    .theme-green .slide-content,
+    .theme-green .slide-footer {
+      position: relative;
+      z-index: 1;
     }
 
     .theme-white {

@@ -96,10 +96,15 @@ Webhook (Typeform) → Transform Data → Create Airtable Record → Send Email 
 | Waitlist workflow | `workflows/8-typeform-waitlist-workflow.json` | Ready |
 | Waitlist schema | `database/airtable-schema.md` (Waitlist table) | Defined |
 | Ads copy | `marketing/ads-copy.md` | Ready |
+| IG outreach playbook | `marketing/ig-outreach-playbook.md` | Ready |
+| Response preview tool | `tools/response-preview.html` | Ready |
+| Logo generator | `tools/logo-generator.html` | Ready |
 
-**Flow:** Ads → Landing page (nl.html) → Typeform → n8n webhook → Airtable Waitlist
+**Outreach Flow:** Find restaurant on Google Maps → Find their IG → DM via @reviewrecovery → Send response previews → Typeform → Payment → Onboarding
 
-**Goal:** 50-60 applicants for market validation
+**Waitlist Flow:** Ads → Landing page (nl.html) → Typeform → n8n webhook → Airtable Waitlist
+
+**Goal:** 100 restaurants contacted → 10 customers signed
 
 ---
 

@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instagram Posts - @reviewrecovery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f0f2f5;
+      min-height: 100vh;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .instructions {
+      background: #fff;
+      padding: 20px 24px;
+      border-radius: 12px;
+      max-width: 600px;
+      text-align: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    .instructions h1 {
+      font-size: 1.1rem;
+      color: #1a1a1a;
+      margin-bottom: 8px;
+    }
+
+    .instructions p {
+      font-size: 0.875rem;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    .instructions code {
+      background: #f0f0f0;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+    }
+
+    .post-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .post-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #888;
+      background: #fff;
+      padding: 8px 16px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    .slides-row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    /* Each slide is 1080x1080 scaled to 400x400 on screen */
+    .slide {
+      width: 400px;
+      height: 400px;
+      border-radius: 4px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    }
+
+    .slide-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .slide-footer {
+      padding: 12px 0;
+      text-align: center;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: rgba(255,255,255,0.6);
+      flex-shrink: 0;
+    }
+
+    /* === Color themes === */
+    .theme-dark {
+      background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+      color: #fff;
+    }
+
+    .theme-gold {
+      background: linear-gradient(135deg, #FFA000 0%, #FF8F00 100%);
+      color: #fff;
+    }
+
+    .theme-green {
+      background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+      color: #fff;
+    }
+
+    .theme-white {
+      background: #fff;
+      color: #2d3748;
+    }
+
+    .theme-white .slide-footer {
+      color: rgba(45,55,72,0.4);
+    }
+
+    .theme-light {
+      background: #f7fafc;
+      color: #2d3748;
+    }
+
+    .theme-light .slide-footer {
+      color: rgba(45,55,72,0.4);
+    }
+
+    /* === Typography === */
+    .big-number {
+      font-size: 5rem;
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .big-text {
+      font-size: 2rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+
+    .medium-text {
+      font-size: 1.4rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      font-weight: 500;
+      line-height: 1.5;
+      opacity: 0.85;
+    }
+
+    .small-text {
+      font-size: 0.8rem;
+      font-weight: 500;
+      opacity: 0.6;
+      margin-top: 8px;
+    }
+
+    .gold { color: #FFA000; }
+    .green { color: #38a169; }
+    .red { color: #e53e3e; }
+    .white { color: #fff; }
+
+    .accent-underline {
+      display: inline-block;
+      border-bottom: 4px solid #FFA000;
+      padding-bottom: 4px;
+    }
+
+    .stat-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      padding: 8px 20px;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-top: 16px;
+    }
+
+    .theme-white .stat-badge,
+    .theme-light .stat-badge {
+      background: rgba(45,55,72,0.08);
+    }
+
+    .step-number {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #FFA000;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      flex-shrink: 0;
+    }
+
+    .theme-gold .step-number {
+      background: #fff;
+      color: #FFA000;
+    }
+
+    .divider {
+      width: 60px;
+      height: 4px;
+      background: #FFA000;
+      border-radius: 2px;
+      margin: 16px auto;
+    }
+
+    .theme-gold .divider {
+      background: rgba(255,255,255,0.5);
+    }
+
+    .icon-star {
+      font-size: 2.5rem;
+      margin-bottom: 16px;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: #FFA000;
+      color: #fff;
+      padding: 14px 32px;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-top: 20px;
+    }
+
+    .theme-gold .cta-button {
+      background: #fff;
+      color: #FFA000;
+    }
+
+    /* === Post 2: Before/After split === */
+    .split-slide {
+      display: flex;
+      flex-direction: row;
+      flex: 1;
+    }
+
+    .split-side {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 24px 20px;
+      justify-content: center;
+    }
+
+    .split-left {
+      background: #fef2f2;
+      border-right: 2px solid #e2e8f0;
+    }
+
+    .split-right {
+      background: #f0fff4;
+    }
+
+    .split-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 12px;
+    }
+
+    .mini-review {
+      background: #fff;
+      border-radius: 10px;
+      padding: 14px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+
+    .mini-review-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .mini-avatar {
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, #4285f4, #34a853);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 700;
+    }
+
+    .mini-name {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+
+    .mini-stars {
+      font-size: 0.7rem;
+      color: #fbbc04;
+    }
+
+    .mini-text {
+      font-size: 0.7rem;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    .mini-response {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 0.65rem;
+      line-height: 1.5;
+    }
+
+    .mini-response-absent {
+      background: #fee2e2;
+      color: #991b1b;
+      font-style: italic;
+      text-align: center;
+    }
+
+    .mini-response-present {
+      background: #dcfce7;
+      color: #166534;
+      border-left: 3px solid #38a169;
+    }
+
+    .mini-response-label {
+      font-size: 0.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .split-slide-footer {
+      padding: 10px 0;
+      text-align: center;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: rgba(255,255,255,0.6);
+      background: #2d3748;
+      flex-shrink: 0;
+    }
+
+    /* === Post 7: Review card style === */
+    .review-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 20px;
+      width: 100%;
+      max-width: 320px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      text-align: left;
+    }
+
+    .review-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .review-card-avatar {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, #4285f4, #34a853);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .review-card-info {
+      flex: 1;
+    }
+
+    .review-card-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+
+    .review-card-meta {
+      font-size: 0.7rem;
+      color: #888;
+    }
+
+    .review-card-stars {
+      color: #fbbc04;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+
+    .review-card-text {
+      font-size: 0.8rem;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .response-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 20px;
+      width: 100%;
+      max-width: 320px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      text-align: left;
+      border-left: 4px solid #38a169;
+    }
+
+    .response-card-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #2d3748;
+      color: #fff;
+      padding: 5px 12px;
+      border-radius: 16px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-bottom: 12px;
+    }
+
+    .response-card-badge svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    .response-card-text {
+      font-size: 0.8rem;
+      color: #1a1a1a;
+      line-height: 1.7;
+    }
+
+    /* === Fout items === */
+    .fout-item {
+      text-align: left;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .fout-number {
+      display: inline-block;
+      background: #e53e3e;
+      color: #fff;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 32px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .fout-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .fout-detail {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      line-height: 1.5;
+    }
+
+    .fout-example {
+      margin-top: 12px;
+      padding: 12px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-style: italic;
+      opacity: 0.7;
+      line-height: 1.5;
+    }
+
+    .theme-white .fout-example,
+    .theme-light .fout-example {
+      background: rgba(45,55,72,0.06);
+    }
+
+    /* Fix item (green) */
+    .fix-number {
+      display: inline-block;
+      background: #38a169;
+      color: #fff;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 32px;
+      font-size: 1.1rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    /* === Post 9 stat bars === */
+    .stat-bar-container {
+      width: 100%;
+      max-width: 280px;
+      margin-top: 16px;
+    }
+
+    .stat-bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .stat-bar {
+      width: 100%;
+      height: 12px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .theme-white .stat-bar,
+    .theme-light .stat-bar {
+      background: rgba(45,55,72,0.1);
+    }
+
+    .stat-bar-fill {
+      height: 100%;
+      border-radius: 6px;
+      background: #FFA000;
+    }
+
+    .stat-bar-fill-red {
+      height: 100%;
+      border-radius: 6px;
+      background: #e53e3e;
+    }
+  </style>
+</head>
+<body>
+
+<div class="instructions">
+  <h1>Instagram Posts - @reviewrecovery</h1>
+  <p>9 posts, 22 slides. Screenshot each slide individually at 1080&times;1080. <br><code>Cmd+Shift+4</code> (Mac) or <code>Win+Shift+S</code> (Windows)</p>
+</div>
+
+<!-- ============================================================ -->
+<!-- POST 1: Carousel (4 slides) — "9 van de 10 gasten leest reviews" -->
+<!-- ============================================================ -->
+<div class="post-group">
+  <div class="post-label">Post 1 &mdash; Carousel (4 slides)</div>
+  <div class="slides-row">
+
+    <!-- Slide 1.1: Hook -->
+    <div class="slide theme-dark">
+      <div class="slide-content">
+        <div class="big-number gold">9<span style="font-size:2.5rem;opacity:0.6">/10</span></div>
+        <div class="big-text">gasten leest reviews voor ze reserveren</div>
+      </div>
+      <div class="slide-footer">@reviewrecovery</div>
+    </div>
+
+    <!-- Slide 1.2 -->
+    <div class="slide theme-gold">
+      <div class="slide-content">
+        <div class="big-text">Maar ze lezen ook <span class="accent-underline" style="border-color:#fff">jouw reacties</span></div>
+        <div class="divider"></div>
+        <div class="subtitle">Professionele responses maken het verschil tussen scrollen en reserveren</div>
+      </div>
+      <div class="slide-footer">@reviewrecovery</div>
+    </div>
+
+    <!-- Slide 1.3: Harvard stat -->
+    <div class="slide theme-dark">
+      <div class="slide-content">
+        <div class="icon-star">&#x2B50;</div>
+        <div class="medium-text">Restaurants die reageren op reviews krijgen</div>
+        <div class="big-number gold">35%</div>
+        <div class="medium-text">meer boekingen</div>
+        <div class="small-text">Bron: Harvard Business Review</div>
+      </div>
+      <div class="slide-footer">@reviewrecovery</div>
+    </div>
+
+    <!-- Slide 1.4: CTA -->
+    <div class="slide theme-gold">
+      <div class="slide-content">
+        <div class="big-text">Wil je weten hoe?</div>
+        <div class="divider"></div>
+        <div class="subtitle">Ontdek hoe professionele review responses jouw restaurant laten groeien</div>
+        <div class="cta-button">Link in bio &rarr;</div>
+      </div>
+      <div class="slide-footer">@reviewrecovery</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- POST 2: Single image — Before/After -->
+<!-- ============================================================ -->
+<div class="post-group">
+  <div class="post-label">Post 2 &mdash; Single image</div>
+  <div class="slides-row">
+
+    <div class="slide" style="background:#fff;">
+      <div style="text-align:center;padding:16px 0 8px;font-size:0.85rem;font-weight:700;color:#2d3748;text-transform:uppercase;letter-spacing:0.08em;flex-shrink:0;">Wat zien jouw gasten?</div>
+      <div class="split-slide">
+        <div class="split-side split-left">
+          <div class="split-label red">&#x274C; Zonder response</div>
+          <div class="mini-review">
+            <div class="mini-review-header">
+              <div class="mini-avatar">MK</div>
+              <div>
+                <div class="mini-name">Maria K.</div>
+                <div class="mini-stars">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
+              </div>
+            </div>
+            <div class="mini-text">Lekker gegeten, mooie sfeer. Service was iets traag maar verder prima.</div>
+            <div class="mini-response mini-response-absent">Geen reactie van eigenaar</div>
+          </div>
+        </div>
+        <div class="split-side split-right">
+          <div class="split-label green">&#x2705; Met response</div>
+          <div class="mini-review">
+            <div class="mini-review-header">
+              <div class="mini-avatar">MK</div>
+              <div>
+                <div class="mini-name">Maria K.</div>
+                <div class="mini-stars">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
+              </div>
+            </div>
+            <div class="mini-text">Lekker gegeten, mooie sfeer. Service was iets traag maar verder prima.</div>
+            <div class="mini-response mini-response-present">
+              <span class="mini-response-label">Reactie van eigenaar</span>
+              Bedankt Maria! Fijn dat het eten en de sfeer goed waren. We werken aan snellere service. Tot snel!
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="split-slide-footer">@reviewrecovery</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- POST 3: Carousel (5 slides) — "3 fouten bij review responses" -->
+<!-- ============================================================ -->
+<div class="post-group">
+  <div class="post-label">Post 3 &mdash; Carousel (5 slides)</div>
+  <div class="slides-row">
+
+    <!-- Slide 3.1: Title -->
+    <div class="slide theme-dark">
+      <div class="slide-content">
+        <div class="big-text"><span class="gold">3 fouten</span> die restaurants maken bij review responses</div>
+        <div class="divider"></div>
+        <div class="subtitle">En hoe je ze vermijdt &rarr;</div>
+      </div>
+      <div class="slide-footer">@reviewrecovery</div>
+    </div>
+
+    <!-- Slide 3.2: Fout 1 -->
+    <div class="slide theme-white">
+      <div class="slide-content">
+        <div class="fout-item">
+          <div class="fout-number">1</div>
+          <div class="fout-title">Niet reageren</div>
+          <div class="fout-detail">53% van klanten verwacht een reactie binnen 7 dagen. Geen reactie = gemiste reservering.</div>
+          <div class="stat-badge"><span class="red">&#10005;</span>&nbsp;&nbsp;73% van Het Gooi restaurants reageert niet</div>
+        </div>
+      </div>
+      <div class="slide-footer" style="color:rgba(45,55,72,0.4);">@reviewrecovery</div>
+    </div>
+
+    <!-- Slide 3.3: Fout 2 -->
+    <div class="slide theme-white">
+      <div class="slide-content">
+        <div class="fout-item">
+          <div class="fout-number">2</div>
+          <div class="fout-title">Copy-paste reacties</div>
+          <div class="fout-detail">Gasten herkennen generieke responses direct. Het voelt onpersoonlijk en onoprecht.</div>
+          <div class="fout-example">"Bedankt voor uw review. We hopen u snel weer te zien."<br>&mdash; Iedere keer hetzelfde</div>
+        </div>
+      </div>
+      <div class="slide-footer" style="color:rgba(45,55,72,0.4);">@reviewrecovery</div>
+    </div>
+
+    <!-- Slide 3.4: Fout 3 -->
+    <div class="slide theme-white">
+      <div class="slide-content">
+        <div class="fout-item">
+          <div class="fout-number">3</div>
+          <div class="fout-title">Defensief reageren</div>
+          <div class="fout-detail">Excuses maken of de schuld bij de gast leggen schrikt nieuwe bezoekers af.</div>
+          <div class="fout-example">"Dat klopt niet, onze service is uitstekend. Misschien was u op een druk moment."</div>
+        </div>
+      </div>
+      <div class="slide-footer" style="color:rgba(45,55,72,0.4);">@reviewrecovery</div>
+    </div>
+
+    <!-- Slide 3.5: Fix -->
+    <div class="slide theme-green">
+      <div class="slide-content">
+        <div class="fix-number">&#x2713;</div>
+        <div class="big-text">De oplossing?</div>
+        <div class="divider" style="background:rgba(255,255,255,0.5);"></div>
+        <div class="subtitle">Persoonlijke, professionele responses die gasten overtuigen om te reserveren</div>
+        <div class="cta-button" style="background:#fff;color:#38a169;">Meer weten &rarr;</div>
+      </div>
+      <div class="slide-footer">@reviewrecovery</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- POST 4: Single image — ROI stat -->
+<!-- ============================================================ -->
+<div class="post-group">
+  <div class="post-label">Post 4 &mdash; Single image</div>
+  <div class="slides-row">
+
+    <div class="slide theme-dark">
+      <div class="slide-content">
+        <div style="font-size:1rem;font-weight:600;opacity:0.5;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:20px;">Investering vs. resultaat</div>
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
+          <div style="font-size:2.8rem;font-weight:900;color:#FFA000;">&euro;349</div>
+          <div style="font-size:2rem;opacity:0.4;">&rarr;</div>
+          <div style="font-size:2.8rem;font-weight:900;color:#38a169;">&euro;900+</div>
+        </div>
+        <div class="medium-text">extra omzet per maand</div>
+        <div class="divider"></div>
+        <div class="subtitle">door professionele review responses</div>
+        <div class="stat-badge">ROI: 2.6x in de eerste maand</div>
+      </div>
+      <div class="slide-footer">@reviewrecovery</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- POST 5: Carousel (4 slides) — "Hoe het werkt" -->
+<!-- ============================================================ -->
+<div class="post-group">
+  <div class="post-label">Post 5 &mdash; Carousel (4 slides)</div>
+  <div class="slides-row">
+
+    <!-- Slide 5.1: Title -->
+    <div class="slide theme-gold">
+      <div class="slide-content">
+        <div class="big-text">Hoe professionele responses werken</div>
+        <div class="divider"></div>
+        <div class="subtitle">3 simpele stappen &rarr;</div>
+      </div>
+      <div class="slide-footer">@reviewrecovery</div>
+    </div>
+
+    <!-- Slide 5.2: Step 1 -->
+    <div class="slide theme-dark">
+      <div class="slide-content">
+        <div class="step-number">1</div>
+        <div class="big-text">Wij monitoren je Google reviews</div>
+        <div class="divider"></div>
+        <div class="subtitle">Elke nieuwe review wordt automatisch opgepikt. Jij hoeft niets te doen.</div>
+      </div>
+      <div class="slide-footer">@reviewrecovery</div>
+    </div>
+
+    <!-- Slide 5.3: Step 2 -->
+    <div class="slide theme-dark">
+      <div class="slide-content">
+        <div class="step-number">2</div>
+        <div class="big-text">Binnen 24 uur een professionele response</div>
+        <div class="divider"></div>
+        <div class="subtitle">Persoonlijk, on-brand, en afgestemd op de toon van de review.</div>
+      </div>
+      <div class="slide-footer">@reviewrecovery</div>
+    </div>
+
+    <!-- Slide 5.4: Step 3 -->
+    <div class="slide theme-green">
+      <div class="slide-content">
+        <div class="step-number" style="background:#fff;color:#38a169;">3</div>
+        <div class="big-text">Meer reserveringen, minder gemiste kansen</div>
+        <div class="divider" style="background:rgba(255,255,255,0.5);"></div>
+        <div class="subtitle">+35% meer conversies. Gasten kiezen voor het restaurant dat reageert.</div>
+      </div>
+      <div class="slide-footer">@reviewrecovery</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- POST 6: Single image — Harvard stat -->
+<!-- ============================================================ -->
+<div class="post-group">
+  <div class="post-label">Post 6 &mdash; Single image</div>
+  <div class="slides-row">
+
+    <div class="slide theme-dark">
+      <div class="slide-content">
+        <div class="big-number" style="font-size:6rem;color:#FFA000;">+35%</div>
+        <div class="medium-text">meer conversies door professionele review responses</div>
+        <div class="divider"></div>
+        <div class="small-text" style="opacity:0.5;">Bron: Harvard Business Review</div>
+      </div>
+      <div class="slide-footer">@reviewrecovery</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- POST 7: Carousel (2 slides) — Response voorbeeld -->
+<!-- ============================================================ -->
+<div class="post-group">
+  <div class="post-label">Post 7 &mdash; Carousel (2 slides)</div>
+  <div class="slides-row">
+
+    <!-- Slide 7.1: Review -->
+    <div class="slide theme-light">
+      <div class="slide-content" style="justify-content:center;">
+        <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#888;margin-bottom:16px;">De review</div>
+        <div class="review-card">
+          <div class="review-card-header">
+            <div class="review-card-avatar">JV</div>
+            <div class="review-card-info">
+              <div class="review-card-name">Jan Vermeer</div>
+              <div class="review-card-meta">2 dagen geleden</div>
+            </div>
+          </div>
+          <div class="review-card-stars">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
+          <div class="review-card-text">Lekker gegeten, mooie sfeer. Service was iets traag maar verder prima ervaring. Zou het aanraden aan vrienden.</div>
+        </div>
+      </div>
+      <div class="slide-footer" style="color:rgba(45,55,72,0.4);">@reviewrecovery</div>
+    </div>
+
+    <!-- Slide 7.2: Response -->
+    <div class="slide theme-light">
+      <div class="slide-content" style="justify-content:center;">
+        <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#888;margin-bottom:16px;">Onze response</div>
+        <div class="response-card">
+          <div class="response-card-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            Professionele Response
+          </div>
+          <div class="response-card-text">Bedankt Jan! Fijn om te horen dat je hebt genoten van het eten en de sfeer. Je feedback over de service nemen we ter harte &mdash; we werken hier actief aan. Graag tot een volgende keer, dan zorgen we voor een vlotte ervaring!</div>
+        </div>
+      </div>
+      <div class="slide-footer" style="color:rgba(45,55,72,0.4);">@reviewrecovery</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- POST 8: Single image — Quote -->
+<!-- ============================================================ -->
+<div class="post-group">
+  <div class="post-label">Post 8 &mdash; Single image</div>
+  <div class="slides-row">
+
+    <div class="slide theme-dark">
+      <div class="slide-content">
+        <div style="font-size:4rem;color:#FFA000;line-height:1;margin-bottom:8px;">&ldquo;</div>
+        <div class="big-text" style="font-size:1.8rem;">Elke review is een reserveringskans</div>
+        <div style="font-size:4rem;color:#FFA000;line-height:1;margin-top:8px;">&rdquo;</div>
+        <div class="divider"></div>
+        <div class="subtitle" style="opacity:0.5;font-size:0.85rem;">Reageer je niet? Dan kiest je gast voor de concurrent die dat w&eacute;l doet.</div>
+      </div>
+      <div class="slide-footer">@reviewrecovery</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- POST 9: Carousel (3 slides) — "Het Gooi: gemiste kansen" -->
+<!-- ============================================================ -->
+<div class="post-group">
+  <div class="post-label">Post 9 &mdash; Carousel (3 slides)</div>
+  <div class="slides-row">
+
+    <!-- Slide 9.1 -->
+    <div class="slide theme-dark">
+      <div class="slide-content">
+        <div style="font-size:1rem;font-weight:600;opacity:0.5;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:16px;">Lokaal onderzoek</div>
+        <div class="big-text">We analyseerden restaurants in <span class="gold">Het Gooi</span></div>
+        <div class="divider"></div>
+        <div class="subtitle">Hilversum &middot; Bussum &middot; Naarden &middot; Laren &middot; Huizen</div>
+      </div>
+      <div class="slide-footer">@reviewrecovery</div>
+    </div>
+
+    <!-- Slide 9.2 -->
+    <div class="slide theme-white">
+      <div class="slide-content">
+        <div class="big-number" style="color:#e53e3e;">73%</div>
+        <div class="medium-text">reageert niet op Google reviews</div>
+        <div class="stat-bar-container">
+          <div class="stat-bar-label">
+            <span>Reageert niet</span>
+            <span class="red">73%</span>
+          </div>
+          <div class="stat-bar">
+            <div class="stat-bar-fill-red" style="width:73%;"></div>
+          </div>
+        </div>
+        <div class="stat-bar-container" style="margin-top:12px;">
+          <div class="stat-bar-label">
+            <span>Reageert wel</span>
+            <span class="green">27%</span>
+          </div>
+          <div class="stat-bar">
+            <div class="stat-bar-fill" style="width:27%;background:#38a169;"></div>
+          </div>
+        </div>
+        <div class="small-text" style="margin-top:16px;">Analyse van 171 restaurants in Het Gooi</div>
+      </div>
+      <div class="slide-footer" style="color:rgba(45,55,72,0.4);">@reviewrecovery</div>
+    </div>
+
+    <!-- Slide 9.3: CTA -->
+    <div class="slide theme-gold">
+      <div class="slide-content">
+        <div class="big-text">Elke onbeantwoorde review = gemiste reservering</div>
+        <div class="divider"></div>
+        <div class="subtitle">Wij lossen dat op. Professionele responses, binnen 24 uur, voor jouw restaurant.</div>
+        <div class="cta-button">Meer weten &rarr;</div>
+      </div>
+      <div class="slide-footer">@reviewrecovery</div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

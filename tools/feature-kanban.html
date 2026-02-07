@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feature Pipeline | Restaurant Review AI</title>
+    <title>Mission Control | Feature Pipeline</title>
     <style>
         * {
             margin: 0;
@@ -13,215 +13,345 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            background: #0a0a0b;
             min-height: 100vh;
             color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* Header */
-        .header {
+        /* Top Navigation */
+        .top-nav {
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            align-items: center;
-            padding: 20px 30px;
-            border-bottom: 1px solid #334155;
+            padding: 12px 20px;
+            background: #0f0f10;
+            border-bottom: 1px solid #1e1e22;
         }
 
-        .header-left {
+        .nav-left {
             display: flex;
             align-items: center;
-            gap: 12px;
-        }
-
-        .header-left h1 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #38bdf8;
-        }
-
-        .header-icon {
-            font-size: 1.5rem;
-        }
-
-        .header-stats {
-            display: flex;
             gap: 24px;
-            font-size: 0.9rem;
         }
 
-        .stat {
-            color: #94a3b8;
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .logo-icon {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 4px;
+        }
+
+        .nav-tab {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: #71717a;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-tab:hover {
+            color: #a1a1aa;
+            background: #18181b;
+        }
+
+        .nav-tab.active {
+            background: #27272a;
+            color: #fafafa;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .nav-action {
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            color: #71717a;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-action:hover {
+            color: #a1a1aa;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .user-menu:hover {
+            background: #18181b;
+        }
+
+        .user-avatar {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            padding: 16px 20px;
+            border-bottom: 1px solid #1e1e22;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
         }
 
         .stat-value {
-            color: #38bdf8;
+            font-size: 1.5rem;
             font-weight: 600;
+            color: #fafafa;
         }
 
-        .header-actions {
+        .stat-label {
+            font-size: 0.8rem;
+            color: #52525b;
+        }
+
+        .completion-stat {
             display: flex;
+            align-items: center;
             gap: 12px;
         }
 
-        .btn-refresh {
-            background: #334155;
+        .completion-bar {
+            width: 120px;
+            height: 6px;
+            background: #27272a;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .completion-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #8b5cf6, #6366f1);
+            border-radius: 3px;
+            transition: width 0.3s;
+        }
+
+        /* Filter Bar */
+        .filter-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            border-bottom: 1px solid #1e1e22;
+        }
+
+        .btn-new-task {
+            background: #7c3aed;
+            color: white;
             border: none;
-            color: #e2e8f0;
-            padding: 8px 16px;
+            padding: 8px 14px;
             border-radius: 6px;
-            cursor: pointer;
             font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
             display: flex;
             align-items: center;
             gap: 6px;
             transition: background 0.2s;
         }
 
-        .btn-refresh:hover {
-            background: #475569;
+        .btn-new-task:hover {
+            background: #6d28d9;
         }
 
-        /* Filter Bar */
-        .filter-bar {
+        .filter-tabs {
             display: flex;
-            gap: 12px;
-            padding: 16px 30px;
-            border-bottom: 1px solid #334155;
-            flex-wrap: wrap;
-            align-items: center;
+            gap: 4px;
+            margin-left: 16px;
         }
 
-        .filter-group {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .filter-label {
-            font-size: 0.8rem;
-            color: #64748b;
-            text-transform: uppercase;
-        }
-
-        .filter-select {
-            background: #1e293b;
-            border: 1px solid #334155;
-            color: #e2e8f0;
+        .filter-tab {
             padding: 6px 12px;
             border-radius: 6px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
+            color: #71717a;
             cursor: pointer;
+            transition: all 0.2s;
         }
 
-        .filter-select:focus {
+        .filter-tab:hover {
+            color: #a1a1aa;
+        }
+
+        .filter-tab.active {
+            background: #27272a;
+            color: #fafafa;
+        }
+
+        .filter-dropdown {
+            background: #18181b;
+            border: 1px solid #27272a;
+            color: #a1a1aa;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin-left: auto;
+        }
+
+        .filter-dropdown:focus {
             outline: none;
-            border-color: #38bdf8;
+            border-color: #7c3aed;
         }
 
         .search-input {
-            background: #1e293b;
-            border: 1px solid #334155;
-            color: #e2e8f0;
+            background: #18181b;
+            border: 1px solid #27272a;
+            color: #fafafa;
             padding: 6px 12px;
             border-radius: 6px;
-            font-size: 0.85rem;
-            width: 200px;
+            font-size: 0.8rem;
+            width: 180px;
         }
 
         .search-input::placeholder {
-            color: #64748b;
+            color: #52525b;
         }
 
         .search-input:focus {
             outline: none;
-            border-color: #38bdf8;
+            border-color: #7c3aed;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
         }
 
         /* Board */
         .board {
             display: flex;
-            gap: 16px;
-            padding: 20px 30px;
+            gap: 12px;
+            padding: 16px 20px;
             overflow-x: auto;
-            min-height: calc(100vh - 140px);
+            flex: 1;
         }
 
         /* Columns */
         .column {
             flex: 0 0 280px;
-            background: #1e293b;
-            border-radius: 12px;
             display: flex;
             flex-direction: column;
-            max-height: calc(100vh - 180px);
+            max-height: calc(100vh - 200px);
         }
 
         .column-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px;
-            border-bottom: 1px solid #334155;
+            padding: 8px 4px;
+            margin-bottom: 8px;
         }
 
         .column-title {
             display: flex;
             align-items: center;
             gap: 8px;
-            font-weight: 600;
-            font-size: 0.9rem;
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: #a1a1aa;
         }
 
         .column-icon {
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
 
         .column-count {
-            background: #38bdf8;
-            color: #0f172a;
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 2px 8px;
-            border-radius: 10px;
-            min-width: 24px;
-            text-align: center;
+            color: #52525b;
+            font-size: 0.85rem;
+            font-weight: 400;
         }
 
-        .column-count.planned { background: #fbbf24; }
-        .column-count.in_progress { background: #38bdf8; }
-        .column-count.completed { background: #22c55e; }
-        .column-count.deferred { background: #64748b; }
+        .column-menu {
+            color: #52525b;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .column-menu:hover {
+            color: #a1a1aa;
+        }
 
         .column-body {
-            padding: 12px;
-            overflow-y: auto;
             flex: 1;
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 8px;
+            padding-right: 4px;
         }
 
         .empty-state {
-            color: #64748b;
+            color: #3f3f46;
             text-align: center;
             padding: 40px 20px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
+            font-style: italic;
         }
 
         /* Cards */
         .card {
-            background: #0f172a;
-            border-radius: 8px;
+            background: #18181b;
+            border-radius: 10px;
             padding: 14px;
             cursor: grab;
-            transition: transform 0.2s, box-shadow 0.2s;
-            border: 1px solid transparent;
+            transition: all 0.2s;
+            border: 1px solid #27272a;
         }
 
         .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            border-color: #334155;
+            border-color: #3f3f46;
+            transform: translateY(-1px);
         }
 
         .card.dragging {
@@ -229,34 +359,21 @@
             cursor: grabbing;
         }
 
-        .card-category {
-            font-size: 0.7rem;
-            color: #f472b6;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-
-        .card-id {
-            font-size: 0.7rem;
-            color: #64748b;
-            font-family: monospace;
-            margin-left: 8px;
-        }
-
         .card-title {
-            font-weight: 600;
+            font-weight: 500;
             font-size: 0.9rem;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             line-height: 1.4;
+            color: #fafafa;
         }
 
         .card-description {
             font-size: 0.8rem;
-            color: #94a3b8;
+            color: #71717a;
             margin-bottom: 12px;
             line-height: 1.5;
             display: -webkit-box;
-            -webkit-line-clamp: 3;
+            -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
@@ -265,79 +382,116 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
         }
 
-        .card-priority {
+        .card-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .card-tag {
             font-size: 0.7rem;
             padding: 3px 8px;
             border-radius: 4px;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .priority-critical {
-            background: #dc2626;
-            color: white;
-        }
-
-        .priority-high {
-            background: #f97316;
-            color: white;
-        }
-
-        .priority-medium {
-            background: #eab308;
-            color: #0f172a;
-        }
-
-        .priority-low {
-            background: #64748b;
-            color: white;
-        }
-
-        .card-actions {
-            display: flex;
-            gap: 6px;
-        }
-
-        .btn-action {
-            font-size: 0.7rem;
-            padding: 4px 10px;
-            border-radius: 4px;
-            border: none;
-            cursor: pointer;
             font-weight: 500;
-            transition: opacity 0.2s;
         }
 
-        .btn-action:hover {
-            opacity: 0.8;
+        /* Tag colors by category */
+        .tag-core { background: #7c3aed20; color: #a78bfa; }
+        .tag-ai { background: #3b82f620; color: #60a5fa; }
+        .tag-api { background: #10b98120; color: #34d399; }
+        .tag-db { background: #f59e0b20; color: #fbbf24; }
+        .tag-ui { background: #ec489920; color: #f472b6; }
+        .tag-workflow { background: #6366f120; color: #818cf8; }
+        .tag-security { background: #ef444420; color: #f87171; }
+        .tag-devops { background: #14b8a620; color: #2dd4bf; }
+        .tag-docs { background: #71717a20; color: #a1a1aa; }
+        .tag-billing { background: #22c55e20; color: #4ade80; }
+        .tag-marketing { background: #f9731620; color: #fb923c; }
+
+        /* Priority indicator */
+        .priority-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
         }
 
-        .btn-start {
-            background: #22c55e;
-            color: white;
-        }
+        .priority-critical { background: #ef4444; }
+        .priority-high { background: #f97316; }
+        .priority-medium { background: #eab308; }
+        .priority-low { background: #6b7280; }
 
-        .btn-complete {
-            background: #38bdf8;
-            color: #0f172a;
-        }
-
-        .btn-defer {
-            background: #475569;
-            color: #e2e8f0;
-        }
-
-        .btn-reopen {
-            background: #fbbf24;
-            color: #0f172a;
+        .card-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.75rem;
+            color: #52525b;
         }
 
         /* Drop zone highlight */
         .column-body.drag-over {
-            background: rgba(56, 189, 248, 0.1);
+            background: rgba(124, 58, 237, 0.05);
             border-radius: 8px;
+        }
+
+        /* Activity Sidebar */
+        .activity-sidebar {
+            width: 280px;
+            border-left: 1px solid #1e1e22;
+            display: flex;
+            flex-direction: column;
+            background: #0f0f10;
+        }
+
+        .activity-header {
+            padding: 16px;
+            border-bottom: 1px solid #1e1e22;
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: #a1a1aa;
+        }
+
+        .activity-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px;
+        }
+
+        .activity-item {
+            padding: 10px 12px;
+            border-radius: 6px;
+            margin-bottom: 4px;
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+
+        .activity-item:hover {
+            background: #18181b;
+        }
+
+        .activity-user {
+            color: #a1a1aa;
+            font-weight: 500;
+        }
+
+        .activity-action {
+            color: #52525b;
+        }
+
+        .activity-target {
+            color: #8b5cf6;
+        }
+
+        .activity-time {
+            display: block;
+            color: #3f3f46;
+            font-size: 0.7rem;
+            margin-top: 4px;
         }
 
         /* Modal */
@@ -348,7 +502,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.8);
             z-index: 1000;
             justify-content: center;
             align-items: center;
@@ -359,13 +513,14 @@
         }
 
         .modal {
-            background: #1e293b;
+            background: #18181b;
             border-radius: 12px;
             padding: 24px;
             max-width: 500px;
             width: 90%;
             max-height: 80vh;
             overflow-y: auto;
+            border: 1px solid #27272a;
         }
 
         .modal-header {
@@ -378,23 +533,24 @@
         .modal-title {
             font-size: 1.1rem;
             font-weight: 600;
+            color: #fafafa;
         }
 
         .modal-close {
             background: none;
             border: none;
-            color: #64748b;
+            color: #52525b;
             font-size: 1.5rem;
             cursor: pointer;
             line-height: 1;
         }
 
         .modal-close:hover {
-            color: #e2e8f0;
+            color: #a1a1aa;
         }
 
         .modal-body {
-            color: #94a3b8;
+            color: #a1a1aa;
             font-size: 0.9rem;
             line-height: 1.6;
         }
@@ -409,148 +565,268 @@
             gap: 8px 16px;
             margin-top: 16px;
             padding-top: 16px;
-            border-top: 1px solid #334155;
+            border-top: 1px solid #27272a;
         }
 
         .modal-meta dt {
-            color: #64748b;
+            color: #52525b;
             font-size: 0.8rem;
         }
 
         .modal-meta dd {
-            color: #e2e8f0;
+            color: #fafafa;
             font-size: 0.85rem;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid #27272a;
+        }
+
+        .modal-btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: opacity 0.2s;
+        }
+
+        .modal-btn:hover {
+            opacity: 0.8;
+        }
+
+        .modal-btn-primary {
+            background: #7c3aed;
+            color: white;
+        }
+
+        .modal-btn-secondary {
+            background: #27272a;
+            color: #a1a1aa;
+        }
+
+        /* New Task Modal */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.8rem;
+            color: #71717a;
+            margin-bottom: 6px;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            background: #0f0f10;
+            border: 1px solid #27272a;
+            color: #fafafa;
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #7c3aed;
+        }
+
+        .form-textarea {
+            min-height: 80px;
+            resize: vertical;
         }
 
         /* Scrollbar */
         ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
         }
 
         ::-webkit-scrollbar-track {
-            background: #1e293b;
+            background: transparent;
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #475569;
-            border-radius: 4px;
+            background: #27272a;
+            border-radius: 3px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: #64748b;
+            background: #3f3f46;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                gap: 16px;
-                align-items: flex-start;
-            }
+        /* Save reminder */
+        .save-reminder {
+            position: fixed;
+            bottom: 20px;
+            right: 300px;
+            background: #7c3aed;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3);
+            z-index: 1000;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
 
-            .header-stats {
-                flex-wrap: wrap;
-            }
+        .save-reminder button {
+            background: white;
+            color: #7c3aed;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
 
-            .filter-bar {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .column {
-                flex: 0 0 260px;
-            }
+        .save-reminder .close-btn {
+            background: none;
+            color: white;
+            font-size: 1.2rem;
+            padding: 0;
         }
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="header-left">
-            <span class="header-icon">📋</span>
-            <h1>Feature Pipeline</h1>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <div class="nav-left">
+            <div class="logo">
+                <div class="logo-icon">⚡</div>
+                Mission Control
+            </div>
+            <div class="nav-tabs">
+                <div class="nav-tab active">
+                    <span>📋</span> Tasks
+                </div>
+                <div class="nav-tab">
+                    <span>📄</span> Docs
+                </div>
+                <div class="nav-tab">
+                    <span>👥</span> People
+                </div>
+            </div>
         </div>
-        <div class="header-stats">
-            <span class="stat">Total: <span class="stat-value" id="stat-total">0</span></span>
-            <span class="stat">Critical: <span class="stat-value" id="stat-critical">0</span></span>
-            <span class="stat">High: <span class="stat-value" id="stat-high">0</span></span>
-            <span class="stat">Medium: <span class="stat-value" id="stat-medium">0</span></span>
-            <span class="stat">Low: <span class="stat-value" id="stat-low">0</span></span>
+        <div class="nav-right">
+            <div class="nav-action">
+                <span>⏸</span> Pause
+            </div>
+            <div class="user-menu">
+                <div class="user-avatar">BO</div>
+                <span style="font-size: 0.85rem;">Barry</span>
+            </div>
         </div>
-        <div class="header-actions">
-            <button class="btn-refresh" onclick="loadFeatures()">
-                🔄 Refresh
-            </button>
-        </div>
-    </header>
+    </nav>
 
-    <div class="filter-bar">
-        <div class="filter-group">
-            <span class="filter-label">Category</span>
-            <select class="filter-select" id="filter-category" onchange="applyFilters()">
-                <option value="">All Categories</option>
-            </select>
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+        <div class="stat-item">
+            <span class="stat-value" id="stat-this-week">0</span>
+            <span class="stat-label">This week</span>
         </div>
-        <div class="filter-group">
-            <span class="filter-label">Priority</span>
-            <select class="filter-select" id="filter-priority" onchange="applyFilters()">
-                <option value="">All Priorities</option>
-                <option value="critical">Critical</option>
-                <option value="high">High</option>
-                <option value="medium">Medium</option>
-                <option value="low">Low</option>
-            </select>
+        <div class="stat-item">
+            <span class="stat-value" id="stat-in-progress">0</span>
+            <span class="stat-label">In progress</span>
         </div>
-        <div class="filter-group">
-            <span class="filter-label">Search</span>
-            <input type="text" class="search-input" id="search-input" placeholder="Search features..." oninput="applyFilters()">
+        <div class="stat-item">
+            <span class="stat-value" id="stat-planned">0</span>
+            <span class="stat-label">Planned</span>
+        </div>
+        <div class="completion-stat">
+            <span class="stat-value" id="stat-completion">0%</span>
+            <span class="stat-label">Completion</span>
+            <div class="completion-bar">
+                <div class="completion-fill" id="completion-fill" style="width: 0%"></div>
+            </div>
         </div>
     </div>
 
-    <div class="board">
-        <div class="column" data-status="planned">
-            <div class="column-header">
-                <div class="column-title">
-                    <span class="column-icon">📝</span>
-                    PLANNED
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+        <button class="btn-new-task" onclick="showNewTaskModal()">
+            <span>+</span> New Task
+        </button>
+        <div class="filter-tabs">
+            <div class="filter-tab active" onclick="setViewFilter('all', this)">All</div>
+            <div class="filter-tab" onclick="setViewFilter('critical', this)">Critical</div>
+            <div class="filter-tab" onclick="setViewFilter('high', this)">High Priority</div>
+        </div>
+        <select class="filter-dropdown" id="filter-category" onchange="applyFilters()">
+            <option value="">All categories</option>
+        </select>
+        <input type="text" class="search-input" id="search-input" placeholder="Search features..." oninput="applyFilters()">
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Board -->
+        <div class="board">
+            <div class="column" data-status="planned">
+                <div class="column-header">
+                    <div class="column-title">
+                        <span class="column-icon">📝</span>
+                        Backlog
+                        <span class="column-count" id="count-planned">0</span>
+                    </div>
+                    <span class="column-menu">⋯</span>
                 </div>
-                <span class="column-count planned" id="count-planned">0</span>
+                <div class="column-body" id="col-planned"></div>
             </div>
-            <div class="column-body" id="col-planned"></div>
+
+            <div class="column" data-status="in_progress">
+                <div class="column-header">
+                    <div class="column-title">
+                        <span class="column-icon">▶</span>
+                        In Progress
+                        <span class="column-count" id="count-in_progress">0</span>
+                    </div>
+                    <span class="column-menu">⋯</span>
+                </div>
+                <div class="column-body" id="col-in_progress"></div>
+            </div>
+
+            <div class="column" data-status="completed">
+                <div class="column-header">
+                    <div class="column-title">
+                        <span class="column-icon">✓</span>
+                        Review
+                        <span class="column-count" id="count-completed">0</span>
+                    </div>
+                    <span class="column-menu">⋯</span>
+                </div>
+                <div class="column-body" id="col-completed"></div>
+            </div>
+
+            <div class="column" data-status="deferred">
+                <div class="column-header">
+                    <div class="column-title">
+                        <span class="column-icon">⏸</span>
+                        Deferred
+                        <span class="column-count" id="count-deferred">0</span>
+                    </div>
+                    <span class="column-menu">⋯</span>
+                </div>
+                <div class="column-body" id="col-deferred"></div>
+            </div>
         </div>
 
-        <div class="column" data-status="in_progress">
-            <div class="column-header">
-                <div class="column-title">
-                    <span class="column-icon">🔄</span>
-                    IN PROGRESS
-                </div>
-                <span class="column-count in_progress" id="count-in_progress">0</span>
+        <!-- Activity Sidebar -->
+        <aside class="activity-sidebar">
+            <div class="activity-header">ACTIVITY</div>
+            <div class="activity-list" id="activity-list">
+                <!-- Activity items will be populated here -->
             </div>
-            <div class="column-body" id="col-in_progress"></div>
-        </div>
-
-        <div class="column" data-status="completed">
-            <div class="column-header">
-                <div class="column-title">
-                    <span class="column-icon">✅</span>
-                    COMPLETED
-                </div>
-                <span class="column-count completed" id="count-completed">0</span>
-            </div>
-            <div class="column-body" id="col-completed"></div>
-        </div>
-
-        <div class="column" data-status="deferred">
-            <div class="column-header">
-                <div class="column-title">
-                    <span class="column-icon">⏸️</span>
-                    DEFERRED
-                </div>
-                <span class="column-count deferred" id="count-deferred">0</span>
-            </div>
-            <div class="column-body" id="col-deferred"></div>
-        </div>
+        </aside>
     </div>
 
     <!-- Detail Modal -->
@@ -574,6 +850,47 @@
                     <dt>Dependencies</dt>
                     <dd id="modal-dependencies"></dd>
                 </dl>
+                <div class="modal-actions">
+                    <button class="modal-btn modal-btn-primary" id="modal-action-btn">Start</button>
+                    <button class="modal-btn modal-btn-secondary" onclick="closeModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Task Modal -->
+    <div class="modal-overlay" id="new-task-modal" onclick="closeNewTaskModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2 class="modal-title">New Feature</h2>
+                <button class="modal-close" onclick="closeNewTaskModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Feature Name</label>
+                    <input type="text" class="form-input" id="new-task-name" placeholder="Enter feature name...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-textarea" id="new-task-description" placeholder="Describe the feature..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Category</label>
+                    <select class="form-select" id="new-task-category"></select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Priority</label>
+                    <select class="form-select" id="new-task-priority">
+                        <option value="critical">Critical</option>
+                        <option value="high">High</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="low">Low</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button class="modal-btn modal-btn-primary" onclick="createNewTask()">Create Feature</button>
+                    <button class="modal-btn modal-btn-secondary" onclick="closeNewTaskModal()">Cancel</button>
+                </div>
             </div>
         </div>
     </div>
@@ -582,33 +899,34 @@
         let featuresData = null;
         let allFeatures = [];
         let filteredFeatures = [];
+        let activityLog = [];
+        let viewFilter = 'all';
 
-        // Category display names
-        const categoryNames = {
-            'core_review_monitoring': 'Core Review Monitoring',
-            'ai_response_generation': 'AI Response Generation',
-            'response_posting': 'Response Posting',
-            'human_approval_workflow': 'Human Approval',
-            'database_storage': 'Database Storage',
-            'workflow_automation': 'Workflow Automation',
-            'notifications_alerts': 'Notifications',
-            'analytics_reporting': 'Analytics & Reporting',
-            'user_authentication': 'Authentication',
-            'customer_onboarding': 'Onboarding',
-            'billing_payments': 'Billing & Payments',
-            'landing_pages_marketing': 'Marketing',
-            'advertising_outreach': 'Advertising',
-            'security_compliance': 'Security',
-            'devops_infrastructure': 'DevOps',
-            'testing_quality': 'Testing & QA',
-            'documentation': 'Documentation',
-            'platform_integrations': 'Integrations'
+        // Category display names and tag classes
+        const categoryConfig = {
+            'core_review_monitoring': { name: 'Core', tag: 'tag-core' },
+            'ai_response_generation': { name: 'AI', tag: 'tag-ai' },
+            'response_posting': { name: 'API', tag: 'tag-api' },
+            'human_approval_workflow': { name: 'Workflow', tag: 'tag-workflow' },
+            'database_storage': { name: 'Database', tag: 'tag-db' },
+            'workflow_automation': { name: 'Workflow', tag: 'tag-workflow' },
+            'notifications_alerts': { name: 'Notifications', tag: 'tag-ui' },
+            'analytics_reporting': { name: 'Analytics', tag: 'tag-ui' },
+            'user_authentication': { name: 'Auth', tag: 'tag-security' },
+            'customer_onboarding': { name: 'Onboarding', tag: 'tag-ui' },
+            'billing_payments': { name: 'Billing', tag: 'tag-billing' },
+            'landing_pages_marketing': { name: 'Marketing', tag: 'tag-marketing' },
+            'advertising_outreach': { name: 'Marketing', tag: 'tag-marketing' },
+            'security_compliance': { name: 'Security', tag: 'tag-security' },
+            'devops_infrastructure': { name: 'DevOps', tag: 'tag-devops' },
+            'testing_quality': { name: 'Testing', tag: 'tag-devops' },
+            'documentation': { name: 'Docs', tag: 'tag-docs' },
+            'platform_integrations': { name: 'Integration', tag: 'tag-api' }
         };
 
-        // Load features from JSON file
+        // Load features
         async function loadFeatures() {
             try {
-                // Try to load from file (works when served via HTTP)
                 const response = await fetch('../features.json');
                 if (response.ok) {
                     featuresData = await response.json();
@@ -616,76 +934,119 @@
                     return;
                 }
             } catch (e) {
-                console.log('Could not fetch features.json, using embedded data');
+                console.log('Could not fetch features.json');
             }
 
-            // Fallback: prompt user to paste JSON
-            const jsonInput = prompt('Could not load features.json automatically.\n\nPaste the contents of features.json here (or press Cancel to use demo data):');
-
+            const jsonInput = prompt('Paste features.json contents:');
             if (jsonInput) {
                 try {
                     featuresData = JSON.parse(jsonInput);
                     processFeatures();
                 } catch (e) {
-                    alert('Invalid JSON. Using demo data.');
-                    loadDemoData();
+                    alert('Invalid JSON');
                 }
-            } else {
-                loadDemoData();
             }
-        }
-
-        function loadDemoData() {
-            featuresData = {
-                categories: {
-                    demo: {
-                        description: 'Demo features',
-                        features: [
-                            { id: 'DEMO-001', name: 'Sample Feature 1', description: 'This is a demo feature', status: 'planned', priority: 'high', dependencies: [] },
-                            { id: 'DEMO-002', name: 'Sample Feature 2', description: 'Another demo feature', status: 'in_progress', priority: 'critical', dependencies: ['DEMO-001'] },
-                            { id: 'DEMO-003', name: 'Sample Feature 3', description: 'Completed demo feature', status: 'completed', priority: 'medium', dependencies: [] },
-                        ]
-                    }
-                }
-            };
-            processFeatures();
         }
 
         function processFeatures() {
             allFeatures = [];
 
-            // Flatten features from all categories
             for (const [categoryKey, category] of Object.entries(featuresData.categories)) {
                 for (const feature of category.features) {
                     allFeatures.push({
                         ...feature,
                         category: categoryKey,
-                        categoryName: categoryNames[categoryKey] || categoryKey
+                        categoryName: categoryConfig[categoryKey]?.name || categoryKey,
+                        tagClass: categoryConfig[categoryKey]?.tag || 'tag-core'
                     });
                 }
             }
 
-            // Populate category filter
+            // Populate category filters
             const categorySelect = document.getElementById('filter-category');
-            categorySelect.innerHTML = '<option value="">All Categories</option>';
-            for (const [key, name] of Object.entries(categoryNames)) {
+            const newTaskCategory = document.getElementById('new-task-category');
+            categorySelect.innerHTML = '<option value="">All categories</option>';
+            newTaskCategory.innerHTML = '';
+
+            for (const [key, config] of Object.entries(categoryConfig)) {
                 if (featuresData.categories[key]) {
-                    categorySelect.innerHTML += `<option value="${key}">${name}</option>`;
+                    categorySelect.innerHTML += `<option value="${key}">${config.name}</option>`;
+                    newTaskCategory.innerHTML += `<option value="${key}">${config.name}</option>`;
                 }
             }
+
+            // Generate initial activity
+            generateInitialActivity();
 
             applyFilters();
             updateStats();
         }
 
+        function generateInitialActivity() {
+            const actions = ['started', 'completed', 'created', 'moved'];
+            const completed = allFeatures.filter(f => f.status === 'completed').slice(0, 8);
+            const inProgress = allFeatures.filter(f => f.status === 'in_progress').slice(0, 3);
+
+            activityLog = [];
+
+            inProgress.forEach((f, i) => {
+                activityLog.push({
+                    user: 'Barry',
+                    action: 'started',
+                    target: f.name,
+                    time: `${i + 1}h ago`
+                });
+            });
+
+            completed.forEach((f, i) => {
+                activityLog.push({
+                    user: 'Barry',
+                    action: 'completed',
+                    target: f.name,
+                    time: `${i + 1}d ago`
+                });
+            });
+
+            renderActivity();
+        }
+
+        function renderActivity() {
+            const list = document.getElementById('activity-list');
+            list.innerHTML = activityLog.slice(0, 15).map(item => `
+                <div class="activity-item">
+                    <span class="activity-user">${item.user}</span>
+                    <span class="activity-action"> ${item.action} </span>
+                    <span class="activity-target">${item.target}</span>
+                    <span class="activity-time">${item.time}</span>
+                </div>
+            `).join('');
+        }
+
+        function addActivity(action, target) {
+            activityLog.unshift({
+                user: 'Barry',
+                action: action,
+                target: target,
+                time: 'Just now'
+            });
+            renderActivity();
+        }
+
+        function setViewFilter(filter, element) {
+            viewFilter = filter;
+            document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+            element.classList.add('active');
+            applyFilters();
+        }
+
         function applyFilters() {
             const categoryFilter = document.getElementById('filter-category').value;
-            const priorityFilter = document.getElementById('filter-priority').value;
             const searchTerm = document.getElementById('search-input').value.toLowerCase();
 
             filteredFeatures = allFeatures.filter(feature => {
                 if (categoryFilter && feature.category !== categoryFilter) return false;
-                if (priorityFilter && feature.priority !== priorityFilter) return false;
+                if (viewFilter === 'critical' && feature.priority !== 'critical') return false;
+                if (viewFilter === 'high' && !['critical', 'high'].includes(feature.priority)) return false;
                 if (searchTerm) {
                     const searchable = `${feature.id} ${feature.name} ${feature.description}`.toLowerCase();
                     if (!searchable.includes(searchTerm)) return false;
@@ -697,19 +1058,17 @@
         }
 
         function updateStats() {
-            const stats = {
-                total: allFeatures.length,
-                critical: allFeatures.filter(f => f.priority === 'critical').length,
-                high: allFeatures.filter(f => f.priority === 'high').length,
-                medium: allFeatures.filter(f => f.priority === 'medium').length,
-                low: allFeatures.filter(f => f.priority === 'low').length
-            };
+            const completed = allFeatures.filter(f => f.status === 'completed').length;
+            const inProgress = allFeatures.filter(f => f.status === 'in_progress').length;
+            const planned = allFeatures.filter(f => f.status === 'planned').length;
+            const total = allFeatures.length;
+            const completionPct = total > 0 ? Math.round((completed / total) * 100) : 0;
 
-            document.getElementById('stat-total').textContent = stats.total;
-            document.getElementById('stat-critical').textContent = stats.critical;
-            document.getElementById('stat-high').textContent = stats.high;
-            document.getElementById('stat-medium').textContent = stats.medium;
-            document.getElementById('stat-low').textContent = stats.low;
+            document.getElementById('stat-this-week').textContent = completed;
+            document.getElementById('stat-in-progress').textContent = inProgress;
+            document.getElementById('stat-planned').textContent = planned;
+            document.getElementById('stat-completion').textContent = completionPct + '%';
+            document.getElementById('completion-fill').style.width = completionPct + '%';
         }
 
         function renderBoard() {
@@ -729,66 +1088,130 @@
                 column.innerHTML = features.map(feature => createCard(feature)).join('');
             });
 
-            // Setup drag and drop
             setupDragAndDrop();
         }
 
         function createCard(feature) {
-            const actions = getActions(feature.status);
-
             return `
                 <div class="card" draggable="true" data-id="${feature.id}" onclick="showDetail('${feature.id}')">
-                    <div class="card-category">
-                        ${feature.categoryName}
-                        <span class="card-id">${feature.id}</span>
-                    </div>
                     <div class="card-title">${feature.name}</div>
                     <div class="card-description">${feature.description}</div>
                     <div class="card-footer">
-                        <span class="card-priority priority-${feature.priority}">${feature.priority}</span>
-                        <div class="card-actions">
-                            ${actions}
+                        <div class="card-tags">
+                            <span class="card-tag ${feature.tagClass}">${feature.categoryName}</span>
+                        </div>
+                        <div class="card-meta">
+                            <span class="priority-dot priority-${feature.priority}" title="${feature.priority}"></span>
+                            <span>${feature.id}</span>
                         </div>
                     </div>
                 </div>
             `;
         }
 
-        function getActions(status) {
-            switch (status) {
+        function showDetail(featureId) {
+            const feature = allFeatures.find(f => f.id === featureId);
+            if (!feature) return;
+
+            document.getElementById('modal-title').textContent = feature.name;
+            document.getElementById('modal-description').textContent = feature.description;
+            document.getElementById('modal-id').textContent = feature.id;
+            document.getElementById('modal-category').textContent = feature.categoryName;
+            document.getElementById('modal-priority').textContent = feature.priority;
+            document.getElementById('modal-status').textContent = feature.status.replace('_', ' ');
+            document.getElementById('modal-dependencies').textContent =
+                feature.dependencies.length > 0 ? feature.dependencies.join(', ') : 'None';
+
+            const actionBtn = document.getElementById('modal-action-btn');
+            switch (feature.status) {
                 case 'planned':
-                    return `
-                        <button class="btn-action btn-start" onclick="event.stopPropagation(); changeStatus(event, 'in_progress')">Start</button>
-                        <button class="btn-action btn-defer" onclick="event.stopPropagation(); changeStatus(event, 'deferred')">Defer</button>
-                    `;
+                    actionBtn.textContent = 'Start';
+                    actionBtn.onclick = () => { changeStatusById(featureId, 'in_progress'); closeModal(); };
+                    break;
                 case 'in_progress':
-                    return `
-                        <button class="btn-action btn-complete" onclick="event.stopPropagation(); changeStatus(event, 'completed')">Complete</button>
-                        <button class="btn-action btn-defer" onclick="event.stopPropagation(); changeStatus(event, 'deferred')">Defer</button>
-                    `;
+                    actionBtn.textContent = 'Complete';
+                    actionBtn.onclick = () => { changeStatusById(featureId, 'completed'); closeModal(); };
+                    break;
                 case 'completed':
-                    return `
-                        <button class="btn-action btn-reopen" onclick="event.stopPropagation(); changeStatus(event, 'in_progress')">Reopen</button>
-                    `;
+                    actionBtn.textContent = 'Reopen';
+                    actionBtn.onclick = () => { changeStatusById(featureId, 'in_progress'); closeModal(); };
+                    break;
                 case 'deferred':
-                    return `
-                        <button class="btn-action btn-reopen" onclick="event.stopPropagation(); changeStatus(event, 'planned')">Reactivate</button>
-                    `;
-                default:
-                    return '';
+                    actionBtn.textContent = 'Reactivate';
+                    actionBtn.onclick = () => { changeStatusById(featureId, 'planned'); closeModal(); };
+                    break;
+            }
+
+            document.getElementById('modal-overlay').classList.add('active');
+        }
+
+        function closeModal(event) {
+            if (!event || event.target === document.getElementById('modal-overlay')) {
+                document.getElementById('modal-overlay').classList.remove('active');
             }
         }
 
-        function changeStatus(event, newStatus) {
-            const card = event.target.closest('.card');
-            const featureId = card.dataset.id;
+        function showNewTaskModal() {
+            document.getElementById('new-task-modal').classList.add('active');
+            document.getElementById('new-task-name').focus();
+        }
 
-            // Update in allFeatures
+        function closeNewTaskModal(event) {
+            if (!event || event.target === document.getElementById('new-task-modal')) {
+                document.getElementById('new-task-modal').classList.remove('active');
+                document.getElementById('new-task-name').value = '';
+                document.getElementById('new-task-description').value = '';
+            }
+        }
+
+        function createNewTask() {
+            const name = document.getElementById('new-task-name').value.trim();
+            const description = document.getElementById('new-task-description').value.trim();
+            const category = document.getElementById('new-task-category').value;
+            const priority = document.getElementById('new-task-priority').value;
+
+            if (!name) {
+                alert('Please enter a feature name');
+                return;
+            }
+
+            // Generate ID
+            const categoryFeatures = featuresData.categories[category].features;
+            const prefix = category.substring(0, 3).toUpperCase();
+            const num = categoryFeatures.length + 1;
+            const id = `${prefix}-${String(num).padStart(3, '0')}`;
+
+            const newFeature = {
+                id,
+                name,
+                description: description || 'No description',
+                status: 'planned',
+                priority,
+                dependencies: []
+            };
+
+            // Add to data
+            featuresData.categories[category].features.push(newFeature);
+            allFeatures.push({
+                ...newFeature,
+                category,
+                categoryName: categoryConfig[category]?.name || category,
+                tagClass: categoryConfig[category]?.tag || 'tag-core'
+            });
+
+            addActivity('created', name);
+            closeNewTaskModal();
+            applyFilters();
+            updateStats();
+            showSaveReminder();
+        }
+
+        function changeStatusById(featureId, newStatus) {
             const feature = allFeatures.find(f => f.id === featureId);
             if (feature) {
+                const oldStatus = feature.status;
                 feature.status = newStatus;
 
-                // Update in original data structure
                 for (const category of Object.values(featuresData.categories)) {
                     const f = category.features.find(f => f.id === featureId);
                     if (f) {
@@ -796,44 +1219,31 @@
                         break;
                     }
                 }
+
+                const action = newStatus === 'completed' ? 'completed' :
+                              newStatus === 'in_progress' ? 'started' : 'moved';
+                addActivity(action, feature.name);
             }
 
             applyFilters();
+            updateStats();
             showSaveReminder();
         }
 
         function showSaveReminder() {
-            // Show a non-blocking reminder
-            const existing = document.querySelector('.save-reminder');
-            if (existing) return;
+            if (document.querySelector('.save-reminder')) return;
 
             const reminder = document.createElement('div');
             reminder.className = 'save-reminder';
-            reminder.style.cssText = `
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                background: #fbbf24;
-                color: #0f172a;
-                padding: 12px 20px;
-                border-radius: 8px;
-                font-size: 0.85rem;
-                box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-                z-index: 1000;
-                display: flex;
-                gap: 12px;
-                align-items: center;
-            `;
             reminder.innerHTML = `
-                <span>Changes made! Export to save.</span>
-                <button onclick="exportJSON()" style="background:#0f172a;color:#fbbf24;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:600;">Export JSON</button>
-                <button onclick="this.parentElement.remove()" style="background:none;border:none;color:#0f172a;cursor:pointer;font-size:1.2rem;">&times;</button>
+                <span>Changes made</span>
+                <button onclick="exportJSON()">Export JSON</button>
+                <button class="close-btn" onclick="this.parentElement.remove()">&times;</button>
             `;
             document.body.appendChild(reminder);
         }
 
         function exportJSON() {
-            // Update summary counts
             featuresData.summary = {
                 total_features: allFeatures.length,
                 by_status: {
@@ -853,39 +1263,14 @@
             const json = JSON.stringify(featuresData, null, 2);
             const blob = new Blob([json], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
-
             const a = document.createElement('a');
             a.href = url;
             a.download = 'features.json';
             a.click();
-
             URL.revokeObjectURL(url);
 
-            // Remove reminder
             const reminder = document.querySelector('.save-reminder');
             if (reminder) reminder.remove();
-        }
-
-        function showDetail(featureId) {
-            const feature = allFeatures.find(f => f.id === featureId);
-            if (!feature) return;
-
-            document.getElementById('modal-title').textContent = feature.name;
-            document.getElementById('modal-description').textContent = feature.description;
-            document.getElementById('modal-id').textContent = feature.id;
-            document.getElementById('modal-category').textContent = feature.categoryName;
-            document.getElementById('modal-priority').textContent = feature.priority;
-            document.getElementById('modal-status').textContent = feature.status.replace('_', ' ');
-            document.getElementById('modal-dependencies').textContent =
-                feature.dependencies.length > 0 ? feature.dependencies.join(', ') : 'None';
-
-            document.getElementById('modal-overlay').classList.add('active');
-        }
-
-        function closeModal(event) {
-            if (!event || event.target === document.getElementById('modal-overlay')) {
-                document.getElementById('modal-overlay').classList.remove('active');
-            }
         }
 
         // Drag and Drop
@@ -915,9 +1300,7 @@
 
         function handleDragEnd(e) {
             e.target.classList.remove('dragging');
-            document.querySelectorAll('.column-body').forEach(col => {
-                col.classList.remove('drag-over');
-            });
+            document.querySelectorAll('.column-body').forEach(col => col.classList.remove('drag-over'));
         }
 
         function handleDragOver(e) {
@@ -932,35 +1315,22 @@
         function handleDrop(e) {
             e.preventDefault();
             e.currentTarget.classList.remove('drag-over');
-
             if (!draggedCard) return;
 
             const newStatus = e.currentTarget.closest('.column').dataset.status;
             const featureId = draggedCard.dataset.id;
-
-            // Update status
-            const feature = allFeatures.find(f => f.id === featureId);
-            if (feature && feature.status !== newStatus) {
-                feature.status = newStatus;
-
-                // Update in original data structure
-                for (const category of Object.values(featuresData.categories)) {
-                    const f = category.features.find(f => f.id === featureId);
-                    if (f) {
-                        f.status = newStatus;
-                        break;
-                    }
-                }
-
-                applyFilters();
-                showSaveReminder();
-            }
+            changeStatusById(featureId, newStatus);
         }
 
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 closeModal();
+                closeNewTaskModal();
+            }
+            if (e.key === 'n' && !e.target.matches('input, textarea')) {
+                e.preventDefault();
+                showNewTaskModal();
             }
         });
 

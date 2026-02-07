@@ -1,0 +1,42 @@
+# Claude Progress Log
+# Project: Restaurant Review AI
+# Started: 2026-02-07
+
+## Current Session
+- [ ] Complete Google My Business API integration
+- [ ] Set up review fetching workflow
+- [ ] Test AI response generation
+
+## Completed
+- [x] Set up 3-layer architecture (CLAUDE.md, AGENTS.md, GEMINI.md) (2026-02-07)
+- [x] Create directives/ and execution/ folders (2026-02-07)
+- [x] Generate comprehensive feature list (207 features) (2026-02-07)
+- [x] Create init.sh environment setup script (2026-02-07)
+- [x] Landing pages (EN/NL) live (prior)
+- [x] Typeform waitlist integration (prior)
+- [x] ROI calculator tool (prior)
+- [x] Response preview tool (prior)
+- [x] IG outreach playbook (prior)
+
+## Blocked
+(No blocked tasks)
+
+## Notes
+- Project pivoted to target 4.0-4.5★ restaurants (growth-focused, not damage control)
+- Target market: Het Gooi region, Netherlands (~171 restaurants)
+- Pricing: €349-549/month
+- Goal: 100 restaurants contacted → 10 customers signed
+- Using n8n for workflow automation, Airtable for storage, Claude for AI responses
+
+## Feature Summary
+- Total features: 207
+- Completed: 18
+- In Progress: 2
+- Planned: 42
+- Deferred: 145
+
+## Priority Breakdown
+- Critical: 18 features
+- High: 52 features
+- Medium: 93 features
+- Low: 44 features

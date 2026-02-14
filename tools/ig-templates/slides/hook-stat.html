@@ -1,0 +1,13 @@
+<!-- hook-stat: Big number + supporting text
+     Used in: Posts 1.1, 6, 9.2
+     Data: number, number_suffix (optional), text, number_color (optional, default: gold)
+-->
+<div class="slide theme-{{theme}}">
+  <div class="slide-content">
+    <div class="big-number {{number_color}}">{{number}}{{number_suffix}}</div>
+    <div class="{{text_size}}">{{text}}</div>
+    {{#divider}}<div class="divider"></div>{{/divider}}
+    {{#source}}<div class="small-text">Bron: {{source}}</div>{{/source}}
+  </div>
+  <div class="slide-footer">@reviewrecovery</div>
+</div>

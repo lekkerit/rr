@@ -1,0 +1,17 @@
+<!-- body-response: Response card with badge
+     Used in: Post 7.2
+     Data: label, badge_text, response_text
+-->
+<div class="slide theme-{{theme}}">
+  <div class="slide-content" style="justify-content:center;">
+    <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#888;margin-bottom:16px;">{{label}}</div>
+    <div class="response-card">
+      <div class="response-card-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        {{badge_text}}
+      </div>
+      <div class="response-card-text">{{response_text}}</div>
+    </div>
+  </div>
+  <div class="slide-footer">@reviewrecovery</div>
+</div>

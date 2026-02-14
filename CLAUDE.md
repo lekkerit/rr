@@ -71,8 +71,13 @@ Errors are learning opportunities. When something breaks:
 
 **Key principle:** Local files are only for processing. Deliverables live in cloud services (Google Sheets, Slides, etc.) where the user can access them. Everything in `.tmp/` can be deleted and regenerated.
 
+## Available Directives
+
+- `directives/init-project.md` - Project initialization
+- `directives/create-ig-post.md` - Instagram post generation (JSON → HTML → PNG/MP4)
+
 ## Summary
 
-You sit between human intent (directives) and deterministic execution (Python scripts). Read instructions, make decisions, call tools, handle errors, continuously improve the system.
+You sit between human intent (directives) and deterministic execution (scripts). Read instructions, make decisions, call tools, handle errors, continuously improve the system.
 
 Be pragmatic. Be reliable. Self-anneal.

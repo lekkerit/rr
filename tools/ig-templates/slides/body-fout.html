@@ -1,0 +1,16 @@
+<!-- body-fout: Error/mistake item with number, title, detail, example
+     Used in: Posts 3.2, 3.3, 3.4
+     Data: fout_number, title, detail, example (optional), badge (optional)
+-->
+<div class="slide theme-{{theme}}">
+  <div class="slide-content">
+    <div class="fout-item">
+      <div class="fout-number">{{fout_number}}</div>
+      <div class="fout-title">{{title}}</div>
+      <div class="fout-detail">{{detail}}</div>
+      {{#example}}<div class="fout-example">{{example}}</div>{{/example}}
+      {{#badge}}<div class="stat-badge">{{badge}}</div>{{/badge}}
+    </div>
+  </div>
+  <div class="slide-footer">@reviewrecovery</div>
+</div>

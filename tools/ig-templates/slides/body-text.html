@@ -1,0 +1,14 @@
+<!-- body-text: Statement + divider + subtitle
+     Used in: Posts 1.2, 8
+     Data: heading, subtitle (optional), pre_text (optional, e.g. quote marks)
+-->
+<div class="slide theme-{{theme}}">
+  <div class="slide-content">
+    {{#pre_text}}<div style="font-size:4rem;color:#FFA000;line-height:1;margin-bottom:8px;">{{pre_text}}</div>{{/pre_text}}
+    <div class="big-text">{{heading}}</div>
+    {{#post_text}}<div style="font-size:4rem;color:#FFA000;line-height:1;margin-top:8px;">{{post_text}}</div>{{/post_text}}
+    <div class="divider"></div>
+    {{#subtitle}}<div class="subtitle">{{subtitle}}</div>{{/subtitle}}
+  </div>
+  <div class="slide-footer">@reviewrecovery</div>
+</div>

@@ -1,0 +1,42 @@
+<!-- body-split: Before/after split with mini reviews
+     Used in: Post 2
+     Data: header, left_label, right_label, reviewer_initials, reviewer_name, stars, review_text,
+           no_response_text, response_label, response_text
+-->
+<div class="slide" style="background:#fff;">
+  <div style="text-align:center;padding:16px 0 8px;font-size:0.85rem;font-weight:700;color:#2d3748;text-transform:uppercase;letter-spacing:0.08em;flex-shrink:0;">{{header}}</div>
+  <div class="split-slide">
+    <div class="split-side split-left">
+      <div class="split-label red">&#x274C; {{left_label}}</div>
+      <div class="mini-review">
+        <div class="mini-review-header">
+          <div class="mini-avatar">{{reviewer_initials}}</div>
+          <div>
+            <div class="mini-name">{{reviewer_name}}</div>
+            <div class="mini-stars">{{stars}}</div>
+          </div>
+        </div>
+        <div class="mini-text">{{review_text}}</div>
+        <div class="mini-response mini-response-absent">{{no_response_text}}</div>
+      </div>
+    </div>
+    <div class="split-side split-right">
+      <div class="split-label green">&#x2705; {{right_label}}</div>
+      <div class="mini-review">
+        <div class="mini-review-header">
+          <div class="mini-avatar">{{reviewer_initials}}</div>
+          <div>
+            <div class="mini-name">{{reviewer_name}}</div>
+            <div class="mini-stars">{{stars}}</div>
+          </div>
+        </div>
+        <div class="mini-text">{{review_text}}</div>
+        <div class="mini-response mini-response-present">
+          <span class="mini-response-label">{{response_label}}</span>
+          {{response_text}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="split-slide-footer">@reviewrecovery</div>
+</div>

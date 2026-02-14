@@ -1,0 +1,23 @@
+<!-- body-stat-bars: Big number + progress bar visualization
+     Used in: Post 9.2
+     Data: number, number_color, text, bars (array of {label, value, color}), footnote (optional)
+-->
+<div class="slide theme-{{theme}}">
+  <div class="slide-content">
+    <div class="big-number" style="color:{{number_color}};">{{number}}</div>
+    <div class="medium-text">{{text}}</div>
+    {{#bars}}
+    <div class="stat-bar-container">
+      <div class="stat-bar-label">
+        <span>{{label}}</span>
+        <span class="{{value_color}}">{{value}}</span>
+      </div>
+      <div class="stat-bar">
+        <div class="{{bar_class}}" style="width:{{value}};{{#bar_color}}background:{{bar_color}};{{/bar_color}}"></div>
+      </div>
+    </div>
+    {{/bars}}
+    {{#footnote}}<div class="small-text" style="margin-top:16px;">{{footnote}}</div>{{/footnote}}
+  </div>
+  <div class="slide-footer">@reviewrecovery</div>
+</div>

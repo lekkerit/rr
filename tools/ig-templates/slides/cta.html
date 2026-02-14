@@ -1,0 +1,14 @@
+<!-- cta: Call-to-action closing slide
+     Used in: Posts 1.4, 3.5, 9.3
+     Data: heading, subtitle, button_text (optional), icon (optional, e.g. ✓ for fix-number)
+-->
+<div class="slide theme-{{theme}}">
+  <div class="slide-content">
+    {{#icon}}<div class="fix-number">{{icon}}</div>{{/icon}}
+    <div class="big-text">{{heading}}</div>
+    <div class="divider"></div>
+    <div class="subtitle">{{subtitle}}</div>
+    {{#button_text}}<div class="cta-button">{{button_text}}</div>{{/button_text}}
+  </div>
+  <div class="slide-footer">@reviewrecovery</div>
+</div>

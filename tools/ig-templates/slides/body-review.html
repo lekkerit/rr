@@ -1,0 +1,21 @@
+<!-- body-review: Full review card display
+     Used in: Post 7.1
+     Data: label, reviewer_initials, reviewer_name, meta, stars, review_text
+-->
+<div class="slide theme-{{theme}}">
+  <div class="slide-content" style="justify-content:center;">
+    <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#888;margin-bottom:16px;">{{label}}</div>
+    <div class="review-card">
+      <div class="review-card-header">
+        <div class="review-card-avatar">{{reviewer_initials}}</div>
+        <div class="review-card-info">
+          <div class="review-card-name">{{reviewer_name}}</div>
+          <div class="review-card-meta">{{meta}}</div>
+        </div>
+      </div>
+      <div class="review-card-stars">{{stars}}</div>
+      <div class="review-card-text">{{review_text}}</div>
+    </div>
+  </div>
+  <div class="slide-footer">@reviewrecovery</div>
+</div>

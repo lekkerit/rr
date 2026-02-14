@@ -1,0 +1,47 @@
+{
+  "post_id": "post-1",
+  "type": "carousel",
+  "title": "9 van de 10 gasten leest reviews",
+  "slides": [
+    {
+      "type": "hook-stat",
+      "theme": "dark",
+      "data": {
+        "number": "9",
+        "number_suffix": "<span style=\"font-size:2.5rem;opacity:0.6\">/10</span>",
+        "text": "gasten leest reviews voor ze reserveren",
+        "number_color": "gold",
+        "text_size": "big-text"
+      }
+    },
+    {
+      "type": "body-text",
+      "theme": "gold",
+      "data": {
+        "heading": "Maar ze lezen ook <span class=\"accent-underline\" style=\"border-color:#fff\">jouw reacties</span>",
+        "subtitle": "Professionele responses maken het verschil tussen scrollen en reserveren"
+      }
+    },
+    {
+      "type": "body-stat",
+      "theme": "dark",
+      "data": {
+        "icon": "⭐",
+        "pre_text": "Restaurants die reageren op reviews krijgen",
+        "number": "35%",
+        "number_color": "gold",
+        "post_text": "meer boekingen",
+        "source": "Harvard Business Review"
+      }
+    },
+    {
+      "type": "cta",
+      "theme": "gold",
+      "data": {
+        "heading": "Wil je weten hoe?",
+        "subtitle": "Ontdek hoe professionele review responses jouw restaurant laten groeien",
+        "button_text": "Link in bio →"
+      }
+    }
+  ]
+}

@@ -19,7 +19,7 @@ In the n8n web interface (http://localhost:5678):
 2. Click "Create New Credential"
 3. Search for "Google OAuth2 API"
 4. Fill in:
-   - **Client ID**: `856495322762-q7hpls57lg9gelm4nafej4olf6ca5t6f.apps.googleusercontent.com`
+   - **Client ID**: *(get from Google Cloud Console — do not commit to repo)*
    - **Client Secret**: `GOCSPX-YOUR_CLIENT_SECRET_HERE` *(you need to provide this)*
    - **Scope**: `https://www.googleapis.com/auth/business.manage`
    - **Auth URI**: `https://accounts.google.com/o/oauth2/v2/auth`
@@ -69,7 +69,7 @@ You still need to provide:
 
 ## Airtable Configuration
 
-Your Airtable base: `appvashRUw01RzXY7`
+Your Airtable base: *(get Base ID from Airtable URL — do not commit to repo)*
 Table: `Reviews` (as referenced in workflows)
 
 Required fields in the Reviews table:

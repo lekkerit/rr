@@ -22,10 +22,9 @@
 (No blocked tasks)
 
 ## Notes
-- Project pivoted to target 4.0-4.5★ restaurants (growth-focused, not damage control)
-- Target market: Het Gooi region, Netherlands (~171 restaurants)
-- Pricing: €349-549/month
-- Goal: 100 restaurants contacted → 10 customers signed
+- Target market: 4.0-4.5★ restaurants in Het Gooi region, Netherlands (~171 restaurants)
+- Pricing: €349/month
+- Goal: 50+ restaurants signed within 6 months
 - Using n8n for workflow automation, Airtable for storage, Claude for AI responses
 
 ## Feature Summary

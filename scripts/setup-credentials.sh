@@ -31,7 +31,7 @@ ANTHROPIC_API_KEY=your_anthropic_api_key_here
 
 # Airtable
 AIRTABLE_API_KEY=your_airtable_personal_access_token_here
-AIRTABLE_BASE_ID=appvashRUw01RzXY7
+AIRTABLE_BASE_ID=your_airtable_base_id_here
 
 # Application
 NODE_ENV=development

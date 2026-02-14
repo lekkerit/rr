@@ -1,4 +1,4 @@
-# n8n Setup Guide for Beginners - Review Recovery MVP
+# n8n Setup Guide for Beginners - Review Recovery
 
 ## Overview
 This guide walks you through setting up 8 automated workflows in n8n to run your Review Recovery service. **Total setup time: 2-3 hours**
@@ -16,7 +16,7 @@ Before importing workflows, set up your API credentials in n8n.
    - Click "Create new token"
    - Name: "n8n Review Recovery"
    - Add scopes: `data.records:read`, `data.records:write`, `schema.bases:read`
-   - Add access to base: Select "Restaurant Review AI - MVP" (appvashRUw01RzXY7)
+   - Add access to base: Select "Restaurant Review AI" (YOUR_AIRTABLE_BASE_ID)
    - Click "Create token"
    - **Copy the token** (you'll only see it once!)
 
@@ -153,7 +153,7 @@ Before importing workflows, set up your API credentials in n8n.
    - Select "Airtable - Review Recovery" (the one you created)
 3. **Update Base ID:**
    - Find field with `YOUR_AIRTABLE_BASE_ID`
-   - Replace with: `appvashRUw01RzXY7`
+   - Replace with: `YOUR_AIRTABLE_BASE_ID`
 4. **Update Table name:**
    - Should be "Waitlist" (check it's correct)
 5. Click outside node to close
@@ -190,7 +190,7 @@ Before importing workflows, set up your API credentials in n8n.
    - Google API nodes → "Google My Business OAuth"
    - Claude API nodes → "Anthropic Claude API"
    - Email nodes → "Gmail SMTP"
-4. Update `YOUR_AIRTABLE_BASE_ID` → `appvashRUw01RzXY7`
+4. Update `YOUR_AIRTABLE_BASE_ID` → `YOUR_AIRTABLE_BASE_ID`
 5. Update `YOUR_SMTP_CREDENTIALS` (if any)
 6. Save workflow
 7. **DON'T activate yet!** (we'll do that in order)
@@ -201,7 +201,7 @@ Before importing workflows, set up your API credentials in n8n.
 
 ### Step 3.1: Verify Tables Exist
 
-In your Airtable base (appvashRUw01RzXY7), you need these 9 tables:
+In your Airtable base (YOUR_AIRTABLE_BASE_ID), you need these 9 tables:
 
 1. ✅ **Waitlist** (should already exist with Typeform connection)
 2. **Restaurants**
@@ -399,7 +399,7 @@ In your Airtable base (appvashRUw01RzXY7), you need these 9 tables:
 - Workflow IDs will be generated after import
 
 ### Your Airtable Base
-- Base ID: `appvashRUw01RzXY7`
+- Base ID: `YOUR_AIRTABLE_BASE_ID`
 - Tables: 9 total (see Part 3)
 
 ### Support Docs

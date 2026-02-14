@@ -1,23 +1,10 @@
-# Ads Copy - Review Recovery (PIVOTED)
+# Ads Copy - Review Recovery
 
 **Campaign Goal:** 20-30 qualified leads for growth-focused restaurants
 **Target:** 4.0-4.5⭐ restaurants in Het Gooi region
 **Offer:** ROI Calculator + €349/month professional review management
 **Destination:** Landing page + ROI calculator
-**Positioning:** Growth tool, not damage control
-
----
-
-## Strategic Pivot: From Damage Control → Growth Engine
-
-**OLD Target:** 1-3⭐ restaurants (struggling, price-sensitive)
-**NEW Target:** 4.0-4.5⭐ restaurants (successful, growth-minded)
-
-**OLD Message:** "Fix your terrible reputation"
-**NEW Message:** "Convert more reviews into reservations"
-
-**OLD Price:** €249 (damage control pricing)
-**NEW Price:** €349 (growth investment pricing)
+**Positioning:** Growth tool for successful restaurants
 
 ---
 
@@ -337,5 +324,5 @@ Harvard onderzoek toont aan: restaurants met professionele review responses krij
 
 ---
 
-**Updated:** February 5, 2026
-**Strategy:** Pivoted to growth-focused 4.0-4.5⭐ restaurant market
+**Updated:** February 14, 2026
+**Strategy:** Growth-focused 4.0-4.5⭐ restaurant market

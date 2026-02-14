@@ -1,23 +1,10 @@
-# Advertentieteksten - Review Recovery (PIVOT)
+# Advertentieteksten - Review Recovery
 
 **Campagnedoel:** 20-30 gekwalificeerde leads voor groeigerichte restaurants
 **Doelgroep:** 4.0-4.5⭐ restaurants in de regio Het Gooi
 **Aanbod:** ROI Calculator + €349/maand professioneel review management
 **Bestemming:** Landingspagina + ROI calculator
-**Positionering:** Groei-instrument, geen schadebeperking
-
----
-
-## Strategische Pivot: Van Schadebeperking → Groeimotor
-
-**OUD Doelgroep:** 1-3⭐ restaurants (worstelen, prijsgevoelig)
-**NIEUW Doelgroep:** 4.0-4.5⭐ restaurants (succesvol, groeigedreven)
-
-**OUD Boodschap:** "Repareer je slechte reputatie"
-**NIEUW Boodschap:** "Zet meer reviews om in reserveringen"
-
-**OUD Prijs:** €249 (schadebeperkingsprijs)
-**NIEUW Prijs:** €349 (groei-investeringsprijs)
+**Positionering:** Groei-instrument voor succesvolle restaurants
 
 ---
 

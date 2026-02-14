@@ -1,12 +1,12 @@
 # Airtable Database Schema
 
 ## Overview
-Database schema for Restaurant Review Response Automation MVP using Airtable as the data store. Designed for quick setup with migration path to Supabase for production scaling.
+Database schema for Restaurant Review Response Automation using Airtable as the data store. Designed for quick setup with migration path to Supabase for production scaling. Targets 4.0-4.5 star restaurants in Het Gooi region, Netherlands.
 
 ## Schema Design Principles
 - Normalized tables with clear relationships
 - All sensitive data encrypted (Google tokens, PII)
-- Support for both Starter and Pro service tiers
+- Growth-focused metrics (conversion tracking, booking inquiries, ROI)
 - Analytics-ready structure for reporting
 - Migration-friendly field types
 
@@ -32,9 +32,9 @@ Database schema for Restaurant Review Response Automation MVP using Airtable as 
 | `google_refresh_token_encrypted` | Long text | Yes | Encrypted OAuth refresh token | `encrypted:AES256:...` |
 | `google_access_token_encrypted` | Long text | No | Encrypted current access token | `encrypted:AES256:...` |
 | `google_token_expires_at` | Date & time | No | Token expiry timestamp | `2026-01-27 15:30:00` |
-| `tier` | Single select | Yes | Service tier | `Starter`, `Pro` |
-| `subscription_status` | Single select | Yes | Current status | `Active`, `Cancelled`, `Past Due` |
-| `monthly_response_limit` | Number | Yes | Response quota | `100` (Starter), `300` (Pro) |
+| `target_rating` | Single select | Yes | Client segment | `GROWTH_FOCUSED`, `MAINTENANCE` |
+| `subscription_status` | Single select | Yes | Current status | `Trial`, `Active`, `Paused`, `Cancelled` |
+| `monthly_review_volume` | Number | No | Reviews per month | `25` |
 | `monthly_response_count` | Number | Yes | Current month usage | `42` |
 | `response_count_reset_date` | Date | Yes | Next quota reset | `2026-02-01` |
 | `created_at` | Date & time | Yes | Account creation | `2026-01-26 10:00:00` |
@@ -44,15 +44,14 @@ Database schema for Restaurant Review Response Automation MVP using Airtable as 
 
 ### Timezone Options
 ```
-America/New_York, America/Chicago, America/Denver, America/Los_Angeles,
-America/Phoenix, America/Anchorage, Pacific/Honolulu
+Europe/Amsterdam
 ```
 
 ---
 
 ## Table 2: Brand_Voice_Profiles
 
-**Purpose:** Pro tier brand voice customization settings
+**Purpose:** Brand voice customization settings
 **Linked to:** Restaurants (Many-to-One)
 
 ### Fields
@@ -113,7 +112,9 @@ Very Formal, Professional but Warm, Casual and Friendly, Very Casual
 | `key_themes` | Multiple select | No | Extracted topics | `Food Quality`, `Service`, `Pizza` |
 | `response_generated` | Checkbox | Yes | Has AI response | `true` |
 | `response_posted` | Checkbox | Yes | Response live on Google | `false` |
-| `language_detected` | Single select | No | Review language | `English`, `Spanish`, `Other` |
+| `conversion_tracked` | Checkbox | No | Did this lead to a booking? | `false` |
+| `response_tone` | Single select | No | Response tone used | `Professional`, `Warm`, `Enthusiastic` |
+| `language_detected` | Single select | No | Review language | `Dutch`, `English`, `Other` |
 | `word_count` | Number | No | Review length | `47` |
 
 ### Star Rating Options
@@ -314,16 +315,18 @@ Reviews (1) → Generated_Responses (1)
 | `contact_name` | Single line text | Yes | Owner/manager name | `John Smith` |
 | `contact_email` | Email | Yes | Primary email | `john@pastaparadise.com` |
 | `contact_phone` | Phone number | No | Phone number | `+31 6 1234 5678` |
-| `city` | Single line text | Yes | Location | `Amsterdam` |
-| `current_rating` | Single select | Yes | Google rating | `1-2 stars`, `2-3 stars`, `3-4 stars` |
+| `city` | Single line text | Yes | Location (Het Gooi) | `Hilversum` |
+| `current_rating` | Single select | Yes | Google rating | `4.0-4.2 stars`, `4.3-4.5 stars` |
 | `google_business_url` | URL | No | Google Maps link | `https://maps.google.com/...` |
 | `monthly_review_volume` | Single select | No | Reviews/month | `<10`, `10-50`, `50-100`, `100+` |
 | `submitted_at` | Date & time | Yes | Form submission | `2026-02-01 14:30:00` |
 | `application_status` | Single select | Yes | Review status | `New`, `Under Review`, `Approved`, `Rejected`, `Onboarded` |
 | `reviewed_at` | Date & time | No | Manual review timestamp | `2026-02-03 10:00:00` |
 | `reviewed_by` | Single line text | No | Who reviewed | `admin@reviewrecovery.com` |
-| `rejection_reason` | Long text | No | If rejected | `Rating too high (4.2 stars)` |
-| `notes` | Long text | No | Internal notes | `High potential - 50+ negative reviews` |
+| `growth_goals` | Long text | No | Selected growth goals (JSON) | `["more_reservations", "time_saving"]` |
+| `investment_readiness` | Single select | No | Budget readiness | `Ready`, `ROI First`, `Discuss`, `Too High` |
+| `rejection_reason` | Long text | No | If rejected | `Outside Het Gooi region` |
+| `notes` | Long text | No | Internal notes | `High volume, 30+ reviews/month` |
 | `converted_to_restaurant_id` | Single line text | No | If onboarded | `rest_2Jk9XmN4` |
 | `source` | Single select | Yes | Traffic source | `Typeform`, `Direct`, `Referral` |
 
@@ -334,7 +337,7 @@ New, Under Review, Approved, Rejected, Onboarded
 
 ### Current Rating Options
 ```
-1-2 stars, 2-3 stars, 3-4 stars, 4+ stars (too high)
+4.0-4.2 stars, 4.3-4.5 stars
 ```
 
 ---
@@ -342,7 +345,7 @@ New, Under Review, Approved, Rejected, Onboarded
 ## Airtable Setup Instructions
 
 ### Base Configuration
-1. **Create New Base:** "Restaurant Review AI - MVP"
+1. **Create New Base:** "Restaurant Review AI"
 2. **Import Tables:** Create tables in this order (dependencies)
 3. **Set Permissions:** Restrict access to authorized team members
 4. **Configure Views:** Set up filtered views for each workflow
@@ -352,14 +355,13 @@ New, Under Review, Approved, Rejected, Onboarded
 #### Restaurants Table Views
 - **Active Restaurants:** `status = "Active"`
 - **Onboarding:** `status = "Onboarding"`
-- **Pro Tier:** `tier = "Pro"`
-- **Usage Alerts:** `monthly_response_count > (monthly_response_limit * 0.8)`
+- **Growth Focused:** `target_rating = "GROWTH_FOCUSED"`
 
 #### Reviews Table Views
 - **Pending Responses:** `response_generated = false AND is_spam = false`
 - **Recent Reviews:** Last 30 days, sorted by `review_date`
-- **Negative Reviews:** `star_rating IN ["1 Star", "2 Stars"]`
-- **High Priority:** Negative reviews without responses
+- **Needs Attention:** `star_rating IN ["1 Star", "2 Stars", "3 Stars"]`
+- **High Priority:** Low-rated reviews without responses
 
 #### Generated_Responses Views
 - **Pending Approval:** `approval_status = "Pending"`
@@ -394,7 +396,7 @@ CREATE TABLE restaurants (
   name TEXT NOT NULL,
   owner_email TEXT NOT NULL,
   google_refresh_token TEXT NOT NULL, -- encrypted
-  tier TEXT CHECK (tier IN ('starter', 'pro')),
+  target_rating TEXT CHECK (target_rating IN ('GROWTH_FOCUSED', 'MAINTENANCE')),
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 ```

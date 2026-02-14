@@ -326,7 +326,55 @@
 
   <!-- Scene 1: Hook -->
   <div class="scene scene-1" id="scene1">
-    <div class="hook-emoji">&#x1F4F1;</div>
+    <div class="hook-emoji"><svg xmlns="http://www.w3.org/2000/svg" width="320" height="380" viewBox="0 0 320 380">
+      <!-- Card background -->
+      <rect x="0" y="0" width="320" height="380" rx="20" ry="20" fill="#1a1f2e"/>
+      <rect x="0" y="0" width="320" height="380" rx="20" ry="20" fill="none" stroke="#2a3040" stroke-width="2"/>
+
+      <!-- Header bar -->
+      <rect x="24" y="24" width="60" height="6" rx="3" fill="#555"/>
+      <circle cx="300" cy="27" r="4" fill="#666" opacity="0.5"/>
+
+      <!-- Notification badge -->
+      <circle cx="296" cy="16" r="14" fill="#e53e3e"/>
+      <text x="296" y="21" text-anchor="middle" fill="#fff" font-family="Inter,sans-serif" font-size="14" font-weight="700">3</text>
+
+      <!-- Color bar indicators -->
+      <rect x="24" y="44" width="60" height="5" rx="2.5" fill="#4299e1"/>
+      <rect x="90" y="44" width="60" height="5" rx="2.5" fill="#e53e3e"/>
+      <rect x="156" y="44" width="60" height="5" rx="2.5" fill="#ecc94b"/>
+      <rect x="222" y="44" width="60" height="5" rx="2.5" fill="#48bb78"/>
+
+      <!-- Review 1 -->
+      <rect x="16" y="64" width="288" height="88" rx="12" fill="#242a3a"/>
+      <circle cx="44" cy="92" r="18" fill="#48bb78"/>
+      <text x="44" y="98" text-anchor="middle" fill="#fff" font-family="Inter,sans-serif" font-size="16" font-weight="700">A</text>
+      <text x="72" y="88" fill="#fff" font-family="Inter,sans-serif" font-size="14" font-weight="600">Anna de Vries</text>
+      <text x="72" y="104" fill="#ecc94b" font-family="sans-serif" font-size="12">&#9733;&#9733;&#9733;&#9733;&#9733;</text>
+      <text x="24" y="126" fill="#aaa" font-family="Inter,sans-serif" font-size="11">"Fantastisch eten en geweldige sfeer!"</text>
+      <rect x="24" y="132" width="90" height="16" rx="8" fill="#276749" opacity="0.7"/>
+      <text x="30" y="143" fill="#48bb78" font-family="Inter,sans-serif" font-size="9" font-weight="600">&#10003; Beantwoord</text>
+
+      <!-- Review 2 -->
+      <rect x="16" y="162" width="288" height="88" rx="12" fill="#242a3a"/>
+      <circle cx="44" cy="190" r="18" fill="#9f7aea"/>
+      <text x="44" y="196" text-anchor="middle" fill="#fff" font-family="Inter,sans-serif" font-size="16" font-weight="700">M</text>
+      <text x="72" y="186" fill="#fff" font-family="Inter,sans-serif" font-size="14" font-weight="600">Mark Jansen</text>
+      <text x="72" y="202" fill="#ecc94b" font-family="sans-serif" font-size="12">&#9733;&#9733;&#9733;&#9733;</text>
+      <text x="24" y="224" fill="#aaa" font-family="Inter,sans-serif" font-size="11">"Lekker gegeten, service kan beter."</text>
+      <rect x="24" y="230" width="90" height="16" rx="8" fill="#276749" opacity="0.7"/>
+      <text x="30" y="241" fill="#48bb78" font-family="Inter,sans-serif" font-size="9" font-weight="600">&#10003; Beantwoord</text>
+
+      <!-- Review 3 -->
+      <rect x="16" y="260" width="288" height="88" rx="12" fill="#242a3a"/>
+      <circle cx="44" cy="288" r="18" fill="#4299e1"/>
+      <text x="44" y="294" text-anchor="middle" fill="#fff" font-family="Inter,sans-serif" font-size="16" font-weight="700">S</text>
+      <text x="72" y="284" fill="#fff" font-family="Inter,sans-serif" font-size="14" font-weight="600">Sophie Bakker</text>
+      <text x="72" y="300" fill="#ecc94b" font-family="sans-serif" font-size="12">&#9733;&#9733;&#9733;&#9733;&#9733;</text>
+      <text x="24" y="322" fill="#aaa" font-family="Inter,sans-serif" font-size="11">"Toprestaurant! Zeker een aanrader."</text>
+      <rect x="24" y="328" width="90" height="16" rx="8" fill="#276749" opacity="0.7"/>
+      <text x="30" y="339" fill="#48bb78" font-family="Inter,sans-serif" font-size="9" font-weight="600">&#10003; Beantwoord</text>
+    </svg></div>
     <div class="hook-text">
       Reageer jij op<br><span class="hook-highlight">Google reviews</span>?
     </div>
@@ -380,6 +428,39 @@
 </div>
 
 <script>
+  // ===================================================================
+  // TIMING CONFIG — adjust scene durations here to avoid rework
+  // Each scene has: animateIn (elements appear), hold (stay visible), fadeOut
+  // ===================================================================
+  const TIMING = {
+    scene1: { start: 300,   animateIn: 1700, hold: 2000, fadeOut: 700 },
+    scene2: { gap: 500,     animateIn: 2700, hold: 2000, fadeOut: 700 },
+    scene3: { gap: 500,     animateIn: 2900, hold: 2000, fadeOut: 700 },
+    scene4: { gap: 500,     animateIn: 2200, hold: 2000, fadeOut: 0   },
+  };
+
+  // Compute absolute timestamps from config
+  const S1_START = TIMING.scene1.start;
+  const S1_FADEOUT = S1_START + TIMING.scene1.animateIn + TIMING.scene1.hold;
+  const S1_END = S1_FADEOUT + TIMING.scene1.fadeOut;
+
+  const S2_START = S1_END + TIMING.scene2.gap;
+  const S2_FADEOUT = S2_START + TIMING.scene2.animateIn + TIMING.scene2.hold;
+  const S2_END = S2_FADEOUT + TIMING.scene2.fadeOut;
+
+  const S3_START = S2_END + TIMING.scene3.gap;
+  const S3_FADEOUT = S3_START + TIMING.scene3.animateIn + TIMING.scene3.hold;
+  const S3_END = S3_FADEOUT + TIMING.scene3.fadeOut;
+
+  const S4_START = S3_END + TIMING.scene4.gap;
+  const S4_END = S4_START + TIMING.scene4.animateIn + TIMING.scene4.hold;
+
+  const TOTAL_DURATION = S4_END;
+
+  // Log computed duration for capture script alignment
+  console.log(`[TIMING] Total duration: ${TOTAL_DURATION}ms (${(TOTAL_DURATION/1000).toFixed(1)}s)`);
+  console.log(`[TIMING] Scene 1: ${S1_START}–${S1_END}ms | Scene 2: ${S2_START}–${S2_END}ms | Scene 3: ${S3_START}–${S3_END}ms | Scene 4: ${S4_START}–${S4_END}ms`);
+
   // Generate floating particles
   const particlesEl = document.getElementById('particles');
   for (let i = 0; i < 20; i++) {
@@ -405,8 +486,6 @@
       loop: true,
     });
   }
-
-  const TOTAL_DURATION = 12000; // 12 seconds total
 
   function resetAll() {
     // Reset all scenes
@@ -454,177 +533,177 @@
       easing: 'linear',
     }, 0);
 
-    // === SCENE 1: Hook (0 - 3000ms) ===
+    // === SCENE 1: Hook ===
     tl.add({
       targets: '.scene-1 .hook-emoji',
       opacity: [0, 1],
       scale: [0.3, 1],
-      duration: 600,
+      duration: 1000,
       easing: 'easeOutBack',
-    }, 200);
+    }, S1_START);
 
     tl.add({
       targets: '.scene-1 .hook-text',
       opacity: [0, 1],
       translateY: [60, 0],
-      duration: 800,
-    }, 600);
+      duration: 1200,
+    }, S1_START + 700);
 
     // Fade out scene 1
     tl.add({
       targets: '#scene1',
       opacity: 0,
-      duration: 400,
-      easing: 'easeInQuad',
-    }, 2600);
+      duration: TIMING.scene1.fadeOut,
+      easing: 'easeInOutQuad',
+    }, S1_FADEOUT);
 
-    // === SCENE 2: Big number (3000 - 6500ms) ===
+    // === SCENE 2: Big number ===
     tl.add({
       targets: '#scene2',
       opacity: [0, 1],
-      duration: 100,
-    }, 3000);
+      duration: 300,
+    }, S2_START);
 
     tl.add({
       targets: '.scene-2 .plus-sign',
       opacity: [0, 1],
       translateX: [-40, 0],
-      duration: 500,
-    }, 3100);
+      duration: 800,
+    }, S2_START + 200);
 
     tl.add({
       targets: '.scene-2 .big-number',
       opacity: [0, 1],
       scale: [2, 1],
-      duration: 700,
+      duration: 1100,
       easing: 'easeOutBack',
-    }, 3200);
+    }, S2_START + 400);
 
     // Counter animation
     tl.add({
       targets: { val: 0 },
       val: 35,
       round: 1,
-      duration: 1200,
+      duration: 1800,
       easing: 'easeOutExpo',
       update: function(anim) {
         document.getElementById('counterNum').textContent = Math.round(anim.animations[0].currentValue);
       },
-    }, 3200);
+    }, S2_START + 400);
 
     tl.add({
       targets: '.scene-2 .percent',
       opacity: [0, 1],
       translateX: [40, 0],
-      duration: 500,
-    }, 3400);
+      duration: 800,
+    }, S2_START + 700);
 
     tl.add({
       targets: '.scene-2 .label-text',
       opacity: [0, 1],
       translateY: [30, 0],
-      duration: 600,
-    }, 4000);
+      duration: 900,
+    }, S2_START + 1700);
 
-    // Pulse the number
+    // Pulse the number during hold
     tl.add({
       targets: '.scene-2 .big-number',
       scale: [1, 1.08, 1],
-      duration: 400,
+      duration: 600,
       easing: 'easeInOutSine',
-    }, 4800);
+    }, S2_FADEOUT - 800);
 
     // Fade out scene 2
     tl.add({
       targets: '#scene2',
       opacity: 0,
-      duration: 400,
-      easing: 'easeInQuad',
-    }, 6100);
+      duration: TIMING.scene2.fadeOut,
+      easing: 'easeInOutQuad',
+    }, S2_FADEOUT);
 
-    // === SCENE 3: Explanation (6500 - 9500ms) ===
+    // === SCENE 3: Explanation ===
     tl.add({
       targets: '#scene3',
       opacity: [0, 1],
-      duration: 100,
-    }, 6500);
+      duration: 300,
+    }, S3_START);
 
     tl.add({
       targets: '.scene-3 .explain-text',
       opacity: [0, 1],
       translateY: [40, 0],
-      duration: 700,
-    }, 6600);
+      duration: 1000,
+    }, S3_START + 200);
 
     tl.add({
       targets: '.scene-3 .bar-container',
       opacity: [0, 1],
-      duration: 400,
-    }, 7100);
+      duration: 600,
+    }, S3_START + 1000);
 
     tl.add({
       targets: '#barFill1',
       width: '85%',
-      duration: 1000,
+      duration: 1500,
       easing: 'easeOutQuart',
-    }, 7300);
+    }, S3_START + 1300);
 
     tl.add({
       targets: '#barFill2',
       width: '50%',
-      duration: 800,
+      duration: 1200,
       easing: 'easeOutQuart',
-    }, 7600);
+    }, S3_START + 1700);
 
     tl.add({
       targets: '.scene-3 .source-text',
       opacity: [0, 1],
-      duration: 500,
-    }, 8400);
+      duration: 700,
+    }, S3_START + 2900);
 
     // Fade out scene 3
     tl.add({
       targets: '#scene3',
       opacity: 0,
-      duration: 400,
-      easing: 'easeInQuad',
-    }, 9100);
+      duration: TIMING.scene3.fadeOut,
+      easing: 'easeInOutQuad',
+    }, S3_FADEOUT);
 
-    // === SCENE 4: CTA (9500 - 12000ms) ===
+    // === SCENE 4: CTA ===
     tl.add({
       targets: '#scene4',
       opacity: [0, 1],
-      duration: 100,
-    }, 9500);
+      duration: 300,
+    }, S4_START);
 
     tl.add({
       targets: '.scene-4 .cta-main',
       opacity: [0, 1],
       translateY: [50, 0],
-      duration: 800,
-    }, 9600);
+      duration: 1200,
+    }, S4_START + 200);
 
     tl.add({
       targets: '.scene-4 .divider',
       opacity: [0, 1],
       scaleX: [0, 1],
-      duration: 500,
-    }, 10200);
+      duration: 800,
+    }, S4_START + 1200);
 
     tl.add({
       targets: '.scene-4 .cta-sub',
       opacity: [0, 1],
       translateY: [30, 0],
-      duration: 600,
-    }, 10400);
+      duration: 900,
+    }, S4_START + 1600);
 
     tl.add({
       targets: '.scene-4 .cta-button',
       opacity: [0, 1],
       scale: [0.8, 1],
-      duration: 600,
+      duration: 900,
       easing: 'easeOutBack',
-    }, 10800);
+    }, S4_START + 2200);
 
     return tl;
   }
@@ -688,7 +767,7 @@
         });
       }
 
-      status.textContent = 'Recording... (12 seconds)';
+      status.textContent = 'Recording... (18 seconds)';
       mediaRecorder.start();
 
       // Start animation

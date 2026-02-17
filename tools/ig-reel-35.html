@@ -85,7 +85,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: rgba(26, 32, 44, 0.88);
+      background: rgba(26, 32, 44, 0.97);
       z-index: 0;
     }
 
@@ -433,10 +433,10 @@
   // Each scene has: animateIn (elements appear), hold (stay visible), fadeOut
   // ===================================================================
   const TIMING = {
-    scene1: { start: 300,   animateIn: 1700, hold: 2000, fadeOut: 700 },
-    scene2: { gap: 500,     animateIn: 2700, hold: 2000, fadeOut: 700 },
-    scene3: { gap: 500,     animateIn: 2900, hold: 2000, fadeOut: 700 },
-    scene4: { gap: 500,     animateIn: 2200, hold: 2000, fadeOut: 0   },
+    scene1: { start: 500,   animateIn: 1800, hold: 3000, fadeOut: 600 },
+    scene2: { gap: 400,     animateIn: 2800, hold: 3000, fadeOut: 600 },
+    scene3: { gap: 400,     animateIn: 3000, hold: 3500, fadeOut: 600 },
+    scene4: { gap: 400,     animateIn: 2200, hold: 3000, fadeOut: 0   },
   };
 
   // Compute absolute timestamps from config
@@ -538,7 +538,7 @@
       targets: '.scene-1 .hook-emoji',
       opacity: [0, 1],
       scale: [0.3, 1],
-      duration: 1000,
+      duration: 1200,
       easing: 'easeOutBack',
     }, S1_START);
 
@@ -546,8 +546,8 @@
       targets: '.scene-1 .hook-text',
       opacity: [0, 1],
       translateY: [60, 0],
-      duration: 1200,
-    }, S1_START + 700);
+      duration: 1400,
+    }, S1_START + 800);
 
     // Fade out scene 1
     tl.add({
@@ -561,7 +561,7 @@
     tl.add({
       targets: '#scene2',
       opacity: [0, 1],
-      duration: 300,
+      duration: 400,
     }, S2_START);
 
     tl.add({
@@ -625,14 +625,14 @@
     tl.add({
       targets: '#scene3',
       opacity: [0, 1],
-      duration: 300,
+      duration: 400,
     }, S3_START);
 
     tl.add({
       targets: '.scene-3 .explain-text',
       opacity: [0, 1],
       translateY: [40, 0],
-      duration: 1000,
+      duration: 1200,
     }, S3_START + 200);
 
     tl.add({
@@ -673,14 +673,14 @@
     tl.add({
       targets: '#scene4',
       opacity: [0, 1],
-      duration: 300,
+      duration: 400,
     }, S4_START);
 
     tl.add({
       targets: '.scene-4 .cta-main',
       opacity: [0, 1],
       translateY: [50, 0],
-      duration: 1200,
+      duration: 1400,
     }, S4_START + 200);
 
     tl.add({

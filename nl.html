@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
   <style>
     * {
       margin: 0;
@@ -198,6 +199,27 @@
 
     .star {
       color: #FFA000;
+    }
+
+    .hero-stars {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-star {
+      font-size: 2.25rem;
+      color: #FFA000;
+      display: inline-block;
+      line-height: 1;
+    }
+
+    .hero-star-half {
+      background: linear-gradient(90deg, #FFA000 50%, rgba(255, 255, 255, 0.25) 50%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .accent {
@@ -1070,14 +1092,19 @@
 
 <div class="hero">
   <div class="hero-content">
+    <div class="hero-stars" id="heroStars">
+      <span class="hero-star">&#9733;</span>
+      <span class="hero-star">&#9733;</span>
+      <span class="hero-star">&#9733;</span>
+      <span class="hero-star">&#9733;</span>
+      <span class="hero-star hero-star-half">&#9733;</span>
+    </div>
     <h1>Meer Reserveringen uit Elke Google Review</h1>
-    <h2>Zet elke Google review om in een reservering</h2>
     <p>
       Voor succesvolle restaurants (4.0-4.5<span class="star">&#9733;</span>) die elke review wil omzetten in een kans op nieuwe klanten.
     </p>
     <div class="hero-buttons">
       <a href="https://form.typeform.com/to/t9sgShU9" target="_blank" rel="noopener" class="btn btn-primary">Meld Je Aan</a>
-      <a href="tools/roi-calculator.html" class="btn btn-outline">Bereken Je ROI</a>
     </div>
     <span class="scarcity-text">
       Exclusief voor groeiende restaurants &middot; vanaf &euro;149/maand
@@ -1439,6 +1466,28 @@
     link.addEventListener('click', () => {
       document.getElementById('navMenu').classList.remove('active');
     });
+  });
+
+  // Hero star animation
+  anime.set('#heroStars .hero-star', { opacity: 0, scale: 0 });
+
+  anime({
+    targets: '#heroStars .hero-star',
+    opacity: [0, 1],
+    scale: [0, 1],
+    delay: anime.stagger(120, { start: 300 }),
+    duration: 600,
+    easing: 'easeOutBack',
+    complete: function() {
+      anime({
+        targets: '#heroStars .hero-star',
+        scale: [1, 1.12, 1],
+        delay: anime.stagger(120),
+        duration: 1800,
+        easing: 'easeInOutSine',
+        loop: true,
+      });
+    }
   });
 </script>
 

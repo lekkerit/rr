@@ -113,3 +113,16 @@ Elke onbeantwoorde review is een gemiste reservering. Wij lossen dat op — prof
 📩 DM ons voor 2 gratis voorbeelden.
 
 #googlereviews #horeca #hetgooi #reviewmanagement #lokaalonderzoek
+
+---
+
+## Post 10 — Reel (3 stappen)
+
+🎯 In deze reel laten we je 3 stappen zien om je Google-rating meetbaar te verbeteren 📈
+
+⏳ Geen tijd om het zelf te doen? Dat snappen we.
+
+⭐⭐⭐
+We hebben een aantal plekken beschikbaar voor een gratis review-scan.
+
+👉 Link in bio om je aan te melden.

@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IG Reel - Je Google-rating verbeteren in 3 stappen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'Inter', sans-serif;
+      gap: 20px;
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .controls button {
+      font-family: 'Inter', sans-serif;
+      padding: 10px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .controls button:hover { opacity: 0.85; }
+
+    #btnPlay {
+      background: #FFA000;
+      color: #fff;
+    }
+
+    #btnRecord {
+      background: #e53e3e;
+      color: #fff;
+    }
+
+    #btnRecord.recording {
+      animation: pulse 1s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .status {
+      color: #888;
+      font-size: 0.75rem;
+      height: 20px;
+    }
+
+    /* === Reel canvas: 1080x1920 scaled to fit screen === */
+    .reel {
+      width: 1080px;
+      height: 1920px;
+      transform-origin: top center;
+      transform: scale(0.4);
+      margin-bottom: calc(-1920px * 0.6);
+      background: url('../assets/images/hero-restaurant.jpg') center/cover no-repeat;
+      position: relative;
+      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+      color: #fff;
+    }
+
+    .reel::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(26, 32, 44, 0.97);
+      z-index: 0;
+    }
+
+    .reel > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Animated background particles */
+    .particles {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: rgba(255, 160, 0, 0.3);
+      border-radius: 50%;
+    }
+
+    /* Layout sections */
+    .scene {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      padding: 80px 60px;
+    }
+
+    /* Scene 1: Pain Point Hook */
+    .scene-1 {
+      padding: 120px 80px;
+      gap: 0;
+    }
+
+    .rating-compare {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 60px;
+      width: 100%;
+      margin-bottom: 80px;
+      transform: scale(0.92);
+    }
+
+    .rating-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .rating-block-label {
+      font-size: 38px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .rating-block-label.muted {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .rating-big {
+      font-size: 170px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .rating-big.green {
+      color: #38a169;
+      text-shadow: 0 0 60px rgba(56, 161, 105, 0.6);
+    }
+
+    .rating-big.red {
+      color: rgba(229, 62, 62, 0.65);
+    }
+
+    .vs-bar {
+      width: 6px;
+      height: 240px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 3px;
+      opacity: 0;
+      transform: scaleY(0);
+    }
+
+    .pain-line {
+      font-size: 66px;
+      font-weight: 800;
+      text-align: center;
+      line-height: 1.3;
+      opacity: 0;
+    }
+
+    .pain-highlight {
+      color: #FFA000;
+    }
+
+    /* Scene 2: 3 Steps */
+    .scene-2 {
+      opacity: 0;
+      padding: 120px 80px;
+    }
+
+    .scene-2 .steps-title {
+      font-size: 52px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 70px;
+      opacity: 0;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      width: 100%;
+      max-width: 860px;
+      opacity: 0;
+      transform: translateX(-60px);
+    }
+
+    .step-item + .step-item {
+      margin-top: 50px;
+    }
+
+    .step-number {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: #FFA000;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 44px;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+
+    .step-content {
+      flex: 1;
+    }
+
+    .step-title {
+      font-size: 48px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .step-detail {
+      font-size: 34px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.4;
+    }
+
+    /* Scene 4: CTA */
+    .scene-4 {
+      opacity: 0;
+    }
+
+    .scene-4 .cta-main {
+      font-size: 88px;
+      font-weight: 900;
+      text-align: center;
+      line-height: 1.25;
+      opacity: 0;
+    }
+
+    .scene-4 .cta-highlight {
+      color: #FFA000;
+    }
+
+    .scene-4 .divider {
+      width: 200px;
+      height: 8px;
+      background: #FFA000;
+      border-radius: 3px;
+      margin: 40px auto;
+      opacity: 0;
+      transform: scaleX(0);
+    }
+
+    .scene-4 .cta-sub {
+      font-size: 50px;
+      font-weight: 600;
+      text-align: center;
+      line-height: 1.5;
+      opacity: 0;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .scene-4 .cta-button {
+      margin-top: 60px;
+      padding: 36px 80px;
+      background: #FFA000;
+      border-radius: 60px;
+      font-size: 52px;
+      font-weight: 700;
+      opacity: 0;
+      transform: scale(0.5);
+    }
+
+    .scene-4 .cta-link-in-bio {
+      margin-top: 32px;
+      font-size: 38px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.55);
+      letter-spacing: 0.03em;
+      opacity: 0;
+    }
+
+    @keyframes ctaPulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(255, 160, 0, 0.4); }
+      50% { transform: scale(1.06); box-shadow: 0 0 40px rgba(255, 160, 0, 0.7); }
+    }
+
+    /* Branding footer */
+    .brand-footer {
+      position: absolute;
+      bottom: 60px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: rgba(255,255,255,0.35);
+      z-index: 3;
+    }
+
+    /* Progress bar at top */
+    .progress-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 6px;
+      background: #FFA000;
+      z-index: 10;
+      width: 0%;
+    }
+
+    /* Scene Hook — visible immediately, no fade-in */
+    .scene-hook {
+      opacity: 1;
+      gap: 0;
+    }
+
+    .hook-text {
+      font-size: 100px;
+      font-weight: 900;
+      text-align: center;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+
+    .hook-arrow-line {
+      display: block;
+      color: #FFA000;
+      margin-top: 24px;
+    }
+
+    /* Scene 1 starts hidden (revealed after hook exits) */
+    .scene-1 {
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="controls">
+  <button id="btnPlay">&#9654; Play Animation</button>
+  <button id="btnRecord">&#9679; Record as Video</button>
+</div>
+<div class="status" id="status"></div>
+
+<div class="reel" id="reel">
+  <div class="progress-bar" id="progressBar"></div>
+
+  <!-- Particles -->
+  <div class="particles" id="particles"></div>
+
+  <!-- Scene 0: Hook — visible on frame 0 -->
+  <div class="scene scene-hook" id="sceneHook">
+    <div class="hook-text">
+      Reageer op reviews<span class="hook-arrow-line">→ meer boekingen</span>
+    </div>
+  </div>
+
+  <!-- Scene 1: Pain Point Hook -->
+  <div class="scene scene-1" id="scene1">
+    <div class="rating-compare" id="ratingCompare">
+      <div class="rating-block">
+        <div class="rating-block-label">Je concurrent</div>
+        <div class="rating-big green" id="ratingGreen">— ★</div>
+      </div>
+      <div class="vs-bar" id="vsBar"></div>
+      <div class="rating-block">
+        <div class="rating-block-label muted">Jij</div>
+        <div class="rating-big red" id="ratingRed">— ★</div>
+      </div>
+    </div>
+    <div class="pain-line" id="painLine">Zo verlies je gasten.<br><span class="pain-highlight">Elke dag.</span></div>
+  </div>
+
+  <!-- Scene 2: 3 Steps -->
+  <div class="scene scene-2" id="scene2">
+    <div class="steps-title">Zo doe je dat:</div>
+
+    <div class="step-item" id="step1">
+      <div class="step-number">1</div>
+      <div class="step-content">
+        <div class="step-title">Reageer op elke review</div>
+        <div class="step-detail">Positief of negatief — altijd antwoorden</div>
+      </div>
+    </div>
+
+    <div class="step-item" id="step2">
+      <div class="step-number">2</div>
+      <div class="step-content">
+        <div class="step-title">Persoonlijk, niet copy-paste</div>
+        <div class="step-detail">Noem de gast bij naam, verwijs naar details</div>
+      </div>
+    </div>
+
+    <div class="step-item" id="step3">
+      <div class="step-number">3</div>
+      <div class="step-content">
+        <div class="step-title">Binnen 24 uur</div>
+        <div class="step-detail">Snelheid laat zien dat je om je gasten geeft</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scene 4: CTA -->
+  <div class="scene scene-4" id="scene4">
+    <div class="cta-main">Geen tijd?<br><span class="cta-highlight">Wij doen het<br>voor je</span></div>
+    <div class="divider"></div>
+    <div class="cta-sub">Beperkt aantal plekken beschikbaar</div>
+    <div class="cta-button">Claim je plek nu &rarr;</div>
+    <div class="cta-link-in-bio">&#128279; link in bio</div>
+  </div>
+
+  <div class="brand-footer">@reviewrecovery</div>
+</div>
+
+<script>
+  // ===================================================================
+  // TIMING CONFIG — target 10-12 seconds total
+  // ===================================================================
+  const SPIN_DURATION = 700; // faster slot-machine spin
+
+  const TIMING = {
+    hook:   { hold: 800,  fadeOut: 400 },
+    scene1: { hold: 400,  fadeOut: 400 },
+    scene2: { gap: 200,   animateIn: 2500, hold: 1200, fadeOut: 400 },
+    scene4: { gap: 200,   animateIn: 1500, hold: 1800, fadeOut: 0   },
+  };
+
+  // Hook
+  const HOOK_FADEOUT_START = TIMING.hook.hold;                          // 800
+  const HOOK_END           = HOOK_FADEOUT_START + TIMING.hook.fadeOut;  // 1200
+
+  // Scene 1 — driven by when the slot machines land
+  const S1_START      = HOOK_END;                          // 1200
+  const GREEN_START   = S1_START + 200;                    // 1400
+  const RED_START     = S1_START + 500;                    // 1700
+  const GREEN_LANDS   = GREEN_START + SPIN_DURATION;       // 2100
+  const RED_LANDS     = RED_START   + SPIN_DURATION;       // 2400
+  const S1_VSBAR      = RED_LANDS + 200;                   // 2600
+  const S1_PAINLINE   = RED_LANDS + 400;                   // 2800
+  const S1_CONTENT_END = S1_PAINLINE + 500;                // 3300
+  const S1_FADEOUT    = S1_CONTENT_END + TIMING.scene1.hold; // 3700
+  const S1_END        = S1_FADEOUT + TIMING.scene1.fadeOut;  // 4100
+
+  // Scene 2
+  const S2_START   = S1_END + TIMING.scene2.gap;
+  const S2_FADEOUT = S2_START + TIMING.scene2.animateIn + TIMING.scene2.hold;
+  const S2_END     = S2_FADEOUT + TIMING.scene2.fadeOut;
+
+  // Scene 4 (scene 3 removed)
+  const S4_START = S2_END + TIMING.scene4.gap;
+  const S4_END   = S4_START + TIMING.scene4.animateIn + TIMING.scene4.hold;
+
+  const TOTAL_DURATION = S4_END;
+
+  console.log(`[TIMING] Total: ${TOTAL_DURATION}ms (${(TOTAL_DURATION/1000).toFixed(1)}s)`);
+  console.log(`[TIMING] Hook: 0–${HOOK_END}ms | S1: ${S1_START}–${S1_END}ms | S2: ${S2_START}–${S2_END}ms | S4: ${S4_START}–${S4_END}ms`);
+
+  // ===================================================================
+  // SLOT MACHINE  — fruit-machine spin effect for ratings
+  // Each reel spins fast then decelerates and snaps to its final value
+  // ===================================================================
+  function runSlotMachine(elementId, targetVal, startMs, spinMs) {
+    setTimeout(() => {
+      const el = document.getElementById(elementId);
+      let elapsed = 0;
+
+      function tick() {
+        if (elapsed >= spinMs) {
+          el.textContent = targetVal + ' ★';
+          return;
+        }
+        // Random rating 1.0–5.0, one decimal
+        const rand = (Math.random() * 4.0 + 1.0).toFixed(1);
+        el.textContent = rand + ' ★';
+
+        // Ease: fast at start (30 ms), slows to 280 ms near the end
+        const progress = elapsed / spinMs;
+        const interval = 30 + Math.pow(progress, 2) * 280;
+        elapsed += interval;
+        setTimeout(tick, interval);
+      }
+
+      tick();
+    }, startMs);
+  }
+
+  // ===================================================================
+  // PARTICLES
+  // ===================================================================
+  const particlesEl = document.getElementById('particles');
+  for (let i = 0; i < 20; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left   = Math.random() * 100 + '%';
+    p.style.top    = Math.random() * 100 + '%';
+    p.style.width  = (4 + Math.random() * 8) + 'px';
+    p.style.height = p.style.width;
+    particlesEl.appendChild(p);
+  }
+
+  function animateParticles() {
+    anime({
+      targets: '.particle',
+      translateY: () => anime.random(-200, 200),
+      translateX: () => anime.random(-100, 100),
+      opacity: [0, () => Math.random() * 0.4 + 0.1, 0],
+      scale: [0, () => Math.random() * 1.5 + 0.5, 0],
+      duration: () => anime.random(4000, 8000),
+      delay: () => anime.random(0, 3000),
+      easing: 'easeInOutSine',
+      loop: true,
+    });
+  }
+
+  // ===================================================================
+  // RESET
+  // ===================================================================
+  function resetAll() {
+    // Hide every scene
+    document.querySelectorAll('.scene').forEach(s => { s.style.opacity = '0'; });
+
+    // Hook is visible immediately at frame 0
+    const hook = document.getElementById('sceneHook');
+    hook.style.opacity   = '1';
+    hook.style.transform = 'translateY(0)';
+
+    // Scene 1 — ratings start as placeholders for the slot machine
+    document.getElementById('ratingCompare').style.transform = 'scale(1)';
+    document.getElementById('vsBar').style.opacity   = '0';
+    document.getElementById('vsBar').style.transform = 'scaleY(0)';
+    document.getElementById('painLine').style.opacity   = '0';
+    document.getElementById('ratingGreen').textContent  = '— ★';
+    document.getElementById('ratingRed').textContent    = '— ★';
+
+    // Scene 2
+    document.querySelector('.scene-2 .steps-title').style.opacity = '0';
+    document.querySelectorAll('.step-item').forEach(s => {
+      s.style.opacity   = '0';
+      s.style.transform = 'translateX(-60px)';
+    });
+
+    // Scene 4
+    document.querySelector('.scene-4 .cta-main').style.opacity   = '0';
+    document.querySelector('.scene-4 .divider').style.opacity    = '0';
+    document.querySelector('.scene-4 .divider').style.transform  = 'scaleX(0)';
+    document.querySelector('.scene-4 .cta-sub').style.opacity    = '0';
+    document.querySelector('.scene-4 .cta-button').style.opacity = '0';
+    document.querySelector('.scene-4 .cta-button').style.transform = 'scale(0.5)';
+    document.querySelector('.scene-4 .cta-button').style.animation = 'none';
+    document.querySelector('.scene-4 .cta-link-in-bio').style.opacity = '0';
+
+    document.getElementById('progressBar').style.width = '0%';
+  }
+
+  // ===================================================================
+  // PLAY
+  // ===================================================================
+  function playAnimation() {
+    resetAll();
+    anime.remove('#sceneHook, #vsBar, #painLine, .step-item, #scene1, .scene-2, .scene-4');
+
+    const tl = anime.timeline({ easing: 'easeOutExpo' });
+
+    // Progress bar
+    tl.add({
+      targets: '#progressBar',
+      width: '100%',
+      duration: TOTAL_DURATION,
+      easing: 'linear',
+    }, 0);
+
+    // === HOOK: slide up + fade out ===
+    tl.add({
+      targets: '#sceneHook',
+      opacity:    [1, 0],
+      translateY: [0, -140],
+      duration: TIMING.hook.fadeOut,
+      easing: 'easeInQuad',
+    }, HOOK_FADEOUT_START);
+
+    // === SCENE 1: reveal, then slot machines spin ===
+    tl.add({
+      targets: '#scene1',
+      opacity: [0, 1],
+      duration: 400,
+      easing: 'easeOutQuad',
+    }, S1_START);
+
+    // Slot machines run in parallel via setTimeout (independent of timeline)
+    // Competitor (4.8) spins first — they're winning because they respond
+    // User's rating (3.9) follows shortly after — gambling by ignoring reviews
+    runSlotMachine('ratingGreen', '4.8', GREEN_START, SPIN_DURATION);
+    runSlotMachine('ratingRed',   '3.9', RED_START,   SPIN_DURATION);
+
+    // VS bar snaps in once both reels have landed
+    tl.add({
+      targets: '#vsBar',
+      opacity: [0, 1],
+      scaleY:  [0, 1],
+      duration: 500,
+      easing: 'easeOutExpo',
+    }, S1_VSBAR);
+
+    // Pain line slams up
+    tl.add({
+      targets: '#painLine',
+      opacity:    [0, 1],
+      translateY: [50, 0],
+      duration: 800,
+      easing: 'easeOutExpo',
+    }, S1_PAINLINE);
+
+    // Fade out scene 1
+    tl.add({
+      targets: '#scene1',
+      opacity: 0,
+      duration: TIMING.scene1.fadeOut,
+      easing: 'easeInOutQuad',
+    }, S1_FADEOUT);
+
+    // === SCENE 2: 3 Steps ===
+    tl.add({ targets: '#scene2', opacity: [0, 1], duration: 400 }, S2_START);
+    tl.add({ targets: '.scene-2 .steps-title', opacity: [0, 1], translateY: [30, 0], duration: 600 }, S2_START + 100);
+    tl.add({ targets: '#step1', opacity: [0, 1], translateX: [-60, 0], duration: 700, easing: 'easeOutBack' }, S2_START + 500);
+    tl.add({ targets: '#step2', opacity: [0, 1], translateX: [-60, 0], duration: 700, easing: 'easeOutBack' }, S2_START + 1000);
+    tl.add({ targets: '#step3', opacity: [0, 1], translateX: [-60, 0], duration: 700, easing: 'easeOutBack' }, S2_START + 1500);
+    tl.add({ targets: '#scene2', opacity: 0, duration: TIMING.scene2.fadeOut, easing: 'easeInOutQuad' }, S2_FADEOUT);
+
+    // === SCENE 4: CTA ===
+    tl.add({ targets: '#scene4', opacity: [0, 1], duration: 400 }, S4_START);
+    tl.add({ targets: '.scene-4 .cta-main', opacity: [0, 1], translateY: [80, 0], duration: 900 }, S4_START + 100);
+    tl.add({ targets: '.scene-4 .divider', opacity: [0, 1], scaleX: [0, 1], duration: 600 }, S4_START + 600);
+    tl.add({ targets: '.scene-4 .cta-sub', opacity: [0, 1], translateY: [30, 0], duration: 600 }, S4_START + 800);
+    tl.add({
+      targets: '.scene-4 .cta-button',
+      opacity: [0, 1],
+      scale: [0.5, 1],
+      duration: 700,
+      easing: 'easeOutBack',
+      complete: function() {
+        document.querySelector('.scene-4 .cta-button').style.animation = 'ctaPulse 1.5s ease-in-out infinite';
+      }
+    }, S4_START + 1100);
+    tl.add({ targets: '.scene-4 .cta-link-in-bio', opacity: [0, 1], translateY: [20, 0], duration: 500 }, S4_START + 1400);
+
+    return tl;
+  }
+
+  // Play button
+  document.getElementById('btnPlay').addEventListener('click', () => {
+    animateParticles();
+    playAnimation();
+  });
+
+  // Record button using MediaRecorder + canvas
+  document.getElementById('btnRecord').addEventListener('click', async () => {
+    const btn = document.getElementById('btnRecord');
+    const status = document.getElementById('status');
+    const reel = document.getElementById('reel');
+
+    btn.classList.add('recording');
+    btn.disabled = true;
+    status.textContent = 'Preparing to record...';
+
+    try {
+      const canvas = document.createElement('canvas');
+      canvas.width = 1080;
+      canvas.height = 1920;
+      const ctx = canvas.getContext('2d');
+
+      const stream = canvas.captureStream(30);
+      const mediaRecorder = new MediaRecorder(stream, {
+        mimeType: 'video/webm;codecs=vp9',
+        videoBitsPerSecond: 8000000,
+      });
+
+      const chunks = [];
+      mediaRecorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+
+      mediaRecorder.onstop = async () => {
+        const webmBlob = new Blob(chunks, { type: 'video/webm' });
+
+        // Convert to MP4 using ffmpeg.wasm
+        status.textContent = 'Converting to MP4...';
+        try {
+          if (!window.FFmpegWASM) {
+            status.textContent = 'Loading FFmpeg (first time may take a moment)...';
+            await new Promise((resolve, reject) => {
+              const s = document.createElement('script');
+              s.src = 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.15/dist/umd/ffmpeg.min.js';
+              s.onload = resolve;
+              s.onerror = reject;
+              document.head.appendChild(s);
+            });
+            await new Promise((resolve, reject) => {
+              const s = document.createElement('script');
+              s.src = 'https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.2/dist/umd/util.min.js';
+              s.onload = resolve;
+              s.onerror = reject;
+              document.head.appendChild(s);
+            });
+          }
+
+          const { FFmpeg } = FFmpegWASM;
+          const { fetchFile } = FFmpegUtil;
+          const ffmpeg = new FFmpeg();
+
+          ffmpeg.on('progress', ({ progress }) => {
+            status.textContent = `Converting to MP4... ${Math.round(progress * 100)}%`;
+          });
+
+          const baseURL = 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.9/dist/umd';
+          await ffmpeg.load({
+            coreURL: `${baseURL}/ffmpeg-core.js`,
+            wasmURL: `${baseURL}/ffmpeg-core.wasm`,
+          });
+
+          const webmData = await fetchFile(webmBlob);
+          await ffmpeg.writeFile('input.webm', webmData);
+          await ffmpeg.exec(['-i', 'input.webm', '-c:v', 'libx264', '-preset', 'fast', '-crf', '18', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', 'output.mp4']);
+          const mp4Data = await ffmpeg.readFile('output.mp4');
+
+          const mp4Blob = new Blob([mp4Data.buffer], { type: 'video/mp4' });
+          const url = URL.createObjectURL(mp4Blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'reel-3-stappen.mp4';
+          a.click();
+          URL.revokeObjectURL(url);
+          ffmpeg.terminate();
+          status.textContent = 'MP4 download complete!';
+        } catch (convErr) {
+          console.warn('FFmpeg conversion failed, falling back to WebM:', convErr);
+          const url = URL.createObjectURL(webmBlob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'reel-3-stappen.webm';
+          a.click();
+          URL.revokeObjectURL(url);
+          status.textContent = 'MP4 conversion failed — downloaded as WebM instead.';
+        }
+
+        btn.classList.remove('recording');
+        btn.disabled = false;
+      };
+
+      if (!window.html2canvas) {
+        status.textContent = 'Loading html2canvas...';
+        await new Promise((resolve, reject) => {
+          const s = document.createElement('script');
+          s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+          s.onload = resolve;
+          s.onerror = reject;
+          document.head.appendChild(s);
+        });
+      }
+
+      status.textContent = `Recording... (${(TOTAL_DURATION/1000).toFixed(0)} seconds)`;
+      mediaRecorder.start();
+
+      animateParticles();
+      playAnimation();
+
+      const fps = 30;
+      const interval = 1000 / fps;
+      let elapsed = 0;
+
+      const captureFrame = async () => {
+        if (elapsed >= TOTAL_DURATION + 500) {
+          mediaRecorder.stop();
+          return;
+        }
+        try {
+          const c = await html2canvas(reel, {
+            width: 1080,
+            height: 1920,
+            scale: 1,
+            useCORS: true,
+            backgroundColor: '#1a202c',
+          });
+          ctx.clearRect(0, 0, 1080, 1920);
+          ctx.drawImage(c, 0, 0, 1080, 1920);
+        } catch (e) { /* skip frame */ }
+        elapsed += interval;
+        setTimeout(captureFrame, interval);
+      };
+
+      captureFrame();
+
+    } catch (err) {
+      status.textContent = 'Recording failed: ' + err.message + '. Try screen recording instead.';
+      btn.classList.remove('recording');
+      btn.disabled = false;
+    }
+  });
+</script>
+
+</body>
+</html>

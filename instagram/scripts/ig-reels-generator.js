@@ -6,15 +6,15 @@
  * The output is a self-playing sequence of slides with entrance animations
  * and transitions, designed to be screen-recorded as a Reel.
  *
- * Usage: node execution/ig-reels-generator.js tools/ig-posts/post-10/content.json
- * Output: tools/ig-posts/post-10/reels.html
+ * Usage: node instagram/scripts/ig-reels-generator.js instagram/posts/post-10/content.json
+ * Output: instagram/posts/post-10/reels.html
  */
 
 const fs = require('fs');
 const path = require('path');
 
-const PROJECT_ROOT = path.resolve(__dirname, '..');
-const TEMPLATES_DIR = path.join(PROJECT_ROOT, 'tools', 'ig-templates');
+const PROJECT_ROOT = path.resolve(__dirname, '..', '..');
+const TEMPLATES_DIR = path.join(PROJECT_ROOT, 'instagram', 'templates');
 const SLIDES_DIR = path.join(TEMPLATES_DIR, 'slides');
 
 // Import the static generator for slide HTML building
@@ -308,8 +308,8 @@ function generate(contentPath) {
 if (require.main === module) {
   const args = process.argv.slice(2);
   if (args.length === 0) {
-    console.log('Usage: node execution/ig-reels-generator.js <content.json>');
-    console.log('Example: node execution/ig-reels-generator.js tools/ig-posts/post-10/content.json');
+    console.log('Usage: node instagram/scripts/ig-reels-generator.js <content.json>');
+    console.log('Example: node instagram/scripts/ig-reels-generator.js instagram/posts/post-10/content.json');
     process.exit(1);
   }
   generate(args[0]);

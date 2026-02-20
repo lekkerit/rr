@@ -43,7 +43,7 @@ Generate a new IG post with slides and captions, ready for publishing. Output: s
 
 ### 1. Create content.json
 
-Create `tools/ig-posts/post-N/content.json` with this structure:
+Create `instagram/posts/post-N/content.json` with this structure:
 
 ```json
 {
@@ -68,14 +68,14 @@ All text must be in Dutch.
 ### 2. Generate static HTML
 
 ```bash
-node execution/ig-generator.js tools/ig-posts/post-N/content.json
+node instagram/scripts/ig-generator.js instagram/posts/post-N/content.json
 ```
 
-Output: `tools/ig-posts/post-N/post.html`
+Output: `instagram/posts/post-N/post.html`
 
 ### 3. Review in browser
 
-Open `post.html` in browser. Check:
+Open `instagram/posts/post-N/post.html` in browser. Check:
 - Text fits within slide boundaries (no overflow)
 - Theme colors are correct
 - Content reads naturally in Dutch
@@ -83,26 +83,26 @@ Open `post.html` in browser. Check:
 ### 4. Export PNGs
 
 ```bash
-node execution/ig-exporter.js tools/ig-posts/post-N/post.html
+node instagram/scripts/ig-exporter.js instagram/posts/post-N/post.html
 ```
 
-Output: `tools/ig-posts/post-N/slides/slide-1.png` ... `slide-N.png` (1080x1080)
+Output: `instagram/posts/post-N/slides/slide-1.png` ... `slide-N.png` (1080x1080)
 
 ### 5. Generate animated Reel (optional)
 
 ```bash
-node execution/ig-reels-generator.js tools/ig-posts/post-N/content.json
+node instagram/scripts/ig-reels-generator.js instagram/posts/post-N/content.json
 ```
 
-Output: `tools/ig-posts/post-N/reels.html`
+Output: `instagram/posts/post-N/reels.html`
 
 ### 6. Export MP4 (optional)
 
 ```bash
-node execution/ig-reels-exporter.js tools/ig-posts/post-N/reels.html
+node instagram/scripts/ig-reels-exporter.js instagram/posts/post-N/reels.html
 ```
 
-Output: `tools/ig-posts/post-N/slides/reel.mp4`
+Output: `instagram/posts/post-N/slides/reel.mp4`
 
 ### 7. Write caption
 

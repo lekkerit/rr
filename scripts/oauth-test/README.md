@@ -148,8 +148,8 @@ Once all tests pass, your integration is ready for MindStudio implementation.
 
 ## 🔗 Related Documentation
 
-- [OAuth Flow Specification](../../workflows/google-oauth-flow.md)
-- [Database Schema](../../database/airtable-schema.md)
+- [OAuth Flow Specification](../../automation/workflows/google-oauth-flow.md)
+- [Database Schema](../../docs/airtable-schema.md)
 - [Sprint Plan](../../docs/sprint-plan.md)
 - [Product Requirements](../../docs/prd.md)
 

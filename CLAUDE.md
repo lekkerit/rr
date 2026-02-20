@@ -16,11 +16,11 @@ You operate within a 3-layer architecture that separates concerns to maximize re
 
 - This is you. Your job: intelligent routing.
 - Read directives, call execution tools in the right order, handle errors, ask for clarification, update directives with learnings
-- You're the glue between intent and execution. E.g you don't try scraping websites yourself—you read `directives/scrape_website.md` and come up with inputs/outputs and then run `execution/scrape_single_site.py`
+- You're the glue between intent and execution. E.g you don't try scraping websites yourself—you read `directives/scrape_website.md` and come up with inputs/outputs and then run the appropriate script in the domain's scripts directory
 
 **Layer 3: Execution (Doing the work)**
 
-- Deterministic Python scripts in `execution/`
+- Deterministic scripts live in their domain directory (e.g. `instagram/scripts/`)
 - Environment variables, api tokens, etc are stored in `.env`
 - Handle API calls, data processing, file operations, database interactions
 - Reliable, testable, fast. Use scripts instead of manual work. Commented well.
@@ -31,7 +31,7 @@ You operate within a 3-layer architecture that separates concerns to maximize re
 
 **1. Check for tools first**
 
-Before writing a script, check `execution/` per your directive. Only create new scripts if none exist.
+Before writing a script, check the domain's `scripts/` directory per your directive (e.g. `instagram/scripts/`). Only create new scripts if none exist.
 
 **2. Self-anneal when things break**
 
@@ -64,8 +64,16 @@ Errors are learning opportunities. When something breaks:
 **Directory structure:**
 
 - `.tmp/` - All intermediate files (dossiers, scraped data, temp exports). Never commit, always regenerated.
-- `execution/` - Python scripts (the deterministic tools)
-- `directives/` - SOPs in Markdown (the instruction set)
+- `directives/` - SOPs in Markdown (Layer 1 instruction set)
+- `instagram/scripts/` - IG post/reel generation scripts (Layer 3 — deterministic)
+- `instagram/templates/` - Slide HTML templates and design system
+- `instagram/posts/` - Generated posts (content.json, HTML, PNG slides)
+- `instagram/previews/` - Post and reel preview pages
+- `instagram/videos/` - Exported MP4 reels
+- `automation/workflows/` - n8n workflow JSON definitions
+- `automation/n8n-credentials.json` - n8n credentials template
+- `planning/` - features.json and progress tracking
+- `docs/` - All project documentation and schema
 - `.env` - Environment variables and API keys
 - `credentials.json`, `token.json` - Google OAuth credentials (required files, in `.gitignore`)
 

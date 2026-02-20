@@ -5,15 +5,15 @@
  * Generates a temporary self-contained HTML file per slide at 1080x1080,
  * then screenshots it with Puppeteer.
  *
- * Usage: node execution/ig-exporter.js tools/ig-posts/post-10/post.html
- * Output: tools/ig-posts/post-10/slides/slide-1.png, slide-2.png, etc.
+ * Usage: node instagram/scripts/ig-exporter.js instagram/posts/post-10/post.html
+ * Output: instagram/posts/post-10/slides/slide-1.png, slide-2.png, etc.
  */
 
 const puppeteer = require('puppeteer');
 const path = require('path');
 const fs = require('fs');
 
-const PROJECT_ROOT = path.resolve(__dirname, '..');
+const PROJECT_ROOT = path.resolve(__dirname, '..', '..');
 const HERO_IMAGE = path.join(PROJECT_ROOT, 'assets', 'images', 'hero-restaurant.jpg');
 
 // Scale factor: 400px design → 1080px export
@@ -22,7 +22,7 @@ const SF = 1080 / 400;
 function buildExportHtml(slideOuterHtml) {
   // Read the design system CSS and fix image paths to absolute file:// URLs
   let css = fs.readFileSync(
-    path.join(PROJECT_ROOT, 'tools', 'ig-templates', 'design-system.css'),
+    path.join(PROJECT_ROOT, 'instagram', 'templates', 'design-system.css'),
     'utf-8'
   );
 
@@ -188,8 +188,8 @@ async function exportSlides(htmlPath) {
 if (require.main === module) {
   const args = process.argv.slice(2);
   if (args.length === 0) {
-    console.log('Usage: node execution/ig-exporter.js <post.html>');
-    console.log('Example: node execution/ig-exporter.js tools/ig-posts/post-10/post.html');
+    console.log('Usage: node instagram/scripts/ig-exporter.js <post.html>');
+    console.log('Example: node instagram/scripts/ig-exporter.js instagram/posts/post-10/post.html');
     process.exit(1);
   }
   exportSlides(args[0]).catch(err => {

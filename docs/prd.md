@@ -109,7 +109,7 @@ Trigger: Called by Workflow 1
 ### 5. Database (Airtable MVP)
 **Priority:** P0 (Critical)
 
-See [airtable-schema.md](../database/airtable-schema.md) for full schema.
+See [airtable-schema.md](./airtable-schema.md) for full schema.
 
 Core tables: Reviews, Restaurants, Performance Metrics, Waitlist
 

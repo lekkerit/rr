@@ -27,7 +27,7 @@ Instagram is not an outreach channel. It exists so that when a prospect Googles 
 
 **Post at least 9 pieces of content before any outreach.**
 
-**Tool:** Open `tools/ig-posts.html` in browser → screenshot each slide at 1080×1080 with `Cmd+Shift+4`.
+**Tool:** Open `instagram/previews/ig-posts.html` in browser → screenshot each slide at 1080×1080 with `Cmd+Shift+4`.
 
 | Post # | Type | Content |
 |--------|------|---------|

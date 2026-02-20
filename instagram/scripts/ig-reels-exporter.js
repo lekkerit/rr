@@ -4,8 +4,8 @@
  * Instagram Reels MP4 Exporter
  * Opens an animated reels.html in Puppeteer and records it as an MP4 video.
  *
- * Usage: node execution/ig-reels-exporter.js tools/ig-posts/post-10/reels.html
- * Output: tools/ig-posts/post-10/slides/reel.mp4
+ * Usage: node instagram/scripts/ig-reels-exporter.js instagram/posts/post-10/reels.html
+ * Output: instagram/posts/post-10/slides/reel.mp4
  */
 
 const puppeteer = require('puppeteer');
@@ -80,8 +80,8 @@ async function exportReel(htmlPath) {
 if (require.main === module) {
   const args = process.argv.slice(2);
   if (args.length === 0) {
-    console.log('Usage: node execution/ig-reels-exporter.js <reels.html>');
-    console.log('Example: node execution/ig-reels-exporter.js tools/ig-posts/post-10/reels.html');
+    console.log('Usage: node instagram/scripts/ig-reels-exporter.js <reels.html>');
+    console.log('Example: node instagram/scripts/ig-reels-exporter.js instagram/posts/post-10/reels.html');
     process.exit(1);
   }
   exportReel(args[0]).catch(err => {

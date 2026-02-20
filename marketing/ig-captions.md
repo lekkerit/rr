@@ -1,6 +1,6 @@
 # Instagram Captions - @reviewrecovery
 
-Copy-paste these when posting. Open `tools/ig-posts.html` for the slides.
+Copy-paste these when posting. Open `instagram/previews/ig-posts.html` for the slides.
 
 ---
 

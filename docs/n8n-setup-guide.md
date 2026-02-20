@@ -106,7 +106,7 @@ Before importing workflows, set up your API credentials in n8n.
 
 1. **Navigate to workflows folder:**
    ```bash
-   cd /Users/barryobrien/Projects/restaurant-review-ai/workflows
+   cd /Users/barryobrien/Projects/restaurant-review-ai/automation/workflows
    ```
 
 2. **Files to import (in this order):**
@@ -214,7 +214,7 @@ In your Airtable base (YOUR_AIRTABLE_BASE_ID), you need these 9 tables:
 9. **Approval_Emails**
 
 **If tables are missing:**
-- Use schema from `/database/airtable-schema.md`
+- Use schema from `/docs/airtable-schema.md`
 - Create manually in Airtable
 - Match field names EXACTLY (case-sensitive!)
 

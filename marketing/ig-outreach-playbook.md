@@ -1,9 +1,10 @@
-# Instagram DM Outreach Campaign Playbook
+# Outreach Playbook — Review Recovery
 
-**Goal:** 100 restaurants contacted → 10 customers signed
+**Goal:** 10 paying customers
 **Timeline:** 2-3 weeks
 **Cost:** €0
-**Account:** @reviewrecovery
+**Outreach channels:** WhatsApp (primary) · LinkedIn (secondary)
+**Brand presence:** @reviewrecovery (Instagram — content only)
 **Domain:** reviewrecovery.nl
 
 ---
@@ -12,54 +13,35 @@
 
 | Metric | Target |
 |--------|--------|
-| DMs sent | 100 |
-| Response rate | 20-25% |
-| Interested | 10-15 |
-| Demos booked | 8-10 |
+| Prospects contacted | 100 |
+| Response rate | 35-45% |
+| Interested | 15-20 |
+| Previews sent | 12-15 |
 | Customers signed | 10 |
-
-> IG DM response rates are lower than GMM (~20-25% vs 35-40%), so messaging needs to be tighter and the profile needs to look credible at a glance.
 
 ---
 
-## @reviewrecovery Profile Setup
+## Instagram — Content & Brand Credibility Only
 
-| Element | Content |
-|---------|---------|
-| Profile pic | Star logo (use tools/logo-generator.html) |
-| Name | Review Recovery |
-| Bio | Meer reserveringen uit Google reviews ⭐ +35% conversie · Harvard bewezen · Voor 4-4.5★ restaurants · Het Gooi 📍 |
-| Link | reviewrecovery.nl |
-| Highlights | "Resultaten", "Hoe het werkt", "ROI Calculator" |
+Instagram is not an outreach channel. It exists so that when a prospect Googles or searches you after receiving a WhatsApp or LinkedIn message, they see a credible, active profile.
 
-### Content Before Outreach (Minimum 9 Posts)
+**Post at least 9 pieces of content before any outreach.**
 
-Post at least 9 pieces of content before DMing anyone. An empty profile kills credibility.
-
-**Tool:** Open `tools/ig-posts.html` in your browser to see all 9 posts as screenshot-ready 1080x1080 slides. Screenshot each slide individually with `Cmd+Shift+4` (Mac) or `Win+Shift+S` (Windows).
+**Tool:** Open `tools/ig-posts.html` in browser → screenshot each slide at 1080×1080 with `Cmd+Shift+4`.
 
 | Post # | Type | Content |
 |--------|------|---------|
-| 1 | Carousel | "Waarom 87% van gasten reviews leest voor ze reserveren" (3-5 slides) |
+| 1 | Carousel | "9 van de 10 gasten leest reviews voor ze reserveren" |
 | 2 | Single image | Before/after: review without response vs. with professional response |
 | 3 | Carousel | "3 fouten die restaurants maken bij review responses" |
-| 4 | Single image | ROI stat: "€349 → €900 extra omzet per maand" |
+| 4 | Single image | Tijdsdief: "15 minuten per response · 10 reviews = 2,5 uur/maand" |
 | 5 | Carousel | "Hoe professionele responses werken" (step-by-step) |
-| 6 | Single image | Harvard stat: "+35% meer conversies" |
-| 7 | Carousel | "Review response voorbeeld: 4-sterren review" (use response-preview tool) |
+| 6 | Single image | Vergelijk: "Review Recovery €149 vs. AI-platform €249/maand" |
+| 7 | Carousel | "Review response voorbeeld: 4-sterren review" |
 | 8 | Single image | Quote: "Elke review is een reserveringskans" |
 | 9 | Carousel | "Het Gooi restaurants: gemiste kansen in reviews" |
 
----
-
-## Daily Workflow (1 hour/day)
-
-| Time | Task |
-|------|------|
-| 9:00-9:20 | Find 20 restaurants on Google Maps (4.0-4.5★, Het Gooi) |
-| 9:20-9:35 | Find their Instagram accounts |
-| 9:35-9:50 | Personalize & send DMs |
-| 9:50-10:00 | Respond to yesterday's replies |
+Post 2-3× per week minimum once outreach begins. Prospects will check.
 
 ---
 
@@ -67,109 +49,152 @@ Post at least 9 pieces of content before DMing anyone. An empty profile kills cr
 
 | Filter | Requirement |
 |--------|-------------|
-| Rating | 4.0-4.5★ on Google Maps |
+| Rating | 4.0–4.5★ on Google Maps |
 | Location | Het Gooi (Hilversum, Bussum, Naarden, Laren, Huizen) |
 | Reviews | 15+ total on Google |
-| Instagram | Active account (posted in last 30 days) |
+| Unanswered reviews | 3+ visible unanswered reviews |
 | Type | Modern/international (English-friendly for onboarding) |
 
-### Finding Their Instagram
+### Building the Prospect List
 
-1. Google Maps → restaurant name → check website for IG link
-2. Search Instagram directly: restaurant name + city
-3. Check Google listing "Social profiles" section
-4. Check their Facebook page (often linked)
+1. Google Maps → search "restaurant Hilversum/Bussum/etc" → filter 4.0–4.5★
+2. Note: restaurant name, phone number, website, owner name if visible
+3. Check Google listing for WhatsApp Business link (increasingly common)
+4. Search owner on LinkedIn: "[Restaurant name] eigenaar/owner/manager"
+5. Log in tracking sheet before contacting
 
 ---
 
-## DM Templates
+## WhatsApp Outreach (Primary)
 
-### First Message (Cold DM)
+WhatsApp is where Dutch restaurant owners actually are. Response rates are 3–4× higher than Instagram DM. Most restaurants list a business number on Google Maps.
 
-```
-Hoi [Name/Restaurant] 👋
+### Finding the Number
+- Google Maps listing (phone number)
+- Restaurant website (often a WhatsApp button)
+- If no WhatsApp: fall back to LinkedIn
 
-Ik zag dat jullie 4.2★ hebben op Google - mooi resultaat!
-
-Ik help restaurants in Het Gooi meer reserveringen uit hun Google reviews halen. Harvard onderzoek laat zien: professionele responses = +35% meer boekingen.
-
-Mag ik 2 gratis voorbeeldresponses sturen voor jullie echte reviews? Geen verplichtingen.
-
-Interesse?
-```
-
-### Shorter Version (If Profile Speaks For Itself)
+### First Message
 
 ```
-Hoi [Restaurant] 👋
+Hoi [Name] 👋
 
-Jullie reviews op Google zijn sterk (4.2★!) maar ik zie dat veel onbeantwoord zijn.
+Ik zag dat [Restaurant] mooie reviews heeft op Google (4.2★) — maar veel staan onbeantwoord.
 
-Mag ik 2 professionele voorbeeldresponses sturen? Gratis, kost jullie niets.
+Ik schrijf professionele review responses voor restaurants in Het Gooi. Mag ik 2 gratis voorbeelden sturen op basis van jullie echte reviews?
+
+Kost je niets, geen verplichtingen.
 ```
 
 ### Follow-Up (After 48 hrs, No Reply)
 
 ```
-Hoi [Restaurant], kort follow-up 🙂
+Hoi [Name], kort bericht 🙂
 
-Mag ik 1 voorbeeldreactie op jullie laatste Google review sturen? Dan zie je direct wat het verschil maakt.
-
-Kost 0 minuten van je tijd!
+Stuur ik gewoon 1 voorbeeld op je laatste Google review — dan zie je direct wat het verschil maakt.
 ```
 
----
+### After They Say Yes — Send Previews
 
-## Response Handling
-
-| Their Reply | Your Action |
-|-------------|-------------|
-| "Ja" / interested | Send 2 custom response previews within 2 hours (use tools/response-preview.html) |
-| "Hoeveel kost dit?" | "Eerst gratis voorbeelden, dan praten we verder → €349/maand" → Send examples |
-| "Hoe werkt het?" | Brief explanation + offer examples |
-| "Stuur maar" | Send response previews immediately |
-| No reply (48 hrs) | Send follow-up DM (once only) |
-| "Niet geïnteresseerd" | "Geen probleem, succes!" → Remove from list |
-| Seen but no reply (after follow-up) | Move on, don't send a third message |
-
----
-
-## Sending Response Previews
-
-1. Open `tools/response-preview.html` in your browser
+1. Open `tools/response-preview.html`
 2. Find 2 real reviews from their Google listing (1 positive, 1 mixed)
-3. Edit the preview cards with their actual review text
-4. Write professional responses
-5. Screenshot both cards (`Cmd+Shift+4`)
-6. Send via Instagram DM with:
+3. Write professional responses
+4. Screenshot both cards (`Cmd+Shift+4`)
+5. Send via WhatsApp:
 
 ```
 Hier zijn 2 voorbeelden voor [Restaurant] 👇
 
-Dit is wat jullie gasten zien als ze jullie reviews lezen en overwegen om te reserveren. Professionele responses maken het verschil.
+Dit is wat potentiële gasten zien als ze twijfelen om te reserveren. Professionele responses maken het verschil.
 
-Wat vinden jullie?
+Wat vind je ervan?
 ```
+
+---
+
+## LinkedIn Outreach (Secondary)
+
+Use LinkedIn when: no WhatsApp number found, or as a follow-up channel after no WhatsApp response.
+
+### Finding the Contact
+- Search: "[Restaurant name] eigenaar" or "[first name] [restaurant name] Hilversum"
+- Target: owner, general manager, or marketing manager
+- Send connection request first with a short note
+
+### Connection Request Note (300 char max)
+
+```
+Hoi [Name], ik help restaurants in Het Gooi meer reserveringen uit hun Google reviews halen. Lijkt me interessant voor [Restaurant] — mag ik je een voorbeeld sturen?
+```
+
+### First Message (After Connection Accepted)
+
+```
+Hoi [Name],
+
+Bedankt voor het connecten. Ik zag dat [Restaurant] goede reviews heeft maar veel staan onbeantwoord — dat is een gemiste kans bij gasten die twijfelen.
+
+Ik schrijf professionele responses voor Google reviews, speciaal voor restaurants in Het Gooi.
+
+Mag ik 2 gratis voorbeelden sturen op basis van jullie echte reviews? Geen verplichtingen, gewoon zodat je ziet wat het verschil maakt.
+```
+
+---
+
+## Response Handling (Both Channels)
+
+| Their Reply | Your Action |
+|-------------|-------------|
+| "Ja" / interested | Send 2 custom preview screenshots within 2 hours |
+| "Hoeveel kost dit?" | "Eerst de voorbeelden, dan praten we verder — €149/maand" → send examples |
+| "Hoe werkt het?" | Brief explanation + offer examples |
+| "Stuur maar" | Send previews immediately |
+| No reply (48 hrs) | One follow-up only |
+| "Niet geïnteresseerd" | "Geen probleem, succes!" → remove from list |
+| Seen, no reply after follow-up | Move on |
 
 ---
 
 ## Conversion Flow
 
 ```
-1. Instagram DM → Response Received
+1. WhatsApp / LinkedIn message → Response received
    ↓
-2. Send 2 Professional Response Previews (their actual reviews)
+2. Send 2 professional response previews (their actual reviews)
    ↓
-3. If Interested → Ask: "Is onboarding in Engels OK?"
+3. If interested → Ask: "Is onboarding in het Engels OK?"
    ↓
-4. If Yes → Send link to Typeform questionnaire
+4. Yes → Send Typeform link
    ↓
-5. Typeform Completed → Send Payment Link (€349)
+5. Typeform completed → Send payment link (€149/maand)
    ↓
-6. Payment Received → Schedule 15-min Onboarding Call
+6. Payment received → Schedule 15-min onboarding call
    ↓
-7. Onboarding Complete → Service Live
+7. Onboarding complete → Service live
 ```
+
+---
+
+## Daily Workflow (1 hour/day)
+
+| Time | Task |
+|------|------|
+| 9:00–9:20 | Find 10 prospects on Google Maps, log in sheet |
+| 9:20–9:35 | Find WhatsApp numbers + LinkedIn profiles |
+| 9:35–9:50 | Send messages (WhatsApp first, LinkedIn if no number) |
+| 9:50–10:00 | Respond to yesterday's replies, send previews if needed |
+
+Max 20 WhatsApp messages/day to avoid being flagged as spam.
+
+---
+
+## Qualification Questions
+
+| Question | Purpose | Red Flag |
+|----------|---------|----------|
+| "Is onboarding in Engels OK?" | Language fit | "Nee, alleen Nederlands" |
+| "Hoeveel reviews krijg je per maand?" | Volume check | <3/month |
+| "Reageer je nu op reviews?" | Current behavior | "Ja, altijd binnen 1 dag" |
 
 ---
 
@@ -187,81 +212,45 @@ Wat vinden jullie?
 
 ---
 
-## IG-Specific Tips
-
-### Avoid the Spam Filter
-- Don't send more than 20-25 DMs per day (new accounts get flagged)
-- Vary your message slightly each time (don't copy-paste identically)
-- Engage with their content first (like 1-2 posts) before DMing
-- Space out DMs: don't send 20 in 5 minutes
-
-### Warm-Up Strategy (First Week)
-| Day | DMs | Notes |
-|-----|-----|-------|
-| Day 1-2 | 5-10 | Test messaging, warm up account |
-| Day 3-4 | 10-15 | Increase volume |
-| Day 5+ | 15-20 | Full speed |
-
-### Boost Credibility
-- Follow their account before DMing
-- Like 1-2 recent posts before DMing (not more — looks obvious)
-- If they post stories, react to one occasionally
-- Post consistently on @reviewrecovery (2-3x/week minimum)
-
----
-
-## Qualification Questions (During Chat)
-
-| Question | Purpose | Red Flag |
-|----------|---------|----------|
-| "Is onboarding in Engels OK?" | Language fit | "Nee, alleen Nederlands" |
-| "Hoeveel reviews krijg je per maand?" | Volume check | <2/month |
-| "Reageer je nu op reviews?" | Current behavior | "Ja, altijd binnen 1 dag" |
-
----
-
 ## Tracking Sheet
 
-Google Sheet with columns:
+| Restaurant | Rating | City | Phone/WA | LinkedIn | Channel | Date | Response | Status |
+|------------|--------|------|----------|----------|---------|------|----------|--------|
+| Example | 4.2★ | Hilversum | +31... | /in/name | WA | 2026-02-20 | Interested | Previews sent |
 
-| Restaurant | Rating | City | Google Link | IG Handle | Date DM'd | Response | Follow-Up | Status |
-|------------|--------|------|-------------|-----------|-----------|----------|-----------|--------|
-| Example | 4.2★ | Hilversum | [link] | @example | 2026-02-06 | Interested | - | Previews sent |
-
-**Status options:** DM Sent → Replied → Previews Sent → Interested → Typeform Sent → Paid → Onboarding → Live
+**Status:** Contacted → Replied → Previews Sent → Interested → Typeform → Paid → Live
 
 ---
 
 ## Week 1 Targets
 
-| Day | DMs | Expected Responses |
-|-----|-----|-------------------|
-| Mon | 10 | 2-3 (warm-up) |
-| Tue | 10 | 2-3 (warm-up) |
-| Wed | 15 | 3-4 |
-| Thu | 15 | 3-4 |
-| Fri | 20 | 4-5 |
-| **Total** | **70** | **14-19** |
+| Day | Contacts | Channel |
+|-----|----------|---------|
+| Mon | 10 | WhatsApp (warm-up) |
+| Tue | 10 | WhatsApp + LinkedIn |
+| Wed | 15 | Both |
+| Thu | 15 | Both |
+| Fri | 20 | Both |
+| **Total** | **70** | |
 
-Week 2: 20/day → reach 100 total by mid-Week 2.
+Week 2: 20/day → 100 total by mid-Week 2.
 
 ---
 
 ## Key Messaging Rules
 
 **DO say:**
-- "Professional responses"
-- "More reservations"
-- "+35% conversion"
-- "€349 = €900 extra revenue"
-- "Free examples, no obligation"
+- "Professionele responses"
+- "Meer reserveringen"
+- "€149/maand"
+- "2 gratis voorbeelden, geen verplichtingen"
 
 **DON'T say:**
 - "AI-powered"
-- "Automated"
+- "Geautomatiseerd"
 - "Fix your reputation"
-- "Damage control"
 - "Bot" or "software"
+- Mention @reviewrecovery Instagram in the first message (let them find it)
 
 ---
 
@@ -269,8 +258,9 @@ Week 2: 20/day → reach 100 total by mid-Week 2.
 
 | Metric | Target |
 |--------|--------|
-| DM response rate | >20% |
-| Example-to-interest | >50% |
+| WhatsApp response rate | >40% |
+| LinkedIn connection acceptance | >30% |
+| Preview-to-interest | >50% |
 | Interest-to-close | >30% |
 | Cost per customer | €0 |
 

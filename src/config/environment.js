@@ -15,6 +15,11 @@ const config = {
     apiKey: process.env.AIRTABLE_API_KEY,
     baseId: process.env.AIRTABLE_BASE_ID
   },
+  twilio: {
+    accountSid: process.env.TWILIO_ACCOUNT_SID,
+    authToken: process.env.TWILIO_AUTH_TOKEN,
+    whatsappFrom: process.env.TWILIO_WHATSAPP_FROM
+  },
   app: {
     nodeEnv: process.env.NODE_ENV || 'development',
     port: process.env.PORT || 3000

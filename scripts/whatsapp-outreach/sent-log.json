@@ -1,0 +1,9 @@
+{
+  "+31612345678": {
+    "restaurant": "De Watertoren",
+    "name": "Jan",
+    "sentAt": "2026-02-20T14:01:25.447Z",
+    "twilioSid": "dry-run",
+    "status": "dry-run"
+  }
+}

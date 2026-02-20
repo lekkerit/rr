@@ -23,7 +23,8 @@
     "@anthropic-ai/sdk": "^0.17.1",
     "axios": "^1.6.0",
     "dotenv": "^16.3.1",
-    "googleapis": "^131.0.0"
+    "googleapis": "^131.0.0",
+    "twilio": "^5.12.2"
   },
   "devDependencies": {
     "eslint": "^8.56.0",

@@ -177,7 +177,7 @@
       "description": "Billing, subscriptions, and payments",
       "features": [
         {"id": "BIL-001", "name": "Stripe integration", "description": "Payment processing via Stripe", "status": "deferred", "priority": "high", "dependencies": []},
-        {"id": "BIL-002", "name": "Monthly subscription", "description": "€349/month subscription plan", "status": "deferred", "priority": "high", "dependencies": ["BIL-001"]},
+        {"id": "BIL-002", "name": "Monthly subscription", "description": "€149/month subscription plan", "status": "deferred", "priority": "high", "dependencies": ["BIL-001"]},
         {"id": "BIL-003", "name": "Annual subscription", "description": "Discounted annual plan", "status": "deferred", "priority": "medium", "dependencies": ["BIL-001"]},
         {"id": "BIL-004", "name": "Invoice generation", "description": "Automated invoice creation", "status": "deferred", "priority": "high", "dependencies": ["BIL-001"]},
         {"id": "BIL-005", "name": "Payment failure handling", "description": "Dunning and retry logic", "status": "deferred", "priority": "high", "dependencies": ["BIL-001"]},

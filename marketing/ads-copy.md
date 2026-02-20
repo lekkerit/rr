@@ -2,7 +2,7 @@
 
 **Campaign Goal:** 20-30 qualified leads for growth-focused restaurants
 **Target:** 4.0-4.5⭐ restaurants in Het Gooi region
-**Offer:** ROI Calculator + €349/month professional review management
+**Offer:** ROI Calculator + €149/month professional review management
 **Destination:** Landing page + ROI calculator
 **Positioning:** Growth tool for successful restaurants
 
@@ -16,12 +16,12 @@
 - 4-4.5⭐ Restaurants: Groei
 - Review Responses = Bookings
 - Geen Tijd Voor Reviews?
-- €349 = €900 Extra Omzet
+- €149 = €900 Extra Omzet
 
 ### Descriptions (90 char max)
 - Harvard bewezen: professionele review responses → 35% meer reserveringen. Voor 4-4.5⭐ restaurants.
 - Elke review een kans op nieuwe klanten. Wij schrijven professioneel, jij krijgt meer reserveringen.
-- Bereken je ROI: €900 extra omzet voor €349 investering. Exclusief voor groeiende restaurants.
+- Bereken je ROI: €900 extra omzet voor €149 investering. Exclusief voor groeiende restaurants.
 
 ### Keywords
 - restaurant marketing het gooi
@@ -36,7 +36,7 @@
 
 | Ad | Angle | CTA |
 |----|-------|-----|
-| Ad 1 | ROI focus — "€349 = €900 extra omzet" | Bereken Je ROI |
+| Ad 1 | ROI focus — "€149 = €900 extra omzet" | Bereken Je ROI |
 | Ad 2 | Time-saving — "Geen tijd voor reviews?" | Gratis ROI Calculator |
 | Ad 3 | Competitive edge — "Waarom reserveert iedereen bij je concurrent?" | Zie Het Verschil |
 | Ad 4 | Social proof — "40% meer reserveringen" | Bereken Je ROI |
@@ -52,7 +52,7 @@
 >
 > Harvard onderzoek bewijst: +35% meer conversies door professionele responses.
 >
-> €349/maand = €900 extra omzet. ROI binnen 1 maand.
+> €149/maand = €900 extra omzet. ROI binnen 1 maand.
 >
 > [Bereken Je ROI]
 
@@ -97,7 +97,7 @@
 >
 > Professionele responses zijn het verschil tussen een browser en een booker.
 >
-> Exclusief voor 4.0-4.5⭐ restaurants. €349/maand.
+> Exclusief voor 4.0-4.5⭐ restaurants. €149/maand.
 >
 > [Bereken Je ROI]
 
@@ -126,7 +126,7 @@
 **PROOF (25-35 sec)**
 *[Show ROI calculation]*
 
-"€349 per maand = €900 extra omzet."
+"€149 per maand = €900 extra omzet."
 "ROI binnen 1 maand."
 
 **CTA (35-45 sec)**
@@ -210,7 +210,7 @@ Harvard onderzoek toont aan: restaurants met professionele review responses krij
 - **Version B:** "Voor 4.0-4.5⭐ restaurants" (specific)
 
 ### Test 3: Price Strategy
-- **Version A:** "€349/maand" (upfront pricing)
+- **Version A:** "€149/maand" (upfront pricing)
 - **Version B:** "€900 extra omzet" (ROI focus)
 
 ### Test 4: CTA

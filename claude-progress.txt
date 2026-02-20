@@ -23,7 +23,7 @@
 
 ## Notes
 - Target market: 4.0-4.5★ restaurants in Het Gooi region, Netherlands (~171 restaurants)
-- Pricing: €349/month
+- Pricing: €149/month
 - Goal: 50+ restaurants signed within 6 months
 - Using n8n for workflow automation, Airtable for storage, Claude for AI responses
 

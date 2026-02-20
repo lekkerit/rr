@@ -42,7 +42,7 @@ An automated service that:
 - Pain Point: No time to respond to reviews professionally, missing reservation opportunities
 
 ### Pricing
-**€349/month** — Professional review management
+**€149/month** — Professional review management
 - All reviews monitored and responded to
 - Growth-focused AI responses (booking language, return visit invitations)
 - ROI: €900+ in estimated additional monthly revenue

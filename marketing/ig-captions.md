@@ -44,7 +44,7 @@ Welk restaurant zou jij kiezen? Precies 👇
 
 ## Post 4 — Single image (ROI)
 
-💰 €349 investering → €900+ extra omzet per maand.
+💰 €149 investering → €900+ extra omzet per maand.
 
 📊 ROI van 2.6x in de eerste maand. Door professionele review responses die gasten overtuigen om te reserveren.
 

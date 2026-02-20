@@ -63,7 +63,7 @@ Interesse?
 | Their Reply | Your Action |
 |-------------|-------------|
 | "Ja" / interested | Send 2 custom response examples within 2 hours |
-| "Hoeveel kost dit?" | "Eerst gratis voorbeelden, dan €349/maand" → Send examples |
+| "Hoeveel kost dit?" | "Eerst gratis voorbeelden, dan €149/maand" → Send examples |
 | "Hoe werkt het?" | Brief explanation + offer examples |
 | No reply (48 hrs) | Follow-up: "Mag ik 1 voorbeeldreactie sturen?" |
 | "Niet geïnteresseerd" | "Geen probleem, succes!" → Remove from list |
@@ -81,7 +81,7 @@ Interesse?
    ↓
 4. If Yes → Send Typeform Questionnaire
    ↓
-5. Typeform Completed → Send Payment Link (€349)
+5. Typeform Completed → Send Payment Link (€149)
    ↓
 6. Payment Received → Schedule 15-min Onboarding Call
    ↓
@@ -143,7 +143,7 @@ Create Google Sheet with columns:
 - "Professional responses"
 - "More reservations"
 - "+35% conversion"
-- "€349 = €900 extra revenue"
+- "€149 = €900 extra revenue"
 
 **DON'T say:**
 - "AI-powered"

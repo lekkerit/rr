@@ -6,6 +6,7 @@ yarn-error.log*
 
 # Environment variables (IMPORTANT - protects secrets!)
 .env
+.env.*
 .env.local
 .env.*.local
 
@@ -51,3 +52,6 @@ coverage/
 tmp/
 temp/
 *.tmp
+
+# WhatsApp outreach — generated queue files contain embedded Airtable API keys
+scripts/whatsapp-outreach/queue-*.html

@@ -1,9 +1,17 @@
 {
-  "+31612345678": {
-    "restaurant": "De Watertoren",
-    "name": "Jan",
-    "sentAt": "2026-02-20T14:01:25.447Z",
-    "twilioSid": "dry-run",
-    "status": "dry-run"
+  "+31356264444": {
+    "restaurant": "Primo Wisseloord",
+    "sentAt": "2026-02-21T16:00:32.018Z",
+    "status": "generated"
+  },
+  "+31302057432": {
+    "restaurant": "David's Bar & Restaurant",
+    "sentAt": "2026-02-21T16:00:36.704Z",
+    "status": "generated"
+  },
+  "+31353034210": {
+    "restaurant": "Mahadev Indian kitchen",
+    "sentAt": "2026-02-21T16:00:40.079Z",
+    "status": "generated"
   }
 }

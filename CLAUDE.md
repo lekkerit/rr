@@ -76,6 +76,7 @@ Errors are learning opportunities. When something breaks:
 - `docs/` - All project documentation and schema
 - `.env` - Environment variables and API keys
 - `credentials.json`, `token.json` - Google OAuth credentials (required files, in `.gitignore`)
+- `scripts/whatsapp-outreach/queue-*.html` - **Never commit.** Generated queue files have Airtable API keys embedded in them. Covered by `.gitignore`.
 
 **Key principle:** Local files are only for processing. Deliverables live in cloud services (Google Sheets, Slides, etc.) where the user can access them. Everything in `.tmp/` can be deleted and regenerated.
 

@@ -15,7 +15,6 @@ require('dotenv').config({ path: require('path').resolve(__dirname, '../../.env'
 const fs = require('fs');
 const path = require('path');
 const Anthropic = require('@anthropic-ai/sdk');
-const twilio = require('twilio');
 
 // ─── Config ──────────────────────────────────────────────────────────────────
 
@@ -28,7 +27,7 @@ const SENT_LOG_FILE = path.join(__dirname, 'sent-log.json');
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 const twilioClient = !DRY_RUN
-  ? twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
+  ? require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
   : null;
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -65,27 +64,27 @@ function countSentToday(log) {
 // ─── Message Generation ───────────────────────────────────────────────────────
 
 async function generateMessage(prospect) {
-  const { name, restaurant, rating, unanswered_count, city } = prospect;
+  const { restaurant, rating, city } = prospect;
+  const ratingLine = rating ? `- Google-beoordeling: ${rating}★\n` : '';
 
   const message = await anthropic.messages.create({
     model: 'claude-sonnet-4-6',
     max_tokens: 200,
     messages: [{
       role: 'user',
-      content: `Schrijf een WhatsApp openingsbericht voor restauranteigenaar ${name} van ${restaurant} in ${city}.
+      content: `Schrijf een WhatsApp openingsbericht voor de eigenaar van ${restaurant} in ${city}.
 
 Context:
-- Google-beoordeling: ${rating}★
-- Onbeantwoorde reviews: ${unanswered_count}
-- Ik bied professionele review responses aan voor €149/maand
-- Ik wil 2 gratis voorbeelden aanbieden, geen verplichtingen
+${ratingLine}- Ik help restaurants met het professioneel beantwoorden van Google-reviews
+- Ik wil 2 gratis voorbeeldreacties aanbieden, geen verplichtingen
+- Nooit prijzen noemen in het eerste bericht
 
 Strenge regels:
 - Nederlands, informeel maar professioneel
-- Noem de restaurantnaam en de beoordeling
-- Verwijs naar de onbeantwoorde reviews
-- Bied 2 gratis voorbeelden aan, geen verplichtingen
-- Mag NIET bevatten: AI, geautomatiseerd, bot, software, algoritme
+- Noem de restaurantnaam${rating ? ' en de beoordeling' : ''}
+- Focus op de waarde: meer vertrouwen bij nieuwe gasten, betere reputatie
+- Bied 2 gratis voorbeelden aan als concrete eerste stap
+- Mag NIET bevatten: AI, geautomatiseerd, bot, software, algoritme, prijzen, €
 - Maximaal 80 woorden
 - WhatsApp-toon: korte alinea's, geen formele aanhef
 - Eindig met een open vraag

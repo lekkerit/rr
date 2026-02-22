@@ -661,6 +661,133 @@
             background: #3f3f46;
         }
 
+        /* Today View */
+        .today-view {
+            display: none;
+            flex: 1;
+            padding: 16px 20px;
+            overflow-y: auto;
+            max-width: 640px;
+        }
+
+        .today-view.active { display: block; }
+
+        .today-add-bar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .today-input {
+            flex: 1;
+            background: #18181b;
+            border: 1px solid #27272a;
+            color: #fafafa;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+        }
+
+        .today-input::placeholder { color: #52525b; }
+        .today-input:focus { outline: none; border-color: #7c3aed; }
+
+        .today-section-label {
+            font-size: 0.75rem;
+            color: #52525b;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            margin-bottom: 10px;
+        }
+
+        .today-empty {
+            color: #3f3f46;
+            font-size: 0.8rem;
+            font-style: italic;
+            padding: 8px 0 20px;
+        }
+
+        .pinned-card-wrap { position: relative; margin-bottom: 8px; }
+
+        .unpin-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: #52525b;
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 2px 4px;
+            line-height: 1;
+            z-index: 1;
+        }
+
+        .unpin-btn:hover { color: #a1a1aa; }
+
+        .quick-task-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            background: #18181b;
+            border: 1px solid #27272a;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .quick-task-item.done { opacity: 0.45; }
+
+        .quick-task-check {
+            width: 15px;
+            height: 15px;
+            flex-shrink: 0;
+            cursor: pointer;
+            accent-color: #7c3aed;
+        }
+
+        .quick-task-text { flex: 1; font-size: 0.85rem; color: #fafafa; }
+        .quick-task-item.done .quick-task-text { text-decoration: line-through; color: #52525b; }
+
+        .quick-task-remove {
+            background: none;
+            border: none;
+            color: #3f3f46;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0 2px;
+            line-height: 1;
+        }
+
+        .quick-task-remove:hover { color: #71717a; }
+
+        .star-btn {
+            background: none;
+            border: none;
+            color: #3f3f46;
+            cursor: pointer;
+            font-size: 0.9rem;
+            padding: 0;
+            line-height: 1;
+            transition: color 0.15s;
+        }
+
+        .star-btn:hover { color: #eab308; }
+        .star-btn.starred { color: #eab308; }
+
+        .today-clear-btn {
+            background: none;
+            border: none;
+            color: #52525b;
+            cursor: pointer;
+            font-size: 0.75rem;
+            padding: 12px 0 4px;
+            text-decoration: underline;
+            display: block;
+        }
+
+        .today-clear-btn:hover { color: #a1a1aa; }
+        .filter-bar.hidden { display: none; }
+
         /* Save reminder */
         .save-reminder {
             position: fixed;
@@ -706,14 +833,11 @@
                 Mission Control
             </div>
             <div class="nav-tabs">
-                <div class="nav-tab active">
+                <div class="nav-tab active" id="tab-tasks" onclick="switchTab('tasks')">
                     <span>📋</span> Tasks
                 </div>
-                <div class="nav-tab">
-                    <span>📄</span> Docs
-                </div>
-                <div class="nav-tab">
-                    <span>👥</span> People
+                <div class="nav-tab" id="tab-today" onclick="switchTab('today')">
+                    <span>⭐</span> Today
                 </div>
             </div>
         </div>
@@ -770,7 +894,7 @@
     <!-- Main Content -->
     <div class="main-content">
         <!-- Board -->
-        <div class="board">
+        <div class="board" id="board-view">
             <div class="column" data-status="planned">
                 <div class="column-header">
                     <div class="column-title">
@@ -820,8 +944,16 @@
             </div>
         </div>
 
+        <!-- Today View -->
+        <div class="today-view" id="today-view"></div>
+
         <!-- Activity Sidebar -->
         <aside class="activity-sidebar">
+            <!-- Outreach Stats (one-way pull from Airtable) -->
+            <div style="border-bottom: 1px solid #1e1e22; padding: 12px 16px;">
+                <div style="font-size:0.75rem;color:#52525b;font-weight:500;letter-spacing:0.05em;margin-bottom:10px;">OUTREACH</div>
+                <div id="outreach-content"></div>
+            </div>
             <div class="activity-header">ACTIVITY</div>
             <div class="activity-list" id="activity-list">
                 <!-- Activity items will be populated here -->
@@ -924,28 +1056,10 @@
             'platform_integrations': { name: 'Integration', tag: 'tag-api' }
         };
 
-        // Load features
-        async function loadFeatures() {
-            try {
-                const response = await fetch('../features.json');
-                if (response.ok) {
-                    featuresData = await response.json();
-                    processFeatures();
-                    return;
-                }
-            } catch (e) {
-                console.log('Could not fetch features.json');
-            }
-
-            const jsonInput = prompt('Paste features.json contents:');
-            if (jsonInput) {
-                try {
-                    featuresData = JSON.parse(jsonInput);
-                    processFeatures();
-                } catch (e) {
-                    alert('Invalid JSON');
-                }
-            }
+        // Embedded features data — snapshot 2026-02-22
+        function loadFeatures() {
+            featuresData = {"project":"restaurant-review-ai","version":"0.1.0","generated":"2026-02-07","description":"Professional review management system helping restaurants convert reviews into reservations","categories":{"core_review_monitoring":{"description":"Core functionality for fetching and monitoring Google reviews","features":[{"id":"CRM-001","name":"Google My Business API integration","description":"Connect to GMB API for review access","status":"in_progress","priority":"critical","dependencies":[]},{"id":"CRM-002","name":"Fetch all reviews","description":"Retrieve complete review history from Google","status":"planned","priority":"critical","dependencies":["CRM-001"]},{"id":"CRM-003","name":"Fetch new reviews only","description":"Incremental fetch of reviews since last sync","status":"planned","priority":"critical","dependencies":["CRM-002"]},{"id":"CRM-004","name":"Review deduplication","description":"Prevent duplicate reviews in database","status":"planned","priority":"high","dependencies":["CRM-002"]},{"id":"CRM-005","name":"Scheduled review polling","description":"Automated periodic review checks","status":"planned","priority":"high","dependencies":["CRM-003"]},{"id":"CRM-006","name":"Real-time review webhooks","description":"Instant notification when new review posted","status":"deferred","priority":"medium","dependencies":["CRM-001"]},{"id":"CRM-007","name":"Review change detection","description":"Detect when customer edits their review","status":"deferred","priority":"low","dependencies":["CRM-003"]},{"id":"CRM-008","name":"Multi-location support","description":"Monitor reviews across multiple restaurant locations","status":"deferred","priority":"medium","dependencies":["CRM-001"]},{"id":"CRM-009","name":"Review metadata extraction","description":"Parse review date, rating, photos, reviewer info","status":"planned","priority":"high","dependencies":["CRM-002"]},{"id":"CRM-010","name":"Historical review import","description":"Bulk import existing reviews on first setup","status":"planned","priority":"medium","dependencies":["CRM-002"]},{"id":"CRM-011","name":"Review source tracking","description":"Track which platform review came from","status":"deferred","priority":"low","dependencies":[]},{"id":"CRM-012","name":"Competitor review monitoring","description":"Monitor competitor restaurant reviews","status":"deferred","priority":"low","dependencies":["CRM-001"]},{"id":"CRM-013","name":"Review archival","description":"Archive old reviews after configurable period","status":"deferred","priority":"low","dependencies":["CRM-002"]},{"id":"CRM-014","name":"API rate limit handling","description":"Graceful handling of Google API limits","status":"planned","priority":"high","dependencies":["CRM-001"]},{"id":"CRM-015","name":"OAuth token refresh","description":"Automatic refresh of expired OAuth tokens","status":"planned","priority":"critical","dependencies":["CRM-001"]}]},"ai_response_generation":{"description":"AI-powered review response generation using Claude","features":[{"id":"AIR-001","name":"Claude API integration","description":"Connect to Anthropic API for response generation","status":"planned","priority":"critical","dependencies":[]},{"id":"AIR-002","name":"Basic response generation","description":"Generate appropriate response for any review","status":"planned","priority":"critical","dependencies":["AIR-001"]},{"id":"AIR-003","name":"Positive review responses","description":"Warm, grateful responses for 4-5 star reviews","status":"planned","priority":"high","dependencies":["AIR-002"]},{"id":"AIR-004","name":"Negative review responses","description":"Professional, empathetic responses for 1-2 star reviews","status":"planned","priority":"high","dependencies":["AIR-002"]},{"id":"AIR-005","name":"Neutral review responses","description":"Balanced responses for 3 star reviews","status":"planned","priority":"high","dependencies":["AIR-002"]},{"id":"AIR-006","name":"No-text review responses","description":"Handle reviews with rating only, no text","status":"planned","priority":"medium","dependencies":["AIR-002"]},{"id":"AIR-007","name":"Brand voice customization","description":"Customize tone and style per restaurant","status":"deferred","priority":"medium","dependencies":["AIR-002"]},{"id":"AIR-008","name":"Response length control","description":"Configurable response length limits","status":"planned","priority":"medium","dependencies":["AIR-002"]},{"id":"AIR-009","name":"Multilingual responses","description":"Generate responses in customer's language","status":"planned","priority":"high","dependencies":["AIR-002"]},{"id":"AIR-010","name":"Dutch language support","description":"Native Dutch response generation","status":"planned","priority":"critical","dependencies":["AIR-009"]},{"id":"AIR-011","name":"Response personalization","description":"Include reviewer name and specific details","status":"planned","priority":"high","dependencies":["AIR-002"]},{"id":"AIR-012","name":"Sentiment analysis","description":"Analyze review sentiment before responding","status":"planned","priority":"medium","dependencies":["AIR-001"]},{"id":"AIR-013","name":"Topic extraction","description":"Identify main topics mentioned in review","status":"deferred","priority":"medium","dependencies":["AIR-001"]},{"id":"AIR-014","name":"Fallback responses","description":"Pre-written fallbacks if AI generation fails","status":"planned","priority":"high","dependencies":[]},{"id":"AIR-015","name":"Response templates","description":"Template library for common scenarios","status":"deferred","priority":"medium","dependencies":["AIR-002"]},{"id":"AIR-016","name":"Prohibited phrase filter","description":"Prevent responses containing banned phrases","status":"planned","priority":"high","dependencies":["AIR-002"]},{"id":"AIR-017","name":"Competitor mention avoidance","description":"Never mention competitor names","status":"planned","priority":"high","dependencies":["AIR-002"]},{"id":"AIR-018","name":"Legal compliance filter","description":"Ensure responses don't make false claims","status":"planned","priority":"high","dependencies":["AIR-002"]},{"id":"AIR-019","name":"Response caching","description":"Cache similar responses to reduce API costs","status":"deferred","priority":"low","dependencies":["AIR-002"]},{"id":"AIR-020","name":"A/B response testing","description":"Test different response styles for effectiveness","status":"deferred","priority":"low","dependencies":["AIR-002"]}]},"response_posting":{"description":"Posting generated responses back to Google","features":[{"id":"RPO-001","name":"Post response to Google","description":"Submit response via GMB API","status":"planned","priority":"critical","dependencies":["CRM-001","AIR-002"]},{"id":"RPO-002","name":"Response status tracking","description":"Track if response was posted successfully","status":"planned","priority":"high","dependencies":["RPO-001"]},{"id":"RPO-003","name":"Retry failed posts","description":"Automatic retry for failed response posts","status":"planned","priority":"high","dependencies":["RPO-001"]},{"id":"RPO-004","name":"Strategic posting delays","description":"Delay responses to appear more human","status":"deferred","priority":"medium","dependencies":["RPO-001"]},{"id":"RPO-005","name":"Business hours posting","description":"Only post during restaurant's business hours","status":"deferred","priority":"low","dependencies":["RPO-004"]},{"id":"RPO-006","name":"Response edit capability","description":"Edit already-posted responses","status":"deferred","priority":"low","dependencies":["RPO-001"]},{"id":"RPO-007","name":"Response deletion","description":"Delete posted responses if needed","status":"deferred","priority":"low","dependencies":["RPO-001"]},{"id":"RPO-008","name":"Batch response posting","description":"Post multiple responses efficiently","status":"deferred","priority":"medium","dependencies":["RPO-001"]},{"id":"RPO-009","name":"Post confirmation webhook","description":"Notify when response successfully posted","status":"planned","priority":"medium","dependencies":["RPO-001"]},{"id":"RPO-010","name":"Response preview before post","description":"Preview response before it goes live","status":"deferred","priority":"medium","dependencies":["RPO-001"]}]},"human_approval_workflow":{"description":"Human review and approval before posting responses","features":[{"id":"HAW-001","name":"Manual approval queue","description":"Queue responses for human review","status":"deferred","priority":"medium","dependencies":["AIR-002"]},{"id":"HAW-002","name":"Approval dashboard","description":"Web interface for reviewing pending responses","status":"deferred","priority":"medium","dependencies":["HAW-001"]},{"id":"HAW-003","name":"One-click approve","description":"Approve response with single click","status":"deferred","priority":"medium","dependencies":["HAW-001"]},{"id":"HAW-004","name":"Edit before approve","description":"Modify response before approving","status":"deferred","priority":"medium","dependencies":["HAW-001"]},{"id":"HAW-005","name":"Reject with reason","description":"Reject and regenerate with feedback","status":"deferred","priority":"medium","dependencies":["HAW-001"]},{"id":"HAW-006","name":"Approval reminders","description":"Remind approvers of pending reviews","status":"deferred","priority":"low","dependencies":["HAW-001"]},{"id":"HAW-007","name":"Auto-approve rules","description":"Auto-approve based on rating/content rules","status":"deferred","priority":"medium","dependencies":["HAW-001"]},{"id":"HAW-008","name":"Escalation workflow","description":"Escalate difficult reviews to senior staff","status":"deferred","priority":"low","dependencies":["HAW-001"]},{"id":"HAW-009","name":"Mobile approval app","description":"Approve responses from mobile device","status":"deferred","priority":"low","dependencies":["HAW-002"]},{"id":"HAW-010","name":"Approval SLA tracking","description":"Track time to approve responses","status":"deferred","priority":"low","dependencies":["HAW-001"]}]},"database_storage":{"description":"Data persistence and storage using Airtable","features":[{"id":"DBS-001","name":"Airtable integration","description":"Connect to Airtable for data storage","status":"planned","priority":"critical","dependencies":[]},{"id":"DBS-002","name":"Reviews table","description":"Store all review data","status":"planned","priority":"critical","dependencies":["DBS-001"]},{"id":"DBS-003","name":"Responses table","description":"Store generated and posted responses","status":"planned","priority":"high","dependencies":["DBS-001"]},{"id":"DBS-004","name":"Restaurants table","description":"Store restaurant/client information","status":"deferred","priority":"medium","dependencies":["DBS-001"]},{"id":"DBS-005","name":"Users table","description":"Store user accounts and permissions","status":"deferred","priority":"medium","dependencies":["DBS-001"]},{"id":"DBS-006","name":"Audit log table","description":"Log all system actions","status":"deferred","priority":"medium","dependencies":["DBS-001"]},{"id":"DBS-007","name":"Settings table","description":"Store configuration per restaurant","status":"deferred","priority":"medium","dependencies":["DBS-001"]},{"id":"DBS-008","name":"Waitlist table","description":"Store waitlist signups","status":"completed","priority":"high","dependencies":["DBS-001"]},{"id":"DBS-009","name":"Data backup automation","description":"Automated Airtable backups","status":"deferred","priority":"medium","dependencies":["DBS-001"]},{"id":"DBS-010","name":"Data export capability","description":"Export data to CSV/JSON","status":"deferred","priority":"low","dependencies":["DBS-001"]},{"id":"DBS-011","name":"Database migration scripts","description":"Scripts for schema changes","status":"deferred","priority":"low","dependencies":["DBS-001"]},{"id":"DBS-012","name":"Data retention policy","description":"Auto-delete old data per policy","status":"deferred","priority":"low","dependencies":["DBS-001"]}]},"workflow_automation":{"description":"n8n workflow automation","features":[{"id":"WFA-001","name":"n8n integration","description":"Set up n8n for workflow automation","status":"in_progress","priority":"critical","dependencies":[]},{"id":"WFA-002","name":"Review monitor workflow","description":"Automated review fetching workflow","status":"planned","priority":"critical","dependencies":["WFA-001","CRM-001"]},{"id":"WFA-003","name":"Response generator workflow","description":"AI response generation workflow","status":"planned","priority":"critical","dependencies":["WFA-001","AIR-001"]},{"id":"WFA-004","name":"Response poster workflow","description":"Post response to Google workflow","status":"planned","priority":"critical","dependencies":["WFA-001","RPO-001"]},{"id":"WFA-005","name":"Waitlist capture workflow","description":"Typeform to Airtable workflow","status":"completed","priority":"high","dependencies":["WFA-001"]},{"id":"WFA-006","name":"Error notification workflow","description":"Alert on workflow failures","status":"planned","priority":"high","dependencies":["WFA-001"]},{"id":"WFA-007","name":"Daily digest workflow","description":"Send daily review summary","status":"deferred","priority":"medium","dependencies":["WFA-001"]},{"id":"WFA-008","name":"Onboarding workflow","description":"New customer setup automation","status":"deferred","priority":"medium","dependencies":["WFA-001"]},{"id":"WFA-009","name":"Workflow monitoring","description":"Monitor workflow health and performance","status":"deferred","priority":"medium","dependencies":["WFA-001"]},{"id":"WFA-010","name":"Workflow versioning","description":"Version control for workflows","status":"deferred","priority":"low","dependencies":["WFA-001"]}]},"notifications_alerts":{"description":"Notification and alerting system","features":[{"id":"NOT-001","name":"Email notifications","description":"Send email alerts for key events","status":"deferred","priority":"medium","dependencies":[]},{"id":"NOT-002","name":"New review alert","description":"Notify when new review received","status":"deferred","priority":"medium","dependencies":["NOT-001"]},{"id":"NOT-003","name":"Negative review alert","description":"Urgent alert for 1-2 star reviews","status":"deferred","priority":"high","dependencies":["NOT-001"]},{"id":"NOT-004","name":"Response posted confirmation","description":"Confirm when response goes live","status":"deferred","priority":"low","dependencies":["NOT-001"]},{"id":"NOT-005","name":"Weekly summary email","description":"Weekly review activity digest","status":"deferred","priority":"medium","dependencies":["NOT-001"]},{"id":"NOT-006","name":"SMS notifications","description":"Critical alerts via SMS","status":"deferred","priority":"low","dependencies":[]},{"id":"NOT-007","name":"Slack integration","description":"Send notifications to Slack","status":"deferred","priority":"low","dependencies":[]},{"id":"NOT-008","name":"WhatsApp notifications","description":"Send alerts via WhatsApp","status":"deferred","priority":"medium","dependencies":[]},{"id":"NOT-009","name":"Notification preferences","description":"User-configurable notification settings","status":"deferred","priority":"medium","dependencies":["NOT-001"]},{"id":"NOT-010","name":"Quiet hours","description":"No notifications during specified hours","status":"deferred","priority":"low","dependencies":["NOT-009"]}]},"analytics_reporting":{"description":"Analytics, metrics, and reporting","features":[{"id":"ANR-001","name":"Review count tracking","description":"Track total reviews over time","status":"deferred","priority":"medium","dependencies":[]},{"id":"ANR-002","name":"Average rating tracking","description":"Track rating trends over time","status":"deferred","priority":"medium","dependencies":[]},{"id":"ANR-003","name":"Response rate metrics","description":"Track % of reviews responded to","status":"deferred","priority":"medium","dependencies":[]},{"id":"ANR-004","name":"Response time metrics","description":"Track time from review to response","status":"deferred","priority":"medium","dependencies":[]},{"id":"ANR-005","name":"Sentiment trends","description":"Track sentiment changes over time","status":"deferred","priority":"low","dependencies":["AIR-012"]},{"id":"ANR-006","name":"Analytics dashboard","description":"Visual dashboard for all metrics","status":"deferred","priority":"medium","dependencies":[]},{"id":"ANR-007","name":"Monthly reports","description":"Automated monthly PDF reports","status":"deferred","priority":"medium","dependencies":[]},{"id":"ANR-008","name":"ROI calculator","description":"Calculate ROI from review management","status":"completed","priority":"medium","dependencies":[]},{"id":"ANR-009","name":"Competitor benchmarking","description":"Compare metrics to competitors","status":"deferred","priority":"low","dependencies":["CRM-012"]},{"id":"ANR-010","name":"Custom report builder","description":"Build custom analytics reports","status":"deferred","priority":"low","dependencies":["ANR-006"]},{"id":"ANR-011","name":"Data export for BI","description":"Export data for external BI tools","status":"deferred","priority":"low","dependencies":[]},{"id":"ANR-012","name":"Conversion tracking","description":"Track reviews to reservations","status":"deferred","priority":"high","dependencies":[]}]},"user_authentication":{"description":"User management and authentication","features":[{"id":"UAU-001","name":"User registration","description":"New user account creation","status":"deferred","priority":"medium","dependencies":[]},{"id":"UAU-002","name":"Email/password login","description":"Standard email login","status":"deferred","priority":"medium","dependencies":["UAU-001"]},{"id":"UAU-003","name":"Google OAuth login","description":"Login with Google account","status":"deferred","priority":"medium","dependencies":[]},{"id":"UAU-004","name":"Password reset","description":"Self-service password reset","status":"deferred","priority":"medium","dependencies":["UAU-002"]},{"id":"UAU-005","name":"Two-factor authentication","description":"Optional 2FA for security","status":"deferred","priority":"low","dependencies":["UAU-002"]},{"id":"UAU-006","name":"Role-based access","description":"Admin, manager, viewer roles","status":"deferred","priority":"medium","dependencies":["UAU-001"]},{"id":"UAU-007","name":"Team invitations","description":"Invite team members to account","status":"deferred","priority":"medium","dependencies":["UAU-001"]},{"id":"UAU-008","name":"Session management","description":"View and revoke active sessions","status":"deferred","priority":"low","dependencies":["UAU-002"]},{"id":"UAU-009","name":"API key management","description":"Generate and manage API keys","status":"deferred","priority":"low","dependencies":["UAU-001"]},{"id":"UAU-010","name":"Audit trail","description":"Log all user actions","status":"deferred","priority":"medium","dependencies":["UAU-001"]}]},"customer_onboarding":{"description":"Customer onboarding and setup","features":[{"id":"CON-001","name":"Typeform waitlist","description":"Waitlist signup form","status":"completed","priority":"critical","dependencies":[]},{"id":"CON-002","name":"Google account connection","description":"OAuth flow to connect GMB","status":"planned","priority":"critical","dependencies":["CRM-001"]},{"id":"CON-003","name":"Location selection","description":"Select which locations to manage","status":"deferred","priority":"high","dependencies":["CON-002"]},{"id":"CON-004","name":"Brand voice setup","description":"Configure response tone/style","status":"deferred","priority":"medium","dependencies":[]},{"id":"CON-005","name":"Notification preferences","description":"Set up alert preferences","status":"deferred","priority":"medium","dependencies":["NOT-009"]},{"id":"CON-006","name":"Billing setup","description":"Enter payment information","status":"deferred","priority":"high","dependencies":[]},{"id":"CON-007","name":"Onboarding checklist","description":"Guided setup checklist","status":"deferred","priority":"medium","dependencies":[]},{"id":"CON-008","name":"Welcome email sequence","description":"Automated onboarding emails","status":"deferred","priority":"medium","dependencies":[]},{"id":"CON-009","name":"Demo/trial period","description":"Free trial functionality","status":"deferred","priority":"medium","dependencies":[]},{"id":"CON-010","name":"Onboarding call scheduling","description":"Book setup call with team","status":"deferred","priority":"low","dependencies":[]}]},"billing_payments":{"description":"Billing, subscriptions, and payments","features":[{"id":"BIL-001","name":"Stripe integration","description":"Payment processing via Stripe","status":"deferred","priority":"high","dependencies":[]},{"id":"BIL-002","name":"Monthly subscription","description":"€149/month subscription plan","status":"deferred","priority":"high","dependencies":["BIL-001"]},{"id":"BIL-003","name":"Annual subscription","description":"Discounted annual plan","status":"deferred","priority":"medium","dependencies":["BIL-001"]},{"id":"BIL-004","name":"Invoice generation","description":"Automated invoice creation","status":"deferred","priority":"high","dependencies":["BIL-001"]},{"id":"BIL-005","name":"Payment failure handling","description":"Dunning and retry logic","status":"deferred","priority":"high","dependencies":["BIL-001"]},{"id":"BIL-006","name":"Plan upgrades","description":"Upgrade between plans","status":"deferred","priority":"medium","dependencies":["BIL-002"]},{"id":"BIL-007","name":"Plan downgrades","description":"Downgrade with prorating","status":"deferred","priority":"low","dependencies":["BIL-002"]},{"id":"BIL-008","name":"Cancellation flow","description":"Self-service cancellation","status":"deferred","priority":"medium","dependencies":["BIL-002"]},{"id":"BIL-009","name":"Usage-based billing","description":"Charge per review/response","status":"deferred","priority":"low","dependencies":["BIL-001"]},{"id":"BIL-010","name":"Multi-location pricing","description":"Per-location pricing tiers","status":"deferred","priority":"medium","dependencies":["BIL-002"]},{"id":"BIL-011","name":"Promo codes","description":"Discount code support","status":"deferred","priority":"low","dependencies":["BIL-001"]},{"id":"BIL-012","name":"Refund processing","description":"Handle refund requests","status":"deferred","priority":"medium","dependencies":["BIL-001"]}]},"landing_pages_marketing":{"description":"Marketing website and landing pages","features":[{"id":"LPM-001","name":"English landing page","description":"Main marketing page in English","status":"completed","priority":"critical","dependencies":[]},{"id":"LPM-002","name":"Dutch landing page","description":"Localized Dutch landing page","status":"completed","priority":"critical","dependencies":[]},{"id":"LPM-003","name":"Pricing page","description":"Clear pricing presentation","status":"completed","priority":"high","dependencies":[]},{"id":"LPM-004","name":"Case studies page","description":"Customer success stories","status":"completed","priority":"medium","dependencies":[]},{"id":"LPM-005","name":"Response preview tool","description":"Demo AI response generation","status":"completed","priority":"high","dependencies":[]},{"id":"LPM-006","name":"ROI calculator tool","description":"Interactive ROI calculator","status":"completed","priority":"high","dependencies":[]},{"id":"LPM-007","name":"SEO optimization","description":"On-page SEO for all pages","status":"planned","priority":"medium","dependencies":[]},{"id":"LPM-008","name":"Blog section","description":"Content marketing blog","status":"deferred","priority":"low","dependencies":[]},{"id":"LPM-009","name":"FAQ page","description":"Frequently asked questions","status":"deferred","priority":"medium","dependencies":[]},{"id":"LPM-010","name":"Contact page","description":"Contact form and info","status":"deferred","priority":"medium","dependencies":[]},{"id":"LPM-011","name":"About page","description":"Company/team information","status":"deferred","priority":"low","dependencies":[]},{"id":"LPM-012","name":"Mobile responsiveness","description":"Fully responsive design","status":"completed","priority":"high","dependencies":[]},{"id":"LPM-013","name":"Analytics tracking","description":"Google Analytics integration","status":"planned","priority":"high","dependencies":[]},{"id":"LPM-014","name":"Conversion tracking","description":"Track form submissions","status":"planned","priority":"high","dependencies":[]},{"id":"LPM-015","name":"A/B testing","description":"Test landing page variants","status":"deferred","priority":"low","dependencies":[]}]},"advertising_outreach":{"description":"Paid advertising and outreach campaigns","features":[{"id":"ADO-001","name":"Google Ads campaigns","description":"Search and display ads","status":"planned","priority":"high","dependencies":[]},{"id":"ADO-002","name":"Facebook/Instagram ads","description":"Social media advertising","status":"planned","priority":"high","dependencies":[]},{"id":"ADO-003","name":"Dutch ad copy","description":"Localized Dutch advertising","status":"completed","priority":"high","dependencies":[]},{"id":"ADO-004","name":"Instagram outreach","description":"Direct outreach via IG DMs","status":"planned","priority":"high","dependencies":[]},{"id":"ADO-005","name":"IG outreach playbook","description":"Scripts and process for outreach","status":"completed","priority":"high","dependencies":[]},{"id":"ADO-006","name":"Google Maps prospecting","description":"Find restaurants on Google Maps","status":"planned","priority":"high","dependencies":[]},{"id":"ADO-007","name":"Email outreach campaigns","description":"Cold email sequences","status":"deferred","priority":"medium","dependencies":[]},{"id":"ADO-008","name":"LinkedIn outreach","description":"B2B outreach on LinkedIn","status":"deferred","priority":"low","dependencies":[]},{"id":"ADO-009","name":"Referral program","description":"Customer referral incentives","status":"deferred","priority":"medium","dependencies":[]},{"id":"ADO-010","name":"Partner program","description":"Agency/reseller partnerships","status":"deferred","priority":"low","dependencies":[]},{"id":"ADO-011","name":"Local events/networking","description":"Horeca industry events","status":"deferred","priority":"low","dependencies":[]},{"id":"ADO-012","name":"Instagram content calendar","description":"Regular IG posting schedule","status":"completed","priority":"medium","dependencies":[]}]},"security_compliance":{"description":"Security, privacy, and compliance","features":[{"id":"SEC-001","name":"HTTPS everywhere","description":"SSL/TLS for all connections","status":"completed","priority":"critical","dependencies":[]},{"id":"SEC-002","name":"API key encryption","description":"Encrypt stored API keys","status":"planned","priority":"critical","dependencies":[]},{"id":"SEC-003","name":"GDPR compliance","description":"EU data protection compliance","status":"planned","priority":"critical","dependencies":[]},{"id":"SEC-004","name":"Privacy policy","description":"Published privacy policy","status":"planned","priority":"critical","dependencies":[]},{"id":"SEC-005","name":"Terms of service","description":"Published terms of service","status":"planned","priority":"critical","dependencies":[]},{"id":"SEC-006","name":"Data processing agreement","description":"DPA for business customers","status":"deferred","priority":"high","dependencies":[]},{"id":"SEC-007","name":"Cookie consent","description":"GDPR-compliant cookie banner","status":"planned","priority":"high","dependencies":[]},{"id":"SEC-008","name":"Data deletion requests","description":"Handle GDPR deletion requests","status":"deferred","priority":"high","dependencies":[]},{"id":"SEC-009","name":"Security audit","description":"Third-party security review","status":"deferred","priority":"medium","dependencies":[]},{"id":"SEC-010","name":"Vulnerability scanning","description":"Automated security scanning","status":"deferred","priority":"medium","dependencies":[]},{"id":"SEC-011","name":"Incident response plan","description":"Documented breach response","status":"deferred","priority":"medium","dependencies":[]},{"id":"SEC-012","name":"Access logging","description":"Log all data access events","status":"deferred","priority":"medium","dependencies":[]}]},"devops_infrastructure":{"description":"Infrastructure, deployment, and DevOps","features":[{"id":"DEV-001","name":"GitHub repository","description":"Version control setup","status":"completed","priority":"critical","dependencies":[]},{"id":"DEV-002","name":"Environment variables","description":".env configuration management","status":"completed","priority":"critical","dependencies":[]},{"id":"DEV-003","name":"n8n cloud hosting","description":"Hosted n8n instance","status":"planned","priority":"critical","dependencies":[]},{"id":"DEV-004","name":"Domain setup","description":"reviewrecovery.nl domain","status":"completed","priority":"critical","dependencies":[]},{"id":"DEV-005","name":"GitHub Pages hosting","description":"Static site hosting","status":"completed","priority":"high","dependencies":[]},{"id":"DEV-006","name":"CI/CD pipeline","description":"Automated testing/deployment","status":"deferred","priority":"medium","dependencies":[]},{"id":"DEV-007","name":"Staging environment","description":"Non-production test environment","status":"deferred","priority":"medium","dependencies":[]},{"id":"DEV-008","name":"Production monitoring","description":"Uptime and error monitoring","status":"deferred","priority":"high","dependencies":[]},{"id":"DEV-009","name":"Log aggregation","description":"Centralized logging","status":"deferred","priority":"medium","dependencies":[]},{"id":"DEV-010","name":"Automated backups","description":"Regular data backups","status":"deferred","priority":"high","dependencies":[]},{"id":"DEV-011","name":"Disaster recovery","description":"Recovery procedures","status":"deferred","priority":"medium","dependencies":[]},{"id":"DEV-012","name":"Performance monitoring","description":"APM and performance tracking","status":"deferred","priority":"low","dependencies":[]}]},"testing_quality":{"description":"Testing and quality assurance","features":[{"id":"TQA-001","name":"Unit tests","description":"Test individual functions","status":"deferred","priority":"medium","dependencies":[]},{"id":"TQA-002","name":"Integration tests","description":"Test API integrations","status":"deferred","priority":"medium","dependencies":[]},{"id":"TQA-003","name":"End-to-end tests","description":"Full workflow testing","status":"deferred","priority":"medium","dependencies":[]},{"id":"TQA-004","name":"API mocking","description":"Mock external APIs for testing","status":"deferred","priority":"medium","dependencies":[]},{"id":"TQA-005","name":"Response quality testing","description":"Evaluate AI response quality","status":"planned","priority":"high","dependencies":[]},{"id":"TQA-006","name":"Load testing","description":"Test system under load","status":"deferred","priority":"low","dependencies":[]},{"id":"TQA-007","name":"Browser testing","description":"Cross-browser compatibility","status":"planned","priority":"medium","dependencies":[]},{"id":"TQA-008","name":"Mobile testing","description":"Mobile device testing","status":"planned","priority":"medium","dependencies":[]},{"id":"TQA-009","name":"Accessibility testing","description":"WCAG compliance testing","status":"deferred","priority":"low","dependencies":[]},{"id":"TQA-010","name":"Code review process","description":"PR review workflow","status":"deferred","priority":"medium","dependencies":[]}]},"documentation":{"description":"Documentation and knowledge base","features":[{"id":"DOC-001","name":"README documentation","description":"Project readme file","status":"completed","priority":"high","dependencies":[]},{"id":"DOC-002","name":"Setup instructions","description":"Getting started guide","status":"completed","priority":"high","dependencies":[]},{"id":"DOC-003","name":"API documentation","description":"Document all API endpoints","status":"deferred","priority":"medium","dependencies":[]},{"id":"DOC-004","name":"Workflow documentation","description":"Document n8n workflows","status":"planned","priority":"medium","dependencies":[]},{"id":"DOC-005","name":"User guide","description":"End-user documentation","status":"deferred","priority":"medium","dependencies":[]},{"id":"DOC-006","name":"Admin guide","description":"Administrator documentation","status":"deferred","priority":"low","dependencies":[]},{"id":"DOC-007","name":"Troubleshooting guide","description":"Common issues and solutions","status":"deferred","priority":"medium","dependencies":[]},{"id":"DOC-008","name":"Video tutorials","description":"Screen recording tutorials","status":"deferred","priority":"low","dependencies":[]},{"id":"DOC-009","name":"Changelog","description":"Track version changes","status":"deferred","priority":"low","dependencies":[]},{"id":"DOC-010","name":"Architecture docs","description":"System architecture diagrams","status":"deferred","priority":"low","dependencies":[]}]},"platform_integrations":{"description":"Third-party platform integrations","features":[{"id":"PLI-001","name":"TripAdvisor integration","description":"Monitor TripAdvisor reviews","status":"deferred","priority":"medium","dependencies":[]},{"id":"PLI-002","name":"Yelp integration","description":"Monitor Yelp reviews","status":"deferred","priority":"low","dependencies":[]},{"id":"PLI-003","name":"Facebook reviews","description":"Monitor Facebook page reviews","status":"deferred","priority":"medium","dependencies":[]},{"id":"PLI-004","name":"TheFork integration","description":"Monitor TheFork reviews","status":"deferred","priority":"medium","dependencies":[]},{"id":"PLI-005","name":"Booking.com integration","description":"For hotel restaurants","status":"deferred","priority":"low","dependencies":[]},{"id":"PLI-006","name":"OpenTable integration","description":"Sync with reservation system","status":"deferred","priority":"medium","dependencies":[]},{"id":"PLI-007","name":"POS system integration","description":"Connect to point of sale","status":"deferred","priority":"low","dependencies":[]},{"id":"PLI-008","name":"CRM integration","description":"Sync with CRM systems","status":"deferred","priority":"low","dependencies":[]},{"id":"PLI-009","name":"Zapier integration","description":"Connect via Zapier","status":"deferred","priority":"low","dependencies":[]},{"id":"PLI-010","name":"Webhook API","description":"Allow external integrations","status":"deferred","priority":"medium","dependencies":[]}]}}};
+            processFeatures();
         }
 
         function processFeatures() {
@@ -1092,6 +1206,7 @@
         }
 
         function createCard(feature) {
+            const isPinned = getTodayData().pinnedIds.includes(feature.id);
             return `
                 <div class="card" draggable="true" data-id="${feature.id}" onclick="showDetail('${feature.id}')">
                     <div class="card-title">${feature.name}</div>
@@ -1103,6 +1218,26 @@
                         <div class="card-meta">
                             <span class="priority-dot priority-${feature.priority}" title="${feature.priority}"></span>
                             <span>${feature.id}</span>
+                            <button class="star-btn ${isPinned ? 'starred' : ''}" onclick="event.stopPropagation(); togglePin('${feature.id}')" title="${isPinned ? 'Remove from Today' : 'Pin to Today'}">★</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function createPinnedCard(feature) {
+            return `
+                <div class="card" style="cursor:default;padding-right:34px;" onclick="showDetail('${feature.id}')">
+                    <div class="card-title">${feature.name}</div>
+                    <div class="card-description">${feature.description}</div>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            <span class="card-tag ${feature.tagClass}">${feature.categoryName}</span>
+                        </div>
+                        <div class="card-meta">
+                            <span class="priority-dot priority-${feature.priority}" title="${feature.priority}"></span>
+                            <span>${feature.id}</span>
+                            <span style="color:#52525b;font-size:0.7rem;">${feature.status.replace('_', ' ')}</span>
                         </div>
                     </div>
                 </div>
@@ -1334,8 +1469,228 @@
             }
         });
 
+        // ─── Today Focus ─────────────────────────────────────────────────────────
+
+        const TODAY_KEY = 'today-focus';
+        let currentTab = 'tasks';
+
+        function getTodayData() {
+            try { return JSON.parse(localStorage.getItem(TODAY_KEY) || '{"pinnedIds":[],"quickTasks":[]}'); }
+            catch { return { pinnedIds: [], quickTasks: [] }; }
+        }
+
+        function saveTodayData(data) {
+            localStorage.setItem(TODAY_KEY, JSON.stringify(data));
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            document.getElementById('tab-tasks').classList.toggle('active', tab === 'tasks');
+            document.getElementById('tab-today').classList.toggle('active', tab === 'today');
+            document.getElementById('board-view').style.display = tab === 'tasks' ? '' : 'none';
+            document.getElementById('today-view').classList.toggle('active', tab === 'today');
+            document.querySelector('.filter-bar').classList.toggle('hidden', tab === 'today');
+            if (tab === 'today') renderTodayView();
+        }
+
+        function togglePin(featureId) {
+            const data = getTodayData();
+            const idx = data.pinnedIds.indexOf(featureId);
+            if (idx === -1) { data.pinnedIds.push(featureId); }
+            else { data.pinnedIds.splice(idx, 1); }
+            saveTodayData(data);
+            if (currentTab === 'tasks') { renderBoard(); }
+            else { renderTodayView(); }
+        }
+
+        function renderTodayView() {
+            const data = getTodayData();
+            const pinnedFeatures = data.pinnedIds.map(id => allFeatures.find(f => f.id === id)).filter(Boolean);
+
+            const featuresHtml = pinnedFeatures.length > 0
+                ? pinnedFeatures.map(f => `
+                    <div class="pinned-card-wrap">
+                        ${createPinnedCard(f)}
+                        <button class="unpin-btn" onclick="togglePin('${f.id}')" title="Remove from Today">×</button>
+                    </div>`).join('')
+                : '<div class="today-empty">No cards pinned yet — star cards (★) from the Tasks view.</div>';
+
+            const quickHtml = data.quickTasks.map(t => `
+                <div class="quick-task-item ${t.done ? 'done' : ''}">
+                    <input type="checkbox" class="quick-task-check" ${t.done ? 'checked' : ''} onchange="toggleQuickTask('${t.id}')">
+                    <span class="quick-task-text">${t.text}</span>
+                    <button class="quick-task-remove" onclick="removeQuickTask('${t.id}')">×</button>
+                </div>`).join('');
+
+            const hasAnything = pinnedFeatures.length > 0 || data.quickTasks.length > 0;
+
+            document.getElementById('today-view').innerHTML = `
+                <div class="today-add-bar">
+                    <input type="text" class="today-input" id="today-quick-input"
+                        placeholder="Add a quick task (e.g. Send 20 WA messages)…"
+                        onkeydown="if(event.key==='Enter') addQuickTask()">
+                    <button class="btn-new-task" onclick="addQuickTask()">+ Add</button>
+                </div>
+                <div class="today-section-label">FEATURE CARDS</div>
+                ${featuresHtml}
+                ${data.quickTasks.length > 0 ? `
+                <div class="today-section-label" style="margin-top:16px;">QUICK TASKS</div>
+                ${quickHtml}` : ''}
+                ${hasAnything ? `<button class="today-clear-btn" onclick="clearToday()">Clear all</button>` : ''}
+            `;
+        }
+
+        function addQuickTask() {
+            const input = document.getElementById('today-quick-input');
+            const text = input.value.trim();
+            if (!text) return;
+            const data = getTodayData();
+            data.quickTasks.push({ id: Date.now().toString(), text, done: false });
+            saveTodayData(data);
+            input.value = '';
+            renderTodayView();
+        }
+
+        function toggleQuickTask(id) {
+            const data = getTodayData();
+            const task = data.quickTasks.find(t => t.id === id);
+            if (task) task.done = !task.done;
+            saveTodayData(data);
+            renderTodayView();
+        }
+
+        function removeQuickTask(id) {
+            const data = getTodayData();
+            data.quickTasks = data.quickTasks.filter(t => t.id !== id);
+            saveTodayData(data);
+            renderTodayView();
+        }
+
+        function clearToday() {
+            saveTodayData({ pinnedIds: [], quickTasks: [] });
+            renderTodayView();
+            // Refresh board to clear star highlights
+            if (currentTab === 'tasks') renderBoard();
+        }
+
+        // ─── Outreach Stats (one-way Airtable pull) ──────────────────────────────
+
+        const OUTREACH_KEY = 'outreach-airtable-config';
+
+        function getOutreachConfig() {
+            try { return JSON.parse(localStorage.getItem(OUTREACH_KEY) || 'null'); }
+            catch { return null; }
+        }
+
+        function saveOutreachConfig(config) {
+            localStorage.setItem(OUTREACH_KEY, JSON.stringify(config));
+        }
+
+        function clearOutreachConfig() {
+            localStorage.removeItem(OUTREACH_KEY);
+            renderOutreachConnect();
+        }
+
+        async function fetchAllRecords(apiKey, baseId, tableName) {
+            let all = [], offset = null;
+            do {
+                const params = new URLSearchParams({ 'fields[]': 'Status', pageSize: '100' });
+                if (offset) params.append('offset', offset);
+                const res = await fetch(
+                    `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}?${params}`,
+                    { headers: { Authorization: `Bearer ${apiKey}` } }
+                );
+                if (!res.ok) throw new Error(`Airtable ${res.status}`);
+                const data = await res.json();
+                all = all.concat(data.records);
+                offset = data.offset;
+            } while (offset && all.length < 500);
+            return all;
+        }
+
+        async function loadOutreachStats() {
+            const config = getOutreachConfig();
+            if (!config) { renderOutreachConnect(); return; }
+
+            const el = document.getElementById('outreach-content');
+            el.innerHTML = '<div style="color:#52525b;font-size:0.75rem;">Loading…</div>';
+
+            try {
+                const records = await fetchAllRecords(config.apiKey, config.baseId, config.tableName);
+                const counts = { 'not contacted': 0, generated: 0, sent: 0 };
+                records.forEach(r => {
+                    const s = (r.fields.Status || '').toLowerCase();
+                    if (s in counts) counts[s]++;
+                });
+                renderOutreachStats(records.length, counts, config);
+            } catch (err) {
+                el.innerHTML = `<div style="color:#ef4444;font-size:0.75rem;">${err.message} — <span style="cursor:pointer;text-decoration:underline;" onclick="clearOutreachConfig()">disconnect</span></div>`;
+            }
+        }
+
+        function outreachStatusRow(label, count, color) {
+            return `<div style="display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-size:0.75rem;color:#71717a;">${label}</span>
+                <span style="font-size:0.75rem;font-weight:500;color:${color};">${count}</span>
+            </div>`;
+        }
+
+        function renderOutreachStats(total, counts, config) {
+            const sent = counts.sent;
+            const pct = total > 0 ? Math.round((sent / total) * 100) : 0;
+            document.getElementById('outreach-content').innerHTML = `
+                <div style="margin-bottom:8px;">
+                    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;">
+                        <span style="font-size:1.2rem;font-weight:600;color:#fafafa;">${sent}</span>
+                        <span style="font-size:0.7rem;color:#52525b;">of ${total} sent (${pct}%)</span>
+                    </div>
+                    <div style="height:4px;background:#27272a;border-radius:2px;overflow:hidden;">
+                        <div style="height:100%;width:${pct}%;background:#25d366;border-radius:2px;transition:width 0.3s;"></div>
+                    </div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:10px;">
+                    ${outreachStatusRow('not contacted', counts['not contacted'], '#71717a')}
+                    ${outreachStatusRow('generated', counts.generated, '#eab308')}
+                    ${outreachStatusRow('sent', counts.sent, '#25d366')}
+                </div>
+                <div style="display:flex;gap:8px;align-items:center;">
+                    <span style="font-size:0.7rem;color:#3f3f46;">${config.tableName} · ${config.baseId.slice(0, 8)}…</span>
+                    <button onclick="loadOutreachStats()" style="background:none;border:none;color:#52525b;cursor:pointer;font-size:0.8rem;padding:0;" title="Refresh">↻</button>
+                    <button onclick="clearOutreachConfig()" style="background:none;border:none;color:#52525b;cursor:pointer;font-size:0.8rem;padding:0;" title="Disconnect">✕</button>
+                </div>
+            `;
+        }
+
+        function renderOutreachConnect() {
+            document.getElementById('outreach-content').innerHTML = `
+                <div style="display:flex;flex-direction:column;gap:6px;">
+                    <input id="at-key" type="password" placeholder="Airtable API key"
+                        style="background:#0f0f10;border:1px solid #27272a;color:#fafafa;padding:5px 8px;border-radius:4px;font-size:0.75rem;width:100%;" />
+                    <input id="at-base" type="text" placeholder="Base ID" value="app2zhbmSiL691aKo"
+                        style="background:#0f0f10;border:1px solid #27272a;color:#fafafa;padding:5px 8px;border-radius:4px;font-size:0.75rem;width:100%;" />
+                    <input id="at-table" type="text" placeholder="Table name" value="Prospects"
+                        style="background:#0f0f10;border:1px solid #27272a;color:#fafafa;padding:5px 8px;border-radius:4px;font-size:0.75rem;width:100%;" />
+                    <button onclick="connectAirtable()"
+                        style="background:#27272a;border:none;color:#a1a1aa;padding:6px;border-radius:4px;font-size:0.75rem;cursor:pointer;"
+                        onmouseover="this.style.background='#3f3f46'" onmouseout="this.style.background='#27272a'">
+                        Connect
+                    </button>
+                </div>
+            `;
+        }
+
+        function connectAirtable() {
+            const apiKey    = document.getElementById('at-key').value.trim();
+            const baseId    = document.getElementById('at-base').value.trim();
+            const tableName = document.getElementById('at-table').value.trim();
+            if (!apiKey || !baseId || !tableName) return;
+            saveOutreachConfig({ apiKey, baseId, tableName });
+            loadOutreachStats();
+        }
+
         // Initialize
         loadFeatures();
+        loadOutreachStats();
     </script>
 </body>
 </html>

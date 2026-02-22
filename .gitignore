@@ -55,3 +55,6 @@ temp/
 
 # WhatsApp outreach — generated queue files contain embedded Airtable API keys
 scripts/whatsapp-outreach/queue-*.html
+
+# Local-only tools
+tools/feature-kanban.html

@@ -125,9 +125,20 @@ Geef alleen de berichttekst terug, niets anders.`
   return result.content[0].text.trim();
 }
 
+// ─── Proof image ──────────────────────────────────────────────────────────────
+
+function loadProofImageDataUri() {
+  const imgPath = path.join(__dirname, 'proof-images', 'proof.png');
+  if (!fs.existsSync(imgPath)) return null;
+  const buf = fs.readFileSync(imgPath);
+  return `data:image/png;base64,${buf.toString('base64')}`;
+}
+
 // ─── HTML Builder ─────────────────────────────────────────────────────────────
 
 function buildHtml(cards) {
+  const proofDataUri = loadProofImageDataUri();
+
   const cardHtml = cards.map((c, i) => {
     const waPhone = c.phone.replace('+', '');
     const waUrl   = `https://wa.me/${waPhone}`;
@@ -157,6 +168,11 @@ function buildHtml(cards) {
         <textarea class="message" readonly onclick="this.select()">${escaped}</textarea>
         <button class="btn-copy" onclick="copyMsg(${i})">Copy</button>
       </div>
+      ${proofDataUri ? `
+      <div class="proof-wrap">
+        <img class="proof-thumb" src="${proofDataUri}" alt="Voorbeeld reactie" />
+        <a class="btn-dl" download="proof-reactie.png" href="${proofDataUri}">↓ Download afbeelding</a>
+      </div>` : ''}
     </div>`;
   }).join('\n');
 
@@ -221,6 +237,15 @@ function buildHtml(cards) {
                 font-size: 12px; cursor: pointer; color: #444; }
     .btn-copy:hover { background: #f5f5f5; }
     .btn-copy.copied { color: #25d366; border-color: #25d366; }
+
+    .proof-wrap { display: flex; align-items: center; gap: 14px; margin-top: 14px;
+                  padding-top: 14px; border-top: 1px solid #f0f0f0; }
+    .proof-thumb { height: 120px; border-radius: 8px; border: 1px solid #e8e8e8;
+                   box-shadow: 0 1px 4px rgba(0,0,0,.08); object-fit: cover; cursor: pointer; }
+    .btn-dl { background: #f0f2f5; border: 1px solid #ddd; padding: 7px 14px;
+              border-radius: 8px; font-size: 13px; text-decoration: none; color: #333;
+              white-space: nowrap; }
+    .btn-dl:hover { background: #e4e6e9; }
   </style>
 </head>
 <body>

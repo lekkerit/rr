@@ -359,6 +359,14 @@
             cursor: grabbing;
         }
 
+        .drop-indicator {
+            height: 2px;
+            background: #7c3aed;
+            border-radius: 2px;
+            margin: 2px 0;
+            pointer-events: none;
+        }
+
         .card-title {
             font-weight: 500;
             font-size: 0.9rem;
@@ -879,6 +887,9 @@
     <div class="filter-bar">
         <button class="btn-new-task" onclick="showNewTaskModal()">
             <span>+</span> New Task
+        </button>
+        <button class="btn-new-task" onclick="exportCSV()" style="background:#27272a;color:#a1a1aa;border-color:#3f3f46;">
+            Export CSV
         </button>
         <div class="filter-tabs">
             <div class="filter-tab active" onclick="setViewFilter('all', this)">All</div>
@@ -1408,6 +1419,28 @@
             if (reminder) reminder.remove();
         }
 
+        function exportCSV() {
+            const headers = ['ID', 'Name', 'Description', 'Status', 'Priority', 'Category', 'Dependencies'];
+            const escape = val => `"${String(val ?? '').replace(/"/g, '""')}"`;
+            const rows = allFeatures.map(f => [
+                f.id,
+                f.name,
+                f.description,
+                f.status,
+                f.priority,
+                f.categoryName,
+                (f.dependencies || []).join('; ')
+            ].map(escape).join(','));
+            const csv = [headers.join(','), ...rows].join('\n');
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'features.csv';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
         // Drag and Drop
         function setupDragAndDrop() {
             const cards = document.querySelectorAll('.card');
@@ -1419,42 +1452,110 @@
             });
 
             columns.forEach(column => {
-                column.addEventListener('dragover', handleDragOver);
-                column.addEventListener('dragleave', handleDragLeave);
-                column.addEventListener('drop', handleDrop);
+                column.addEventListener('dragover', handleDragOverColumn);
+                column.addEventListener('drop', handleDropOnColumn);
             });
         }
 
         let draggedCard = null;
 
         function handleDragStart(e) {
-            draggedCard = e.target;
-            e.target.classList.add('dragging');
+            draggedCard = e.currentTarget;
+            e.currentTarget.classList.add('dragging');
             e.dataTransfer.effectAllowed = 'move';
         }
 
         function handleDragEnd(e) {
             e.target.classList.remove('dragging');
-            document.querySelectorAll('.column-body').forEach(col => col.classList.remove('drag-over'));
+            document.querySelectorAll('.drop-indicator').forEach(el => el.remove());
+            draggedCard = null;
         }
 
-        function handleDragOver(e) {
+        function handleDragOverColumn(e) {
             e.preventDefault();
-            e.currentTarget.classList.add('drag-over');
+            document.querySelectorAll('.drop-indicator').forEach(el => el.remove());
+            const afterElement = getDragAfterElement(e.currentTarget, e.clientY);
+            const indicator = document.createElement('div');
+            indicator.className = 'drop-indicator';
+            if (afterElement) {
+                e.currentTarget.insertBefore(indicator, afterElement);
+            } else {
+                e.currentTarget.appendChild(indicator);
+            }
         }
 
-        function handleDragLeave(e) {
-            e.currentTarget.classList.remove('drag-over');
-        }
-
-        function handleDrop(e) {
+        function handleDropOnColumn(e) {
             e.preventDefault();
-            e.currentTarget.classList.remove('drag-over');
             if (!draggedCard) return;
-
+            const afterElement = getDragAfterElement(e.currentTarget, e.clientY);
+            document.querySelectorAll('.drop-indicator').forEach(el => el.remove());
             const newStatus = e.currentTarget.closest('.column').dataset.status;
             const featureId = draggedCard.dataset.id;
-            changeStatusById(featureId, newStatus);
+            const afterFeatureId = afterElement ? afterElement.dataset.id : null;
+            reorderFeature(featureId, newStatus, afterFeatureId);
+        }
+
+        function getDragAfterElement(column, y) {
+            const draggableCards = [...column.querySelectorAll('.card:not(.dragging)')];
+            return draggableCards.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = y - box.top - box.height / 2;
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset, element: child };
+                }
+                return closest;
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+
+        function reorderFeature(featureId, newStatus, beforeFeatureId) {
+            const featureIndex = allFeatures.findIndex(f => f.id === featureId);
+            if (featureIndex === -1) return;
+
+            const feature = allFeatures[featureIndex];
+            const oldStatus = feature.status;
+            feature.status = newStatus;
+
+            // Remove from current position
+            allFeatures.splice(featureIndex, 1);
+
+            // Insert before the target card, or at end of the column's features if null
+            if (beforeFeatureId) {
+                const targetIndex = allFeatures.findIndex(f => f.id === beforeFeatureId);
+                allFeatures.splice(targetIndex, 0, feature);
+            } else {
+                // Append after the last feature with newStatus, or at the very end
+                let lastIdx = -1;
+                allFeatures.forEach((f, i) => { if (f.status === newStatus) lastIdx = i; });
+                allFeatures.splice(lastIdx + 1, 0, feature);
+            }
+
+            // Mirror reorder in featuresData source arrays
+            for (const category of Object.values(featuresData.categories)) {
+                const srcIdx = category.features.findIndex(f => f.id === featureId);
+                if (srcIdx !== -1) {
+                    const [srcFeature] = category.features.splice(srcIdx, 1);
+                    srcFeature.status = newStatus;
+                    if (beforeFeatureId) {
+                        const tgtIdx = category.features.findIndex(f => f.id === beforeFeatureId);
+                        if (tgtIdx !== -1) {
+                            category.features.splice(tgtIdx, 0, srcFeature);
+                        } else {
+                            category.features.push(srcFeature);
+                        }
+                    } else {
+                        category.features.push(srcFeature);
+                    }
+                    break;
+                }
+            }
+
+            const action = newStatus === 'completed' ? 'completed' :
+                          newStatus === 'in_progress' ? 'started' : 'moved';
+            if (oldStatus !== newStatus) addActivity(action, feature.name);
+
+            applyFilters();
+            updateStats();
+            showSaveReminder();
         }
 
         // Keyboard shortcuts

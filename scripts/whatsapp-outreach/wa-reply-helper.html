@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WA Reply Helper</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+           background: #f0f2f5; padding: 32px; color: #111; max-width: 720px; margin: 0 auto; }
+
+    h1   { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+    .sub { font-size: 13px; color: #666; margin-bottom: 24px; }
+
+    label    { display: block; font-size: 12px; font-weight: 600; color: #555;
+               text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
+    textarea { width: 100%; border: 1px solid #ddd; border-radius: 8px; padding: 12px;
+               font-size: 14px; font-family: inherit; line-height: 1.6;
+               background: #fff; resize: vertical; }
+    textarea:focus { outline: none; border-color: #25d366; }
+
+    .btn-translate { background: #25d366; color: #fff; border: none; padding: 12px 24px;
+                     border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer;
+                     margin-top: 12px; width: 100%; }
+    .btn-translate:hover { background: #1ebe5a; }
+    .btn-translate:disabled { opacity: .5; cursor: default; }
+
+    .result { margin-top: 24px; }
+
+    .section { background: #fff; border-radius: 12px; padding: 16px 20px;
+               margin-bottom: 12px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+    .section-label { font-size: 11px; font-weight: 700; color: #888;
+                     text-transform: uppercase; letter-spacing: .6px; margin-bottom: 8px; }
+    .translation { font-size: 15px; line-height: 1.6; color: #222; }
+
+    .reply-card { position: relative; }
+    .reply-text { font-size: 14px; line-height: 1.6; color: #222;
+                  padding-right: 64px; white-space: pre-wrap; }
+    .btn-copy { position: absolute; top: 0; right: 0; background: #f0f2f5;
+                border: 1px solid #ddd; border-radius: 6px; padding: 5px 12px;
+                font-size: 12px; cursor: pointer; color: #444; }
+    .btn-copy:hover  { background: #e4e6e9; }
+    .btn-copy.copied { color: #25d366; border-color: #25d366; }
+
+    .error { color: #e53e3e; font-size: 13px; margin-top: 12px; }
+  </style>
+</head>
+<body>
+  <h1>WA Reply Helper</h1>
+  <p class="sub">Paste a Dutch message → get a translation + 3 ready-to-send replies</p>
+
+  <label>Dutch message received</label>
+  <textarea id="incoming" rows="5" placeholder="Paste the Dutch WhatsApp message here…"></textarea>
+  <button class="btn-translate" id="btn" onclick="generateReplies()">Translate & suggest replies</button>
+  <div class="error" id="error"></div>
+
+  <div class="result" id="result"></div>
+
+  <script>
+    // ── Translate ─────────────────────────────────────────────────────────────
+    async function generateReplies() {
+      const message = document.getElementById('incoming').value.trim();
+      const errEl   = document.getElementById('error');
+      const btn     = document.getElementById('btn');
+      const result  = document.getElementById('result');
+
+      errEl.textContent = '';
+      result.innerHTML  = '';
+
+      if (!message) { errEl.textContent = 'Paste a message first.'; return; }
+
+      btn.disabled    = true;
+      btn.textContent = 'Thinking…';
+
+      try {
+        const res = await fetch('/translate', {
+          method  : 'POST',
+          headers : { 'content-type': 'application/json' },
+          body    : JSON.stringify({ message })
+        });
+
+        const data = await res.json();
+        console.log('[wa-reply] response status:', res.status, 'ok:', res.ok);
+        console.log('[wa-reply] data:', JSON.stringify(data).slice(0, 500));
+
+        if (!res.ok) {
+          const errMsg = data?.error?.message || data?.error || JSON.stringify(data);
+          throw new Error(`API error ${res.status}: ${errMsg}`);
+        }
+        if (!data.content?.[0]?.text) throw new Error('Unexpected response shape: ' + JSON.stringify(data).slice(0, 200));
+        const text = data.content[0].text.trim();
+        console.log('[wa-reply] raw text:', text);
+
+        const transMatch  = text.match(/TRANSLATION:\s*(.+?)(?=\n\nREPLY|$)/s);
+        const replyMatches = [...text.matchAll(/REPLY \d+:\s*(.+?)(?=\n\nREPLY|$)/gs)];
+
+        let html = '';
+
+        if (transMatch) {
+          html += `<div class="section">
+            <div class="section-label">Translation</div>
+            <div class="translation">${transMatch[1].trim()}</div>
+          </div>`;
+        }
+
+        replyMatches.forEach((m, i) => {
+          const txt = m[1].trim().replace(/</g, '&lt;').replace(/>/g, '&gt;');
+          html += `<div class="section reply-card" id="rc-${i}">
+            <div class="section-label">Reply option ${i + 1}</div>
+            <div class="reply-text">${txt}</div>
+            <button class="btn-copy" onclick="copy(${i}, this)"  data-text="${m[1].trim().replace(/"/g, '&quot;')}">Copy</button>
+          </div>`;
+        });
+
+        result.innerHTML = html;
+
+      } catch (err) {
+        errEl.textContent = err.message;
+      } finally {
+        btn.disabled    = false;
+        btn.textContent = 'Translate & suggest replies';
+      }
+    }
+
+    function copy(i, btn) {
+      const text = btn.getAttribute('data-text');
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1500);
+      });
+    }
+  </script>
+</body>
+</html>

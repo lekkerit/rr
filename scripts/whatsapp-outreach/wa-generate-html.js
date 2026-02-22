@@ -125,7 +125,7 @@ Geef alleen de berichttekst terug, niets anders.`
   return result.content[0].text.trim();
 }
 
-// ─── Proof image ──────────────────────────────────────────────────────────────
+// ─── Proof images ─────────────────────────────────────────────────────────────
 
 function loadProofImageDataUri() {
   const imgPath = path.join(__dirname, 'proof-images', 'proof.png');
@@ -134,10 +134,18 @@ function loadProofImageDataUri() {
   return `data:image/png;base64,${buf.toString('base64')}`;
 }
 
+function loadProofGifDataUri() {
+  const gifPath = path.join(__dirname, 'proof-images', 'proof.gif');
+  if (!fs.existsSync(gifPath)) return null;
+  const buf = fs.readFileSync(gifPath);
+  return `data:image/gif;base64,${buf.toString('base64')}`;
+}
+
 // ─── HTML Builder ─────────────────────────────────────────────────────────────
 
 function buildHtml(cards) {
   const proofDataUri = loadProofImageDataUri();
+  const gifDataUri   = loadProofGifDataUri();
 
   const cardHtml = cards.map((c, i) => {
     const waPhone = c.phone.replace('+', '');
@@ -168,10 +176,13 @@ function buildHtml(cards) {
         <textarea class="message" readonly onclick="this.select()">${escaped}</textarea>
         <button class="btn-copy" onclick="copyMsg(${i})">Copy</button>
       </div>
-      ${proofDataUri ? `
+      ${(gifDataUri || proofDataUri) ? `
       <div class="proof-wrap">
-        <img class="proof-thumb" src="${proofDataUri}" alt="Voorbeeld reactie" />
-        <a class="btn-dl" download="proof-reactie.png" href="${proofDataUri}">↓ Download afbeelding</a>
+        <img class="proof-thumb" src="${gifDataUri || proofDataUri}" alt="Voorbeeld reactie" />
+        <div style="display:flex;gap:8px;flex-shrink:0">
+          ${gifDataUri ? `<a class="btn-dl" download="proof-reactie.gif" href="${gifDataUri}">↓ GIF</a>` : ''}
+          ${proofDataUri ? `<a class="btn-dl" download="proof-reactie.png" href="${proofDataUri}">↓ PNG</a>` : ''}
+        </div>
       </div>` : ''}
     </div>`;
   }).join('\n');

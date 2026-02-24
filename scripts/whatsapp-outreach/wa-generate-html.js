@@ -72,14 +72,15 @@ async function fetchUnsent(limit) {
   params.append('sort[0][field]', 'Name');
   params.append('sort[0][direction]', 'asc');
   const data = await airtableFetch(`?${params}`);
-  return data.records.map(r => ({
-    id     : r.id,
-    name       : r.fields.Name       || '',
-    restaurant : r.fields.Name       || '',
-    phone      : r.fields.Phone      || '',
-    rating     : r.fields.Rating     || '',
-    city       : r.fields.City       || 'Hilversum'
-  }));
+  return data.records
+    .map(r => ({
+      id         : r.id,
+      name       : r.fields.Name   || '',
+      restaurant : r.fields.Name   || '',
+      phone      : r.fields.Phone  || '',
+      rating     : r.fields.Rating || '',
+      city       : r.fields.City   || 'Hilversum'
+    }));
 }
 
 // Update a single record in Airtable
@@ -92,11 +93,23 @@ async function updateRecord(recordId, fields) {
 
 // ─── Message Generation ───────────────────────────────────────────────────────
 
+async function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function generateMessage(prospect) {
   const { restaurant, rating, city } = prospect;
   const ratingLine = rating ? `- Google-beoordeling: ${rating}★\n` : '';
 
-  const result = await anthropic.messages.create({
+  const maxRetries = 5;
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    if (attempt > 0) {
+      const delay = Math.min(2000 * Math.pow(2, attempt - 1), 30000);
+      process.stdout.write(`(retry ${attempt}, waiting ${delay/1000}s) `);
+      await sleep(delay);
+    }
+    try {
+      const result = await anthropic.messages.create({
     model      : 'claude-sonnet-4-6',
     max_tokens : 200,
     messages   : [{
@@ -120,9 +133,14 @@ Strenge regels:
 
 Geef alleen de berichttekst terug, niets anders.`
     }]
-  });
-
-  return result.content[0].text.trim();
+      });
+      return result.content[0].text.trim();
+    } catch (err) {
+      const isOverloaded = err.status === 529 || (err.message && err.message.includes('529'));
+      if (isOverloaded && attempt < maxRetries - 1) continue;
+      throw err;
+    }
+  }
 }
 
 // ─── Proof images ─────────────────────────────────────────────────────────────
@@ -148,8 +166,9 @@ function buildHtml(cards) {
   const gifDataUri   = loadProofGifDataUri();
 
   const cardHtml = cards.map((c, i) => {
-    const waPhone = c.phone.replace('+', '');
-    const waUrl   = `https://wa.me/${waPhone}`;
+    const waPhone  = c.phone.replace(/\D/g, '');
+    const waUrl    = `https://web.whatsapp.com/send?phone=${waPhone}`;
+    const isMobile = c.phone.startsWith('+316');
     const escaped = c.message
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
@@ -164,12 +183,14 @@ function buildHtml(cards) {
           <strong>${c.restaurant}</strong>
           ${c.rating ? `<span class="rating">★ ${c.rating}</span>` : ''}
           <span class="city">${c.city}</span>
+          <span class="badge ${isMobile ? 'badge-mobile' : 'badge-land'}">${isMobile ? 'mobile' : 'landline'}</span>
         </div>
         <div class="card-actions">
           <a href="${waUrl}" target="_blank" class="btn-wa" onclick="markOpened(${i})">
             Open WhatsApp
           </a>
           <button class="btn-sent" id="sent-btn-${i}" onclick="markSent(${i})">✓ Sent</button>
+          <button class="btn-nowa" id="nowa-btn-${i}" onclick="markNoWA(${i})">No WA</button>
         </div>
       </div>
       <div class="message-wrap">
@@ -225,6 +246,9 @@ function buildHtml(cards) {
     .rating { background: #fff8e1; color: #b8860b; font-size: 12px;
               padding: 2px 8px; border-radius: 99px; font-weight: 500; }
     .city { font-size: 12px; color: #888; }
+    .phone { font-size: 12px; color: #555; font-family: monospace; background: #f0f2f5;
+             padding: 2px 8px; border-radius: 4px; cursor: pointer; user-select: all; }
+    .phone:hover { background: #e0e0e0; }
     .card-actions { display: flex; gap: 8px; flex-shrink: 0; }
 
     .btn-wa { display: inline-block; background: #25d366; color: #fff;
@@ -236,6 +260,14 @@ function buildHtml(cards) {
     .btn-sent:hover { background: #e0e0e0; }
     .btn-sent.saving { opacity: .5; cursor: default; }
     .btn-sent.saved  { color: #25d366; }
+    .btn-nowa { background: #f0f2f5; border: none; padding: 8px 14px;
+                border-radius: 8px; font-size: 13px; cursor: pointer; color: #888; }
+    .btn-nowa:hover  { background: #ffe0e0; color: #c0392b; }
+    .btn-nowa.saving { opacity: .5; cursor: default; }
+    .btn-nowa.saved  { color: #c0392b; }
+    .badge { font-size: 11px; padding: 2px 7px; border-radius: 99px; font-weight: 500; }
+    .badge-mobile { background: #e6f4ea; color: #2d7a3a; }
+    .badge-land   { background: #f0f2f5; color: #888; }
 
     .message-wrap { position: relative; margin-top: 14px; }
     .message { width: 100%; min-height: 90px; padding: 12px 44px 12px 12px;
@@ -337,6 +369,30 @@ function buildHtml(cards) {
       updateProgress();
     }
 
+    async function markNoWA(i) {
+      const card     = document.getElementById('card-' + i);
+      const btn      = document.getElementById('nowa-btn-' + i);
+      const recordId = card.dataset.recordId;
+
+      btn.textContent = 'Saving...';
+      btn.classList.add('saving');
+      btn.disabled = true;
+
+      try {
+        await updateAirtable(recordId, { Status: 'no whatsapp' });
+        btn.textContent = 'No WA';
+        btn.classList.remove('saving');
+        btn.classList.add('saved');
+      } catch (err) {
+        console.warn('Airtable update failed:', err.message);
+        btn.textContent = 'No WA (local)';
+        btn.classList.remove('saving');
+      }
+
+      card.classList.add('sent');
+      updateProgress();
+    }
+
     function markOpened(i) {
       setTimeout(() => {
         const cards = document.querySelectorAll('.card:not(.sent)');
@@ -353,6 +409,24 @@ function buildHtml(cards) {
         setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1500);
       });
     }
+
+    // ── Inject phone numbers into card titles ─────────────────────────────────
+    document.querySelectorAll('.card').forEach(card => {
+      const phone = card.dataset.phone;
+      const title = card.querySelector('.card-title');
+      if (phone && title) {
+        const span = document.createElement('span');
+        span.className = 'phone';
+        span.textContent = phone;
+        span.title = 'Click to copy';
+        span.onclick = () => {
+          navigator.clipboard.writeText(phone);
+          span.textContent = 'Copied!';
+          setTimeout(() => span.textContent = phone, 1500);
+        };
+        title.appendChild(span);
+      }
+    });
 
     // ── Restore sent state from localStorage on load ──────────────────────────
     (function() {

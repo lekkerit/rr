@@ -495,6 +495,15 @@ async function main() {
 
   console.log(`\n✓ HTML written to: ${OUTPUT_FILE}`);
   console.log(`  Open in browser and work through the list.\n`);
+
+  // Trello: create session tracking cards in Backlog (non-fatal)
+  try {
+    const { createSessionCards } = require('./trello-sync');
+    await createSessionCards(today(), OUTPUT_FILE);
+    console.log('✓ Trello cards created in Backlog\n');
+  } catch (err) {
+    console.warn(`⚠  Trello sync skipped: ${err.message}\n`);
+  }
 }
 
 main().catch(err => {

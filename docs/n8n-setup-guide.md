@@ -106,7 +106,7 @@ Before importing workflows, set up your API credentials in n8n.
 
 1. **Navigate to workflows folder:**
    ```bash
-   cd /Users/barryobrien/Projects/restaurant-review-ai/automation/workflows
+   cd /Users/barryobrien/Projects/rr/automation/workflows
    ```
 
 2. **Files to import (in this order):**

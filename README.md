@@ -23,7 +23,7 @@ This project helps restaurants manage their online reputation by streamlining th
 ## Project Structure
 
 ```
-restaurant-review-ai/
+rr/
 ├── docs/           # Product and technical documentation
 ├── workflows/      # Implementation specifications
 ├── database/       # Database schema

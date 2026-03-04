@@ -1,5 +1,5 @@
 {
-  "name": "restaurant-review-ai",
+  "name": "rr",
   "version": "1.0.0",
   "description": "Google Review Bot that monitors Google Business Profile reviews and auto-generates AI responses",
   "main": "src/index.js",

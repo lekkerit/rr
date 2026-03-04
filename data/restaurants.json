@@ -1,0 +1,21 @@
+[
+  {
+    "id": "rest_001",
+    "name": "Restaurant Naam",
+    "location": "Hilversum",
+    "region": "Het Gooi",
+    "google_place_id": "",
+    "google_business_account_id": "",
+    "current_rating": 4.2,
+    "language": "nl",
+    "tier": "starter",
+    "onboarded_at": "",
+    "status": "pilot",
+    "contact": {
+      "name": "",
+      "email": "",
+      "phone": ""
+    },
+    "notes": ""
+  }
+]

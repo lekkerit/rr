@@ -51,6 +51,7 @@ coverage/
 # Temporary files
 tmp/
 temp/
+_temp/
 *.tmp
 
 # WhatsApp outreach — generated queue files contain embedded Airtable API keys

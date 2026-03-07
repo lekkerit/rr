@@ -10,7 +10,7 @@
 **Stack at a glance:**
 - Database: Airtable (MVP) → Supabase PostgreSQL at 20+ customers
 - Automation: n8n (cloud-hosted)
-- AI: Claude Sonnet 4.5 (`claude-sonnet-4-5`) via Anthropic API
+- AI: Claude Sonnet 4.6 (`claude-sonnet-4-6`) via Anthropic API
 - Reviews source: Google Business Profile API (OAuth 2.0)
 - Outreach: Walk-in sales → WhatsApp follow-up
 - Scripts: Python (review pipeline) + Node.js (IG, tools)

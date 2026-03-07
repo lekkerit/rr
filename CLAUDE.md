@@ -1,3 +1,29 @@
+# Project Identity
+
+**Product:** Review Recovery — AI-powered Google review response automation for restaurants
+**Market:** Het Gooi region, Netherlands (Hilversum, Bussum, Naarden, Laren, Huizen)
+**ICP:** Independent restaurants, 4.0–4.5★ on Google, 5–50 staff
+**Pricing:** €149/month per restaurant
+**Language:** Dutch primary. Match review language (EN/DE if review is in EN/DE).
+**Core constraint:** Responses must sound human and on-brand — never AI-generated or generic.
+
+**Stack at a glance:**
+- Database: Airtable (MVP) → Supabase PostgreSQL at 20+ customers
+- Automation: n8n (cloud-hosted)
+- AI: Claude Sonnet 4.5 (`claude-sonnet-4-5`) via Anthropic API
+- Reviews source: Google Business Profile API (OAuth 2.0)
+- Outreach: Walk-in sales → WhatsApp follow-up
+- Scripts: Python (review pipeline) + Node.js (IG, tools)
+
+**Key files:**
+- `tools/prompts/review-response.md` — master review response prompt
+- `docs/airtable-schema.md` — full DB schema (9 tables)
+- `docs/n8n-setup-guide.md` — n8n workflow setup
+- `src/persistence/CLAUDE.md` — Airtable schema quick-ref
+- `src/api/CLAUDE.md` — Claude API integration context
+
+---
+
 # Agent Instructions
 
 > This file is mirrored across CLAUDE.md, AGENTS.md, and GEMINI.md so the same instructions load in any AI environment.

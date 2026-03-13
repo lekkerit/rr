@@ -111,6 +111,16 @@ Errors are learning opportunities. When something breaks:
 - `directives/init-project.md` - Project initialization
 - `directives/create-ig-post.md` - Instagram post generation (JSON → HTML → PNG/MP4)
 
+## UI Preferences
+
+- **No modals, pop-ups, or file pickers** unless explicitly requested.
+- Prefer inline/embedded UI patterns. When pre-populating data, embed it directly in the HTML/JS source.
+- If asked to display data without specifying how, default to rendering it inline on the page.
+
+## Planning Before Coding
+
+For any multi-file feature request, **list the exact files you'll change and what each change does before writing a single line of code**. Wait for confirmation unless the user explicitly says to proceed.
+
 ## Summary
 
 You sit between human intent (directives) and deterministic execution (scripts). Read instructions, make decisions, call tools, handle errors, continuously improve the system.

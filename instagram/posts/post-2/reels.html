@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reel - post-2 - @reviewrecovery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+  <style>
+    /* ============================================================
+   ReviewRecovery Instagram Design System
+   Extracted from ig-posts.html — single source of truth
+   ============================================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #f0f2f5;
+  min-height: 100vh;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+/* === Layout: post groups and slide rows === */
+
+.post-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.post-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #888;
+  background: #fff;
+  padding: 8px 16px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.slides-row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* === Core slide container (1080x1080 at 400x400 on screen) === */
+
+.slide {
+  width: 400px;
+  height: 400px;
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+}
+
+.slide-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-align: center;
+}
+
+.slide-footer {
+  padding: 12px 0;
+  text-align: center;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.6);
+  flex-shrink: 0;
+}
+
+/* === Color themes === */
+
+.theme-dark,
+.theme-gold,
+.theme-green {
+  background: url('../../assets/images/hero-restaurant.jpg') center/cover no-repeat;
+  color: #fff;
+  position: relative;
+}
+
+.theme-dark::before,
+.theme-gold::before,
+.theme-green::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.theme-dark::before {
+  background: rgba(26, 32, 44, 0.82);
+}
+
+.theme-gold::before {
+  background: rgba(255, 160, 0, 0.85);
+}
+
+.theme-green::before {
+  background: rgba(56, 161, 105, 0.85);
+}
+
+.theme-dark .slide-content,
+.theme-dark .slide-footer,
+.theme-gold .slide-content,
+.theme-gold .slide-footer,
+.theme-green .slide-content,
+.theme-green .slide-footer {
+  position: relative;
+  z-index: 1;
+}
+
+.theme-white {
+  background: #fff;
+  color: #2d3748;
+}
+
+.theme-white .slide-footer {
+  color: rgba(45,55,72,0.4);
+}
+
+.theme-light {
+  background: #f7fafc;
+  color: #2d3748;
+}
+
+.theme-light .slide-footer {
+  color: rgba(45,55,72,0.4);
+}
+
+/* === Typography === */
+
+.big-number {
+  font-size: 5rem;
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+.big-text {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+
+.medium-text {
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+  opacity: 0.85;
+}
+
+.small-text {
+  font-size: 0.8rem;
+  font-weight: 500;
+  opacity: 0.6;
+  margin-top: 8px;
+}
+
+/* === Color utility classes === */
+
+.gold { color: #FFA000; }
+.green { color: #38a169; }
+.red { color: #e53e3e; }
+.white { color: #fff; }
+
+/* === Decorative elements === */
+
+.accent-underline {
+  display: inline-block;
+  border-bottom: 4px solid #FFA000;
+  padding-bottom: 4px;
+}
+
+.stat-badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.15);
+  padding: 8px 20px;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-top: 16px;
+}
+
+.theme-white .stat-badge,
+.theme-light .stat-badge {
+  background: rgba(45,55,72,0.08);
+}
+
+.step-number {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #FFA000;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+  flex-shrink: 0;
+}
+
+.theme-gold .step-number {
+  background: #fff;
+  color: #FFA000;
+}
+
+.theme-green .step-number {
+  background: #fff;
+  color: #38a169;
+}
+
+.divider {
+  width: 60px;
+  height: 4px;
+  background: #FFA000;
+  border-radius: 2px;
+  margin: 16px auto;
+}
+
+.theme-gold .divider {
+  background: rgba(255,255,255,0.5);
+}
+
+.theme-green .divider {
+  background: rgba(255,255,255,0.5);
+}
+
+.icon-star {
+  font-size: 2.5rem;
+  margin-bottom: 16px;
+}
+
+.cta-button {
+  display: inline-block;
+  background: #FFA000;
+  color: #fff;
+  padding: 14px 32px;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-top: 20px;
+}
+
+.theme-gold .cta-button {
+  background: #fff;
+  color: #FFA000;
+}
+
+.theme-green .cta-button {
+  background: #fff;
+  color: #38a169;
+}
+
+/* === Before/After split layout === */
+
+.split-slide {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+}
+
+.split-side {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 20px;
+  justify-content: center;
+}
+
+.split-left {
+  background: #fef2f2;
+  border-right: 2px solid #e2e8f0;
+}
+
+.split-right {
+  background: #f0fff4;
+}
+
+.split-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
+}
+
+.split-slide-footer {
+  padding: 10px 0;
+  text-align: center;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.6);
+  background: #2d3748;
+  flex-shrink: 0;
+}
+
+/* === Mini review (used in split layout) === */
+
+.mini-review {
+  background: #fff;
+  border-radius: 10px;
+  padding: 14px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.mini-review-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.mini-avatar {
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, #4285f4, #34a853);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+
+.mini-name {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.mini-stars {
+  font-size: 0.7rem;
+  color: #fbbc04;
+}
+
+.mini-text {
+  font-size: 0.7rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+.mini-response {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 0.65rem;
+  line-height: 1.5;
+}
+
+.mini-response-absent {
+  background: #fee2e2;
+  color: #991b1b;
+  font-style: italic;
+  text-align: center;
+}
+
+.mini-response-present {
+  background: #dcfce7;
+  color: #166534;
+  border-left: 3px solid #38a169;
+}
+
+.mini-response-label {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+  display: block;
+}
+
+/* === Review card (full-size) === */
+
+.review-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 20px;
+  width: 100%;
+  max-width: 320px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  text-align: left;
+}
+
+.review-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.review-card-avatar {
+  width: 38px;
+  height: 38px;
+  background: linear-gradient(135deg, #4285f4, #34a853);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.review-card-info {
+  flex: 1;
+}
+
+.review-card-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.review-card-meta {
+  font-size: 0.7rem;
+  color: #888;
+}
+
+.review-card-stars {
+  color: #fbbc04;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.review-card-text {
+  font-size: 0.8rem;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* === Response card === */
+
+.response-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 20px;
+  width: 100%;
+  max-width: 320px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  text-align: left;
+  border-left: 4px solid #38a169;
+}
+
+.response-card-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #2d3748;
+  color: #fff;
+  padding: 5px 12px;
+  border-radius: 16px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 12px;
+}
+
+.response-card-badge svg {
+  width: 12px;
+  height: 12px;
+}
+
+.response-card-text {
+  font-size: 0.8rem;
+  color: #1a1a1a;
+  line-height: 1.7;
+}
+
+/* === Fout/error items === */
+
+.fout-item {
+  text-align: left;
+  width: 100%;
+  max-width: 300px;
+}
+
+.fout-number {
+  display: inline-block;
+  background: #e53e3e;
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 32px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.fout-title {
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.fout-detail {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  line-height: 1.5;
+}
+
+.fout-example {
+  margin-top: 12px;
+  padding: 12px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-style: italic;
+  opacity: 0.7;
+  line-height: 1.5;
+}
+
+.theme-white .fout-example,
+.theme-light .fout-example {
+  background: rgba(45,55,72,0.06);
+}
+
+/* Fix item (green variant) */
+
+.fix-number {
+  display: inline-block;
+  background: #38a169;
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 32px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+/* === Stat bars === */
+
+.stat-bar-container {
+  width: 100%;
+  max-width: 280px;
+  margin-top: 16px;
+}
+
+.stat-bar-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.stat-bar {
+  width: 100%;
+  height: 12px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.theme-white .stat-bar,
+.theme-light .stat-bar {
+  background: rgba(45,55,72,0.1);
+}
+
+.stat-bar-fill {
+  height: 100%;
+  border-radius: 6px;
+  background: #FFA000;
+}
+
+.stat-bar-fill-red {
+  height: 100%;
+  border-radius: 6px;
+  background: #e53e3e;
+}
+
+
+    /* Override body for reel mode — single slide, centered */
+    body {
+      background: #000;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 1080px;
+      height: 1080px;
+      overflow: hidden;
+    }
+
+    .reel-container {
+      width: 1080px;
+      height: 1080px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .reel-slide {
+      position: absolute;
+      inset: 0;
+    }
+
+    /* Scale slides to fill 1080x1080 */
+    .reel-slide .slide {
+      width: 1080px;
+      height: 1080px;
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    .reel-slide .slide-content {
+      padding: 108px;
+    }
+
+    /* Scale up typography for 1080px */
+    .reel-slide .big-number { font-size: 13.5rem; margin-bottom: 32px; }
+    .reel-slide .big-text { font-size: 5.4rem; margin-bottom: 32px; }
+    .reel-slide .medium-text { font-size: 3.78rem; margin-bottom: 22px; }
+    .reel-slide .subtitle { font-size: 2.7rem; }
+    .reel-slide .small-text { font-size: 2.16rem; margin-top: 22px; }
+    .reel-slide .slide-footer { padding: 32px 0; font-size: 1.89rem; }
+    .reel-slide .divider { width: 162px; height: 11px; margin: 43px auto; }
+    .reel-slide .step-number { width: 151px; height: 151px; font-size: 4.05rem; margin-bottom: 54px; }
+    .reel-slide .cta-button { padding: 38px 86px; border-radius: 81px; font-size: 2.7rem; margin-top: 54px; }
+    .reel-slide .stat-badge { padding: 22px 54px; border-radius: 81px; font-size: 2.43rem; margin-top: 43px; }
+    .reel-slide .icon-star { font-size: 6.75rem; margin-bottom: 43px; }
+
+    /* Fout items scaled */
+    .reel-slide .fout-item { max-width: 810px; }
+    .reel-slide .fout-number { width: 86px; height: 86px; line-height: 86px; font-size: 2.3rem; margin-bottom: 32px; }
+    .reel-slide .fout-title { font-size: 3.51rem; margin-bottom: 22px; }
+    .reel-slide .fout-detail { font-size: 2.43rem; }
+    .reel-slide .fout-example { margin-top: 32px; padding: 32px; font-size: 2.16rem; }
+    .reel-slide .fix-number { width: 86px; height: 86px; line-height: 86px; font-size: 2.97rem; margin-bottom: 32px; }
+
+    /* Review/response cards scaled */
+    .reel-slide .review-card, .reel-slide .response-card { max-width: 864px; padding: 54px; border-radius: 38px; }
+    .reel-slide .review-card-avatar { width: 103px; height: 103px; font-size: 2.3rem; }
+    .reel-slide .review-card-name { font-size: 2.3rem; }
+    .reel-slide .review-card-meta { font-size: 1.89rem; }
+    .reel-slide .review-card-stars { font-size: 2.43rem; margin-bottom: 27px; }
+    .reel-slide .review-card-text { font-size: 2.16rem; }
+    .reel-slide .response-card-badge { padding: 14px 32px; font-size: 1.76rem; margin-bottom: 32px; }
+    .reel-slide .response-card-badge svg { width: 32px; height: 32px; }
+    .reel-slide .response-card-text { font-size: 2.16rem; }
+
+    /* Stat bars scaled */
+    .reel-slide .stat-bar-container { max-width: 756px; margin-top: 43px; }
+    .reel-slide .stat-bar-label { font-size: 2.16rem; margin-bottom: 16px; }
+    .reel-slide .stat-bar { height: 32px; border-radius: 16px; }
+
+    /* Split slide scaled */
+    .reel-slide .split-side { padding: 65px 54px; }
+    .reel-slide .split-label { font-size: 1.89rem; margin-bottom: 32px; }
+    .reel-slide .mini-review { padding: 38px; border-radius: 27px; }
+    .reel-slide .mini-avatar { width: 76px; height: 76px; font-size: 1.76rem; }
+    .reel-slide .mini-name { font-size: 1.89rem; }
+    .reel-slide .mini-stars { font-size: 1.89rem; }
+    .reel-slide .mini-text { font-size: 1.89rem; }
+    .reel-slide .mini-response { margin-top: 27px; padding: 27px; font-size: 1.76rem; }
+    .reel-slide .mini-response-label { font-size: 1.62rem; margin-bottom: 11px; }
+    .reel-slide .split-slide-footer { padding: 27px 0; font-size: 1.76rem; }
+
+    /* Initial state for animated elements — hidden */
+    .reel-slide .slide-content > * {
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="reel-container">
+<div class="reel-slide" data-index="0" data-type="hook-text" style="display:none;"><!-- hook-text: Bold headline + subtitle with arrow
+     Used in: Posts 3.1, 5.1, 9.1
+     Data: heading, subtitle (optional), heading_html (optional, for inline color spans)
+-->
+<div class="slide theme-dark">
+  <div class="slide-content">
+    <div class="big-text">Nobody shows you Day 1.</div>
+    <div class="divider"></div>
+    <div class="subtitle">Every AI tutorial starts mid-project. I'm not skipping it. →</div>
+  </div>
+  <div class="slide-footer">@reviewrecovery</div>
+</div>
+</div>
+<div class="reel-slide" data-index="1" data-type="body-text" style="display:none;"><!-- body-text: Statement + divider + subtitle
+     Used in: Posts 1.2, 8
+     Data: heading, subtitle (optional), pre_text (optional, e.g. quote marks)
+-->
+<div class="slide theme-gold">
+  <div class="slide-content">
+    
+    <div class="big-text">I'm building an AI business <span class="accent-underline" style="border-color:#fff">live</span></div>
+    
+    <div class="divider"></div>
+    <div class="subtitle">Review Recovery. One day at a time. Every mistake included.</div>
+  </div>
+  <div class="slide-footer">@reviewrecovery</div>
+</div>
+</div>
+<div class="reel-slide" data-index="2" data-type="body-step" style="display:none;"><!-- body-step: Numbered step with heading + detail
+     Used in: Posts 5.2, 5.3, 5.4
+     Data: step_number, heading, subtitle
+-->
+<div class="slide theme-dark">
+  <div class="slide-content">
+    <div class="step-number">1</div>
+    <div class="big-text">Create the folder</div>
+    <div class="divider"></div>
+    <div class="subtitle">mkdir ~/Projects/bip
+
+Most people never get past this step.
+They're waiting to feel ready.
+You're never ready. Start anyway.</div>
+  </div>
+  <div class="slide-footer">@reviewrecovery</div>
+</div>
+</div>
+<div class="reel-slide" data-index="3" data-type="body-step" style="display:none;"><!-- body-step: Numbered step with heading + detail
+     Used in: Posts 5.2, 5.3, 5.4
+     Data: step_number, heading, subtitle
+-->
+<div class="slide theme-dark">
+  <div class="slide-content">
+    <div class="step-number">2</div>
+    <div class="big-text">Create CLAUDE.md</div>
+    <div class="divider"></div>
+    <div class="subtitle">This is the AI's memory.
+
+Without it, Claude forgets everything every session. CLAUDE.md is a briefing note for your AI.</div>
+  </div>
+  <div class="slide-footer">@reviewrecovery</div>
+</div>
+</div>
+<div class="reel-slide" data-index="4" data-type="body-step" style="display:none;"><!-- body-step: Numbered step with heading + detail
+     Used in: Posts 5.2, 5.3, 5.4
+     Data: step_number, heading, subtitle
+-->
+<div class="slide theme-dark">
+  <div class="slide-content">
+    <div class="step-number">3</div>
+    <div class="big-text">Create .env + git init</div>
+    <div class="divider"></div>
+    <div class="subtitle">Your API keys live here. Never share it.
+
+git init → your time machine.
+Commit even on Day 1.</div>
+  </div>
+  <div class="slide-footer">@reviewrecovery</div>
+</div>
+</div>
+<div class="reel-slide" data-index="5" data-type="cta" style="display:none;"><!-- cta: Call-to-action closing slide
+     Used in: Posts 1.4, 3.5, 9.3
+     Data: heading, subtitle, button_text (optional), icon (optional, e.g. ✓ for fix-number)
+-->
+<div class="slide theme-gold">
+  <div class="slide-content">
+    <div class="fix-number">🤖</div>
+    <div class="big-text">Follow along →</div>
+    <div class="divider"></div>
+    <div class="subtitle">Daily build-in-public. AI for non-coders. No shortcuts.</div>
+    <div class="cta-button">Day 2 tomorrow</div>
+  </div>
+  <div class="slide-footer">@reviewrecovery</div>
+</div>
+</div>
+</div>
+
+<script>
+const ANIMATION_CONFIG = [
+  {
+    "type": "hook-text",
+    "preset": "fade-up"
+  },
+  {
+    "type": "body-text",
+    "preset": "fade-up"
+  },
+  {
+    "type": "body-step",
+    "preset": "stagger"
+  },
+  {
+    "type": "body-step",
+    "preset": "stagger"
+  },
+  {
+    "type": "body-step",
+    "preset": "stagger"
+  },
+  {
+    "type": "cta",
+    "preset": "fade-up"
+  }
+];
+const HOLD_DURATION = 2500;
+const TRANSITION_DURATION = 400;
+
+const PRESETS = {
+  'fade-up': {
+    targets: null, // set per slide
+    translateY: [30, 0],
+    opacity: [0, 1],
+    duration: 600,
+    delay: anime.stagger(150),
+    easing: 'easeOutCubic',
+  },
+  'scale-in': {
+    targets: null,
+    scale: [0.5, 1],
+    opacity: [0, 1],
+    duration: 800,
+    easing: 'easeOutBack',
+  },
+  'stagger': {
+    targets: null,
+    translateX: [-40, 0],
+    opacity: [0, 1],
+    duration: 500,
+    delay: anime.stagger(120, { start: 200 }),
+    easing: 'easeOutQuart',
+  },
+  'split-reveal': {
+    targets: null,
+    translateX: function(el, i) { return i === 0 ? [-50, 0] : [50, 0]; },
+    opacity: [0, 1],
+    duration: 700,
+    delay: anime.stagger(200),
+    easing: 'easeOutCubic',
+  },
+  'card-pop': {
+    targets: null,
+    scale: [0.85, 1],
+    opacity: [0, 1],
+    duration: 600,
+    easing: 'easeOutBack',
+  },
+  'bar-fill': {
+    targets: null,
+    width: function(el) { return [0, el.style.width || el.getAttribute('data-width')]; },
+    duration: 1000,
+    delay: anime.stagger(300, { start: 400 }),
+    easing: 'easeOutQuart',
+  },
+};
+
+const slides = document.querySelectorAll('.reel-slide');
+let currentSlide = 0;
+
+function getAnimationTargets(slideEl, presetName) {
+  if (presetName === 'scale-in') return slideEl.querySelectorAll('.big-number');
+  if (presetName === 'split-reveal') return slideEl.querySelectorAll('.split-side');
+  if (presetName === 'card-pop') return slideEl.querySelectorAll('.review-card, .response-card');
+  if (presetName === 'bar-fill') return slideEl.querySelectorAll('.stat-bar-fill, .stat-bar-fill-red');
+  return slideEl.querySelectorAll('.slide-content > *');
+}
+
+async function playSlide(index) {
+  const slideEl = slides[index];
+  const config = ANIMATION_CONFIG[index];
+
+  // Show this slide
+  slideEl.style.display = 'block';
+  slideEl.style.opacity = '1';
+
+  // Reset all animated elements to visible (the CSS hides them)
+  const allElements = slideEl.querySelectorAll('.slide-content > *');
+
+  // Get preset
+  const preset = { ...PRESETS[config.preset] || PRESETS['fade-up'] };
+  const targets = getAnimationTargets(slideEl, config.preset);
+  preset.targets = targets;
+
+  // For non-targeted elements (like footer), make them visible
+  const footer = slideEl.querySelector('.slide-footer, .split-slide-footer');
+  if (footer) footer.style.opacity = '1';
+
+  // Play entrance animation
+  await anime(preset).finished;
+
+  // Make all elements fully visible after animation
+  allElements.forEach(el => { el.style.opacity = '1'; });
+
+  // Hold
+  await new Promise(resolve => setTimeout(resolve, HOLD_DURATION));
+
+  // Fade out transition (except last slide)
+  if (index < slides.length - 1) {
+    await anime({
+      targets: slideEl,
+      opacity: [1, 0],
+      duration: TRANSITION_DURATION,
+      easing: 'easeInOutQuad',
+    }).finished;
+    slideEl.style.display = 'none';
+  }
+}
+
+async function playAll() {
+  // Small initial delay before starting
+  await new Promise(resolve => setTimeout(resolve, 500));
+
+  for (let i = 0; i < slides.length; i++) {
+    await playSlide(i);
+  }
+
+  // Hold last slide for an extra moment
+  await new Promise(resolve => setTimeout(resolve, 1000));
+
+  // Signal completion (used by puppeteer recorder)
+  document.body.setAttribute('data-reel-complete', 'true');
+}
+
+// Auto-play on load
+document.fonts.ready.then(() => playAll());
+</script>
+
+</body>
+</html>

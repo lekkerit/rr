@@ -1,0 +1,60 @@
+{
+  "post_id": "post-2",
+  "type": "carousel",
+  "title": "Bots in Public — Day 1: Starting from Zero",
+  "slides": [
+    {
+      "type": "hook-text",
+      "theme": "dark",
+      "data": {
+        "heading": "Nobody shows you Day 1.",
+        "subtitle": "Every AI tutorial starts mid-project. I'm not skipping it. →"
+      }
+    },
+    {
+      "type": "body-text",
+      "theme": "gold",
+      "data": {
+        "heading": "I'm building an AI business <span class=\"accent-underline\" style=\"border-color:#fff\">live</span>",
+        "subtitle": "Review Recovery. One day at a time. Every mistake included."
+      }
+    },
+    {
+      "type": "body-step",
+      "theme": "dark",
+      "data": {
+        "step_number": "1",
+        "heading": "Create the folder",
+        "subtitle": "mkdir ~/Projects/bip\n\nMost people never get past this step.\nThey're waiting to feel ready.\nYou're never ready. Start anyway."
+      }
+    },
+    {
+      "type": "body-step",
+      "theme": "dark",
+      "data": {
+        "step_number": "2",
+        "heading": "Create CLAUDE.md",
+        "subtitle": "This is the AI's memory.\n\nWithout it, Claude forgets everything every session. CLAUDE.md is a briefing note for your AI."
+      }
+    },
+    {
+      "type": "body-step",
+      "theme": "dark",
+      "data": {
+        "step_number": "3",
+        "heading": "Create .env + git init",
+        "subtitle": "Your API keys live here. Never share it.\n\ngit init → your time machine.\nCommit even on Day 1."
+      }
+    },
+    {
+      "type": "cta",
+      "theme": "gold",
+      "data": {
+        "heading": "Follow along →",
+        "subtitle": "Daily build-in-public. AI for non-coders. No shortcuts.",
+        "button_text": "Day 2 tomorrow",
+        "icon": "🤖"
+      }
+    }
+  ]
+}

@@ -59,3 +59,6 @@ scripts/whatsapp-outreach/queue-*.html
 
 # Local-only tools
 tools/feature-kanban.html
+
+# Course content (paid — keep local only)
+courses/
